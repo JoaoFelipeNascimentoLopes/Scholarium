@@ -162,7 +162,7 @@
         <!-- Links -->
         <div class="hidden md:flex space-x-6">
             <a href="#inicio" class="hover:text-yellow-500 transition duration-300">Início</a>
-            <a href="#login" class="hover:text-yellow-500 transition duration-300">Login</a>
+            <a href="{{ route('login') }}" class="hover:text-yellow-500 transition duration-300">Login</a>
             <a href="#contato" class="hover:text-yellow-500 transition duration-300">Contato</a>
         </div>
         <!-- Ícone de Menu Hamburguer (para telas pequenas) -->
