@@ -161,9 +161,9 @@
         </div>
         <!-- Links -->
         <div class="hidden md:flex space-x-6">
-            <a href="#inicio" class="hover:text-yellow-500 transition duration-300">Início</a>
+            <a href="{{ route('cadastrar') }}" class="hover:text-yellow-500 transition duration-300">Começar</a>
             <a href="{{ route('login') }}" class="hover:text-yellow-500 transition duration-300">Login</a>
-            <a href="#contato" class="hover:text-yellow-500 transition duration-300">Contato</a>
+            <a href="{{ route('contato') }}" class="hover:text-yellow-500 transition duration-300">Contato</a>
         </div>
         <!-- Ícone de Menu Hamburguer (para telas pequenas) -->
         <button class="md:hidden text-2xl" id="hamburger-icon">
@@ -172,9 +172,9 @@
     </div>
     <!-- Menu Responsivo Mobile -->
     <div class="md:hidden hidden" id="mobile-menu">
-        <a href="#inicio" class="block text-center py-2 hover:text-yellow-500">Início</a>
-        <a href="#login" class="block text-center py-2 hover:text-yellow-500">Login</a>
-        <a href="#contato" class="block text-center py-2 hover:text-yellow-500">Contato</a>
+        <a href="{{ route('cadastrar') }}" class="block text-center py-2 hover:text-yellow-500">Começar</a>
+        <a href="{{ route('login') }}" class="block text-center py-2 hover:text-yellow-500">Login</a>
+        <a href="{{ route('contato') }}" class="block text-center py-2 hover:text-yellow-500">Contato</a>
         </div>
 </nav>
   
