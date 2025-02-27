@@ -120,9 +120,34 @@
         font-style: italic;
       }
     </style>
-
+    <!-- Customização do Tailwind CSS -->
+    <style type="text/tailwindcss">
+        .ml-percent-15 {
+          margin-left: 15%;
+        }
+        .ml-percent-5 {
+          margin-left: 5%;
+        }
+        .ml-percent-1 {
+          margin-left: 1%;
+        }
+        .mr-percent-1{
+          margin-right: 1%;
+        }
+        .mr-percent-5{
+          margin-right: 5%;
+        }
+        .mr-percent-10{
+          margin-right: 10%;
+        }
+        .div-flex {
+          display: flex;
+        }
+      </style>
+  
 </head>
 <body>
     
+
 </body>
 </html>
