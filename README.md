@@ -1,1 +1,1 @@
-# Scholarium
+# 🏫 Scholarium
