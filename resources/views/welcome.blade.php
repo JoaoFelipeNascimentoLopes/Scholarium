@@ -14,7 +14,6 @@
       rel="stylesheet"
     />
     <title>Scholarium - Gestão Escolar</title>
-    
     <!-- Fontes -->
     <style>
       .poppins-thin {
@@ -159,7 +158,7 @@
         <!-- Logo -->
         <div class="text-xl font-bold flex items-center">
             <img src="{{ asset('images/icon_School_White.png') }}" alt="Logo" class="w-12 h-auto mr-percent-5">
-            <a href="">Scholarium</a>
+            <a href="{{ route('welcome') }}" class="hover:text-gray-500 transition duration-300">Scholarium</a>
         </div>
         <!-- Links -->
         <div class="hidden md:flex space-x-6 text-lg">

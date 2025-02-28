@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 // Rota - Index
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 // Rota - Login
 Route::get('/login', function () {
