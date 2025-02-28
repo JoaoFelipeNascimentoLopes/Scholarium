@@ -1,4 +1,4 @@
-# 🏫 Scholarium
+# 🏫 Scholarium - Sistema de Gestão de Instituições de Ensino
 
 ## </> Tecnologias Utilizadas
 
