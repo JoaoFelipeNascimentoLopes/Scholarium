@@ -2,6 +2,12 @@
 
 O Scholarium é um sistema de gestão escolar que facilita o controle acadêmico, oferecendo funcionalidades como cadastro de alunos, professores e turmas, lançamento de notas, controle de presença e geração de relatórios. Além disso, possui recursos extras como painéis personalizados para alunos e professores e login por perfis, tudo com o objetivo de tornar a administração escolar mais eficiente e organizada.
 
+## 🚀 Features
+
+Aqui estão listadas as principais features do Scholarium (em desenvolvimento):
+
+* 🏫 **Auto-Cadastro da Instituição** - Permite que a instituição faça seu próprio cadastro para obter acesso às demais funcionalidades do sistema.
+
 ## </> Tecnologias Utilizadas
 
 ![php](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
