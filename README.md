@@ -4,7 +4,7 @@ O Scholarium é um sistema de gestão escolar que facilita o controle acadêmico
 
 ## 🚀 Features
 
-Aqui estão listadas as principais features do Scholarium (em desenvolvimento):
+Aqui estão listadas as principais features do Scholarium **(em desenvolvimento)**:
 
 * 🏫 **Auto-Cadastro da Instituição** - Permite que a instituição faça seu próprio cadastro para obter acesso às demais funcionalidades do sistema.
 
