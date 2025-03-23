@@ -197,7 +197,7 @@
         <div class="w-1/2 flex flex-col justify-center p-6 bg-[#272727] rounded-xl">
             <h2 class="text-2xl font-bold text-white mb-4 text-center">Contate-nos!</h2>
             <p class="text-gray-400 text-center">
-                Ficou com alguma dúvida ou está com algum problema? Envie-nos uma mensagem pelo formulário de contato e retornaremos assim que possível.
+                Ficou com alguma dúvida? Está com algum problema? Quer fazer uma crítica ou sugestão? Envie-nos uma mensagem pelo formulário de contato e retornaremos assim que possível.
             </p>
             <br>    
             <h2 class="text-lg text-white mb-4 text-center">Não precisa de ajuda? <a href="/auth/login-instituicao"
