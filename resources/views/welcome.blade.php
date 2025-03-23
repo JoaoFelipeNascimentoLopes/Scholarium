@@ -154,9 +154,7 @@
             display: flex;
         }
     </style>
-
 </head>
-
 <body>
     <!-- Navbar -->
     <br>
@@ -175,7 +173,6 @@
                         class="bi bi-people"></i> Começar</a>
                 <a href="{{ route('login-instituicao') }}" class="hover:text-gray-500 transition duration-300"><i
                         class="bi bi-box-arrow-in-right"></i> Login</a>
-
             </div>
             <!-- Ícone de Menu Hamburguer (para telas pequenas) -->
             <button class="md:hidden text-2xl" id="hamburger-icon">

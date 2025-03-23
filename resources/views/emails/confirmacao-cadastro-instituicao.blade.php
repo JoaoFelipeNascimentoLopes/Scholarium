@@ -84,7 +84,7 @@ a[x-apple-data-detectors],
       <td valign="top" style="padding:0;Margin:0">
        <table cellspacing="0" cellpadding="0" align="center" class="j" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:100%;table-layout:fixed !important;background-color:transparent">
          <tr>
-          <td align="center" style="padding:0;Margin:0">
+          <td align="center" bgcolor="#272727" style="padding:0;Margin:0;background-color:#272727">
            <table cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" class="bc" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px">
              <tr>
               <td align="left" bgcolor="#272727" style="padding:0;Margin:0;padding-top:20px;padding-right:20px;padding-left:20px;background-color:#272727"><!--[if mso]>
@@ -98,7 +98,7 @@ a[x-apple-data-detectors],
                   <td valign="top" align="center" class="be" style="padding:0;Margin:0;width:180px">
                    <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                      <tr>
-                      <td align="center" style="padding:0;Margin:0;font-size:0"><img src="https://enxdfao.stripocdn.email/content/guids/CABINET_ffcac058832c77e834246af26a774481c7cd00481f75717ffa3a08f8fe72bf4e/images/page_icon.png" alt="" width="180" class="adapt-img" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none"></td>
+                      <td align="center" style="padding:0;Margin:0;font-size:0"><img width="180" src="https://enxdfao.stripocdn.email/content/guids/CABINET_ffcac058832c77e834246af26a774481c7cd00481f75717ffa3a08f8fe72bf4e/images/page_icon.png" alt="" class="adapt-img" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none"></td>
                      </tr>
                    </table></td>
                  </tr>
@@ -127,7 +127,7 @@ a[x-apple-data-detectors],
        </table>
        <table cellspacing="0" cellpadding="0" align="center" class="i" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:100%;table-layout:fixed !important">
          <tr>
-          <td align="center" style="padding:0;Margin:0">
+          <td align="center" bgcolor="#272727" style="padding:0;Margin:0;background-color:#272727">
            <table cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" class="bb" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px">
              <tr>
               <td align="left" bgcolor="#272727" style="padding:0;Margin:0;padding-top:20px;padding-right:20px;padding-left:20px;background-color:#272727">
@@ -147,7 +147,7 @@ a[x-apple-data-detectors],
                <table width="100%" cellpadding="0" cellspacing="0" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                  <tr>
                   <td align="left" style="padding:0;Margin:0;width:560px">
-                   <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                   <table width="100%" role="presentation" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                      <tr>
                       <td align="center" bgcolor="#ffffff" style="padding:0;Margin:0"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px">© 2025 Scholarium. Todos os direitos reservados.</p></td>
                      </tr>
