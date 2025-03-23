@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ConfirmacaoCadastroInstituicao;
 use Illuminate\Http\Request;
 use App\Models\Instituicao;
+use Illuminate\Support\Facades\Mail;
+
 
 class InstituicaoController extends Controller
 {
@@ -54,6 +57,9 @@ class InstituicaoController extends Controller
 
         // Salva no banco
         Instituicao::create($dados);
+
+        // Envia o e-mail para a escola
+        Mail::to($dados['emailInstituicao'])->send(new ConfirmacaoCadastroInstituicao($dados));
 
         return redirect()->route('instituicao.sucess')->with('success', 'Instituição cadastrada com sucesso!');
     }
