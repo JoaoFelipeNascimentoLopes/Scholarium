@@ -24,6 +24,6 @@ class ContatoController extends Controller
         Mail::to('administracao@scholarium.com')->send(new ContatoFormulario($emailRetorno, $mensagem));
 
         // Redireciona com uma mensagem de sucesso
-        return redirect()->route('contato')->with('success', 'Mensagem enviada com sucesso!');
+        return redirect()->route('welcome')->with('success', 'Mensagem enviada com sucesso!');
     }
 }
