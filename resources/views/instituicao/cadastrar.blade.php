@@ -165,7 +165,7 @@
             <!-- Logo -->
             <div class="text-xl font-bold flex items-center">
                 <img src="{{ asset('images/icon_School_White.png') }}" alt="Logo" class="w-12 h-auto mr-percent-5">
-                <a href="{{ route('welcome') }}">Scholarium</a>
+                <a href="{{ route('welcome') }}" class="hover:text-gray-500 transition duration-300">Scholarium</a>
             </div>
             <!-- Links -->
             <div class="hidden md:flex space-x-6 text-lg">
@@ -173,7 +173,7 @@
                         class="bi bi-envelope-at"></i> Contato</a>
                 <a href="{{ route('instituicao.create') }}" class="hover:text-gray-500 transition duration-300"><i
                         class="bi bi-people"></i> Começar</a>
-                <a href="{{ route('login-instituicao') }}" class="hover:text-gray-500 transition duration-300"><i
+                <a href="{{ route('login') }}" class="hover:text-gray-500 transition duration-300"><i
                         class="bi bi-box-arrow-in-right"></i> Login</a>
             </div>
             <!-- Ícone de Menu Hamburguer (para telas pequenas) -->
@@ -188,7 +188,7 @@
                     class="bi bi-envelope-at"></i> Contato</a>
             <a href="{{ route('instituicao.create') }}" class="block text-center py-2 hover:text-gray-500"><i
                     class="bi bi-people"></i> Começar</a>
-            <a href="{{ route('login-instituicao') }}" class="block text-center py-2 hover:text-gray-500"><i
+            <a href="{{ route('login') }}" class="block text-center py-2 hover:text-gray-500"><i
                     class="bi bi-box-arrow-in-right"></i> Login</a>
         </div>
     </nav>
@@ -206,7 +206,7 @@
         </div>
         <!-- Lado Direito - Formulário -->
         <div class="w-1/2 p-6 inset-shadow-sm inset-shadow-gray-400/90 rounded-xl ml-percent-1">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4"><i class="bi bi-buildings"></i> Cadastro de Instituição de Ensino</h2>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4"><i class="bi bi-buildings"></i> Cadastro da Instituição de Ensino</h2>
             <br>
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -265,7 +265,7 @@
                         >
                     </div>
                     <!-- Telefone -->
-                    <div class=" mb-4 ml-percent-5 w-2/5">
+                    <div class="mb-4 ml-percent-5 w-2/5">
                         <label for="telefoneInstituicao" class="block text-[#272727] text-sm font-bold mb-2"><i class="bi bi-telephone"></i> Telefone<span class="text-red-800">*</span></label>
                         <input 
                             type="text"

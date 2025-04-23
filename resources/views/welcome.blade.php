@@ -171,7 +171,7 @@
                         class="bi bi-envelope-at"></i> Contato</a>
                 <a href="{{ route('instituicao.create') }}" class="hover:text-gray-500 transition duration-300"><i
                         class="bi bi-people"></i> Começar</a>
-                <a href="{{ route('login-instituicao') }}" class="hover:text-gray-500 transition duration-300"><i
+                <a href="{{ route('login') }}" class="hover:text-gray-500 transition duration-300"><i
                         class="bi bi-box-arrow-in-right"></i> Login</a>
             </div>
             <!-- Ícone de Menu Hamburguer (para telas pequenas) -->
@@ -186,7 +186,7 @@
                     class="bi bi-envelope-at"></i> Contato</a>
             <a href="{{ route('instituicao.create') }}" class="block text-center py-2 hover:text-gray-500"><i
                     class="bi bi-people"></i> Começar</a>
-            <a href="{{ route('login-instituicao') }}" class="block text-center py-2 hover:text-gray-500"><i
+            <a href="{{ route('login') }}" class="block text-center py-2 hover:text-gray-500"><i
                     class="bi bi-box-arrow-in-right"></i> Login</a>
 
         </div>

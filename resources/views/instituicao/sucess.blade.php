@@ -148,7 +148,7 @@
                     class="inline-block w-full px-4 py-2 bg-[#272727] text-white rounded-lg hover:bg-gray-500 transition duration-300 poppins-regular">
                     <i class="bi bi-cloud-plus"></i> Cadastrar outra Instituição
                 </a>
-                <a href="{{ route('login-instituicao') }}"
+                <a href="{{ route('login') }}"
                     class="inline-block w-full px-4 py-2 bg-[#272727] text-white rounded-lg hover:bg-gray-500 transition duration-300 poppins-regular">
                     <i class="bi bi-box-arrow-in-right"></i> Realizar Login
                 </a>
