@@ -50,9 +50,15 @@ class AuthController extends Controller
         }
 
         // Armazena informações do usuário na sessão
+        $campoNome = match ($tipo) {
+            '1' => 'nomeInstituicao',
+            '2' => 'nomeProfessor',
+            '3' => 'nomeEstudante',
+        };
+        
+        Session::put('usuario_nome', $usuario->$campoNome ?? 'Usuário');
         Session::put('usuario_id', $usuario->id);
         Session::put('usuario_tipo', $tipo);
-        Session::put('usuario_nome', $usuario->nome ?? 'Usuário');
 
         // Redireciona conforme o tipo de usuário
         return match ($tipo) {
@@ -60,5 +66,11 @@ class AuthController extends Controller
             '2' => redirect()->route('professor.dashboard'),
             '3' => redirect()->route('estudante.dashboard'),
         };
+    }
+
+    public function logout()
+    {   
+        Session::flush(); // Limpa todas as variáveis de sessão
+        return redirect()->route('login'); // Redireciona para a página inicial
     }
 }

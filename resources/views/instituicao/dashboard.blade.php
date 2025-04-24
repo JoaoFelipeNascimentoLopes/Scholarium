@@ -8,5 +8,10 @@
 </head>
 <body>
     Dashboard Instituição
+    <h1>Bem-vindo(a), {{ session('usuario_nome') }}!</h1>
+    <form action="{{ route('logout') }}" method="GET" style="display:inline;">
+        <button type="submit">Sair</button>
+    </form>
+    
 </body>
 </html>

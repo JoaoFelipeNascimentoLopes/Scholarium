@@ -4,14 +4,17 @@ use App\Http\Controllers\ContatoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InstituicaoController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Middleware\AuthInstituicao;
+use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Session;
 
 // Rota - Index
 Route::get('/', function () {
     return view('welcome'); // Caso a view esteja na raiz, n precisa especificar pasta
 })->name('welcome');
 
-// ROTAS - CONTATO
+
+// ROTAS - Auth
 // -------------------
 
 // Rota exibir formulário de login
@@ -22,6 +25,10 @@ Route::get('/auth/login', function () {
 // Rota para enviar o formulário de login
 Route::post('/auth/login', [AuthController::class, 'login'])->name('login.post');
 
+// Rota para logout
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+//
 
 
 // ROTAS - CONTATO
@@ -52,10 +59,12 @@ Route::get('/instituicao/sucess', function () {
     return view('instituicao.sucess');
 })->name('instituicao.sucess');
 
-// Rota para a Dashboard da Instituição
+// Rota para a Dashboard da Instituição com Middleware aplicado
 Route::get('/instituicao/dashboard', function () {
-    return view('/instituicao/dashboard');
-})->name('instituicao.dashboard');
+    return view('instituicao.dashboard');
+})->name('instituicao.dashboard')->middleware(AuthInstituicao::class);
+
+
 
 // ROTAS - PROFESSOR
 // -----------------

@@ -271,6 +271,7 @@
                     <button type="submit" class="w-full bg-[#272727] text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition"><i class="bi bi-box-arrow-in-right"></i> Login</button>
                 </div>
             </form>
+            <br>
         </div>
     </div>
     <br><br>
