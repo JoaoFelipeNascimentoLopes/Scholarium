@@ -54,6 +54,8 @@ class InstituicaoController extends Controller
         // Criptografa a senha
         $dados = $request->all();
         $dados['senhaInstituicao'] = bcrypt($request->senhaInstituicao);
+        $dados['customizacaoInstituicao'] = false; // Instituição ainda não passou pela personalização
+        $dados['notasInstituicao'] = null;   // Ou 'numeric' se quiser um valor padrão
 
         // Salva no banco
         Instituicao::create($dados);
