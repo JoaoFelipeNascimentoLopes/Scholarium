@@ -8,6 +8,7 @@ Aqui estão listadas as principais features do Scholarium **(em desenvolvimento)
 
 * 📧 **Contato** - Permite que a instituição faça contato com o desenvolvedor, a fim de sanar dúvidas, reportar erros ou fazer sugestões.
 * 🏫 **Auto-Cadastro da Instituição** - Permite que a instituição faça seu próprio cadastro para obter acesso às demais funcionalidades do sistema.
+* 🔐 **Login Centralizado** - Permite que os usuários do sistema, sejam eles os administradores da instituição, os professores ou os estudantes acessem o sistema a partir da mesma central de login, apenas selecionando o seu tipo de usuário em um único click.
 
 ## </> Tecnologias Utilizadas
 
@@ -21,4 +22,4 @@ Aqui estão listadas as principais features do Scholarium **(em desenvolvimento)
 ## 💻 Autor
 
 👤 Desenvolvido por: João Felipe  
-📅 Ano de Desenvolvimento: 2025
+📅 Período de Desenvolvimento: 01/2025 - Presente
