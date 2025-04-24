@@ -202,7 +202,7 @@
                 sistema disponíveis para você.
             </p>
             <br>
-            <h2 class="text-lg text-white mb-4 text-center">Não possui cadastro? <a href="/auth/login-instituicao"
+            <h2 class="text-lg text-white mb-4 text-center">Não possui cadastro? <a href="/instituicao/cadastrar"
                     class="font-bold">Faça o Cadastro Aqui!</a></h2>
         </div>
         <!-- Lado Direito - Formulário -->
