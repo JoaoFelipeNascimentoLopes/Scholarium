@@ -352,6 +352,22 @@
                     </div>
                 </div>
                 <br>
+                <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="bi bi-bookmark-star"></i> Sistema de Notas</h2>
+                <hr>
+                <br>
+                <div class="mb-4">
+                    <div class="flex justify-around">
+                        <label class="inline-flex items-center mr-4">
+                            <input type="radio" name="notasInstituicao" value="numeral" required class="form-radio text-blue-600 accent-[#272727]">
+                            <span class="ml-2"><i class="bi bi-123"></i> Numérico</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="notasInstituicao" value="conceito" required class="form-radio text-blue-600 accent-[#272727]">
+                            <span class="ml-2"><i class="bi bi-alphabet"></i> Conceitos (A .. D)</span>
+                        </label>
+                    </div> 
+                </div>
+                <br>
                 <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="bi bi-shield-lock"></i> Senha</h2>
                 <hr>
                 <br>

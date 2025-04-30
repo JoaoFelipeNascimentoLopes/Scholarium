@@ -158,6 +158,8 @@
 </head>
 
 <body class="flex min-h-screen bg-white text-black">
+
+
     <!-- Sidebar -->
     <aside id="sidebar" class="w-64 bg-[#272727] text-white transition-all duration-300 flex flex-col">
         <!-- Topo da Sidebar -->

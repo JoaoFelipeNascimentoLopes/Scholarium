@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Session;
 Route::get('/', function () {
     return view('welcome'); // Caso a view esteja na raiz, n precisa especificar pasta
 })->name('welcome');
+// web.php
+
 
 
 // ROTAS - Auth

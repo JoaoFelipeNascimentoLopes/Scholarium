@@ -22,7 +22,6 @@ class Instituicao extends Model
         'cidadeInstituicao',
         'ufInstituicao',
         'senhaInstituicao',
-        'customizacaoInstituicao',
         'notasInstituicao',
     ];
 }

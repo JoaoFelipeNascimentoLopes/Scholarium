@@ -73,4 +73,5 @@ class AuthController extends Controller
         Session::flush(); // Limpa todas as variáveis de sessão
         return redirect()->route('login'); // Redireciona para a página inicial
     }
+    
 }

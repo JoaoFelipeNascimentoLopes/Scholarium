@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Instituicao;
 use Illuminate\Support\Facades\Mail;
 
-
 class InstituicaoController extends Controller
 {
     // Exibe o formulário
@@ -49,16 +48,29 @@ class InstituicaoController extends Controller
             'cidadeInstituicao' => 'required|string|max:255',
             'ufInstituicao' => 'required|string|max:2',
             'senhaInstituicao' => 'required|string|min:8',
+            'notasInstituicao' => 'required|in:numeral,conceito',
         ]);
 
         // Criptografa a senha
         $dados = $request->all();
         $dados['senhaInstituicao'] = bcrypt($request->senhaInstituicao);
-        $dados['customizacaoInstituicao'] = false; // Instituição ainda não passou pela personalização
-        $dados['notasInstituicao'] = null;   // Ou 'numeric' se quiser um valor padrão
+
+        // O campo 'notasInstituicao' já foi validado e pode ser diretamente salvo
 
         // Salva no banco
-        Instituicao::create($dados);
+        Instituicao::create([
+            'nomeInstituicao' => $dados['nomeInstituicao'],
+            'cnpjInstituicao' => $dados['cnpjInstituicao'],
+            'emailInstituicao' => $dados['emailInstituicao'],
+            'telefoneInstituicao' => $dados['telefoneInstituicao'],
+            'cepInstituicao' => $dados['cepInstituicao'],
+            'logradouroInstituicao' => $dados['logradouroInstituicao'],
+            'numeroInstituicao' => $dados['numeroInstituicao'],
+            'cidadeInstituicao' => $dados['cidadeInstituicao'],
+            'ufInstituicao' => $dados['ufInstituicao'],
+            'senhaInstituicao' => $dados['senhaInstituicao'],
+            'notasInstituicao' => $dados['notasInstituicao'], // Aqui estamos salvando o valor de 'notasInstituicao'
+        ]);
 
         // Envia o e-mail para a escola
         Mail::to($dados['emailInstituicao'])->send(new ConfirmacaoCadastroInstituicao($dados));
