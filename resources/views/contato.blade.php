@@ -233,7 +233,7 @@
             </form>
         </div>
     </div>
-    <br><br><br><br>
+    <br><br>
     <footer class="bg-[#272727] text-white py-8 ml-percent-5 mr-percent-5 rounded-xl">
         <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center poppins-regular">
             <!-- Logo e descrição -->
