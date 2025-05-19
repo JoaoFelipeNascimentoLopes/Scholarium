@@ -23,5 +23,3 @@ Aqui estão listadas as principais features do Scholarium **(em desenvolvimento)
 
 👤 Desenvolvido por: João Felipe  
 📅 Período de Desenvolvimento: 01/2025 - Presente
-
-Desenvolvido em Linux
