@@ -66,6 +66,11 @@ Route::get('/instituicao/dashboard', function () {
     return view('instituicao.dashboard');
 })->name('instituicao.dashboard')->middleware(AuthInstituicao::class);
 
+// Rota para Dashboard de Estudantes - Instituição
+Route::get('/instituicao/estudantes', function () {
+    return view('instituicao.estudantes');
+})->name('instituicao.estudantes')->middleware(AuthInstituicao::class);
+
 
 
 // ROTAS - PROFESSOR
