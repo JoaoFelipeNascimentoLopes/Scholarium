@@ -22,4 +22,4 @@ Aqui estão listadas as principais features do Scholarium **(em desenvolvimento)
 ## 💻 Autor
 
 👤 Desenvolvido por: João Felipe  
-📅 Período de Desenvolvimento: 01/2025 - Presente
+📅 Período de Desenvolvimento: 01/2025 - Present
