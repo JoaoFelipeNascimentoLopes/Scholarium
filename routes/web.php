@@ -71,6 +71,21 @@ Route::get('/instituicao/estudantes', function () {
     return view('instituicao.estudantes');
 })->name('instituicao.estudantes')->middleware(AuthInstituicao::class);
 
+// Rota para a Dashboard de Disciplina - Instituição
+Route::get('/instituicao/disciplinas', function () {
+    return view('instituicao.disciplinas');
+})->name('instituicao.disciplinas')->middleware(AuthInstituicao::class);
+
+// Rota para a Dashboard de Professores - Instituição
+Route::get('/instituicao/professores', function () {
+    return view('instituicao.professores');
+})->name('instituicao.professores')->middleware(AuthInstituicao::class);
+
+// Rota para a Dashboard de Turmas - Instituição
+Route::get('/instituicao/turmas', function () {
+    return view('instituicao.turmas');
+})->name('instituicao.turmas')->middleware(AuthInstituicao::class);
+
 
 
 // ROTAS - PROFESSOR

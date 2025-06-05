@@ -190,7 +190,7 @@
                     class="bi bi-box-arrow-in-right"></i> Login</a>
         </div>
     </nav>
-    <br><br><br><br>
+    <br><br>
     <!-- Form de Contato -->
     <div class="ml-percent-5 mr-percent-5 flex poppins-regular">
         <!-- Lado Esquerdo - Logo e Mensagem -->

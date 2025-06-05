@@ -14,7 +14,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet" />
-    <title>Dashboard - Instituição</title>
+    <title>Disciplinas - Instituição</title>
     <!-- Fontes -->
     <style>
         .poppins-thin {
@@ -183,8 +183,8 @@
                 </svg>
             </button>
 
-            <h1 class="text-2xl font-bold mb-5">Conteúdo Principal</h1>
-            <p>Este é o conteúdo da sua página. Ele será movido quando a sidebar abrir ou fechar.</p><br>
+            <h1 class="text-2xl font-bold mb-5"><i class="bi bi-journal-bookmark"></i> Disciplinas</h1>
+            <p>Aqui você pode gerenciar as Disciplinas cadastradas em sua Instituição de Ensino.</p><br>
             
             </div>
     </div>
