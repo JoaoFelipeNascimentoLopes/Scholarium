@@ -125,6 +125,21 @@
             font-style: italic;
         }
     </style>
+    <!-- Gira a Seta do <details> -->
+     <style>
+        /* Esconde a seta padrão do <details> */
+        summary {
+            list-style: none; /* Firefox */
+        }
+        summary::-webkit-details-marker {
+            display: none; /* Chrome/Safari */
+        }
+
+        /* Gira nossa seta customizada quando o <details> estiver aberto */
+        details[open] summary .arrow-icon {
+            transform: rotate(180deg);
+        }
+    </style>
     <!-- Customização do Tailwind CSS -->
     <style type="text/tailwindcss">
         .ml-percent-15 {
@@ -185,8 +200,91 @@
 
             <h1 class="text-2xl font-bold mb-5"><i class="bi bi-gear"></i> Configurações</h1>
             <p>Aqui você pode gerenciar a sua Instituição de Ensino.</p><br>
+            <div class="bg-white shadow-2xl rounded-xl overflow-hidden">
+
+   <details class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-600 hover:shadow-2xl">
+
+    {{-- O <summary> é o cabeçalho que fica sempre visível e é clicável --}}
+    <summary class="px-6 py-5 flex items-center justify-between cursor-pointer list-none">
+        <div>
+            <h2 class="text-xl font-bold text-[#272727] poppins-bold sm:text-2xl">
+                <i class="bi bi-layout-text-sidebar-reverse"></i> Detalhes da Instituição
+            </h2>
+            <p class="mt-1 text-sm text-gray-500 poppins-regular">
+                Clique para expandir ou recolher as informações
+            </p>
+        </div>
+        
+        {{-- Ícone de Seta (ele vai girar usando apenas CSS) --}}
+        <div class="arrow-icon transform transition-transform duration-300">
+            <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </div>
+    </summary>
+
+    {{-- O conteúdo abaixo só aparece quando o <details> está aberto --}}
+    <div class="p-6 md:p-8 border-t border-gray-200">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
             
+            <div>
+                <h3 class="text-lg font-semibold text-[#272727] poppins-semibold uppercase tracking-wider mb-4">
+                    Informações Gerais
+                </h3>
+                <div class="space-y-4">
+                    <p class="text-sm">
+                        <span class="block poppins-medium text-gray-800"><i class="bi bi-alphabet"></i> Nome:</span>
+                        <span class="text-gray-600 poppins-regular">{{ $instituicao -> nomeInstituicao }}</span>
+                    </p>
+                    <p class="text-sm">
+                        <span class="block poppins-medium text-gray-800"><i class="bi bi-hash"></i> CNPJ:</span>
+                        <span class="text-gray-600 poppins-regular">{{ $instituicao -> cnpjInstituicao }}</span>
+                    </p>
+                    <p class="text-sm">
+                        <span class="block poppins-medium text-gray-800"><i class="bi bi-telephone"></i> Telefone:</span>
+                        <span class="text-gray-600 poppins-regular">{{ $instituicao -> telefoneInstituicao }}</span>
+                    </p>
+                    <p class="text-sm">
+                        <span class="block poppins-medium text-gray-800"><i class="bi bi-envelope-at"></i> E-mail:</span>
+                        <span class="text-gray-600 poppins-regular">{{ $instituicao -> emailInstituicao }}</span>
+                    </p>
+                </div>
             </div>
-    </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-[#272727] poppins-semibold uppercase tracking-wider mb-4">
+                    Configurações Acadêmicas
+                </h3>
+                <div class="space-y-4">
+                    <p class="text-sm">
+                        <span class="block poppins-medium text-gray-800"><i class="bi bi-bookmark-star"></i> Sistema de Notas:</span>
+                        <span class="text-gray-600 poppins-regular">{{ ucfirst($instituicao->notasInstituicao) }}</span>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="md:col-span-2">
+                <h3 class="text-lg font-semibold text-[#272727] poppins-semibold uppercase tracking-wider mb-4">
+                    Endereço Principal
+                </h3>
+                <div class="space-y-4">
+                    <p class="text-sm text-gray-600 poppins-regular">
+                        <i class="bi bi-signpost-split"></i> {{ $instituicao -> logradouroInstituicao }}, nº {{ $instituicao -> numeroInstituicao }}<br>
+                        <i class="bi bi-geo-alt"></i> {{ $instituicao -> cidadeInstituicao }} - {{ $instituicao -> ufInstituicao }}<br>
+                        <i class="bi bi-signpost-split"></i> CEP: {{ $instituicao -> cepInstituicao }}
+                    </p>
+                </div>
+            </div>
+
+            </div> <div class="mt-8 pt-6 border-t border-gray-200 text-right">
+                <a href="#" class="inline-block bg-[#272727] text-white font-regular py-2 px-5 rounded-lg shadow hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75 transition-colors">
+                    <i class="bi bi-pencil-square mr-2"></i>Alterar Dados
+                </a>
+            </div>
+        </div> 
+    </details>
+</div>
+<br>
 </body>
 </html>

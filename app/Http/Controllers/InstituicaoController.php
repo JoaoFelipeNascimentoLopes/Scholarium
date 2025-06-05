@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 
 class InstituicaoController extends Controller
 {
+    
     // Exibe o formulário
     public function create()
     {
@@ -77,6 +78,17 @@ class InstituicaoController extends Controller
 
         return redirect()->route('instituicao.sucess')->with('success', 'Instituição cadastrada com sucesso!');
     }
+
+    public function configuracoes()
+{
+    $instituicaoId = session('usuario_id');
+    
+    // Busca a instituição pelo ID
+    $instituicao = Instituicao::find($instituicaoId);
+    
+    return view('instituicao.configuracoes', ['instituicao' => $instituicao]);
+}
+
 }
 
 // Função de validação de CNPJ
