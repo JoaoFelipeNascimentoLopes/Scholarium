@@ -86,6 +86,11 @@ Route::get('/instituicao/turmas', function () {
     return view('instituicao.turmas');
 })->name('instituicao.turmas')->middleware(AuthInstituicao::class);
 
+// Rota para a Dashboard de Configurações - Instituição
+Route::get('/instituicao/configuracoes', function () {
+    return view('instituicao.configuracoes');
+})->name('instituicao.configuracoes')->middleware(AuthInstituicao::class);
+
 
 
 // ROTAS - PROFESSOR
