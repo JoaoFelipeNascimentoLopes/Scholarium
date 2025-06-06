@@ -5,3 +5,4 @@ import './maskPhone';
 import './maskCEP';
 import './apiCEP';
 import './validaSenha';
+import './modalAlterDadosInstituicao';

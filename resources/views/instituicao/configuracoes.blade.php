@@ -285,7 +285,7 @@
         </div> 
     </details>
 </div>
-<div id="editModal" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-center justify-center p-4 transition-opacity duration-300" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="editModal" class="fixed hidden inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-center justify-center p-4 transition-opacity duration-300" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     {{-- Painel do modal --}}
     <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl transform transition-all duration-300 overflow-hidden">
         {{-- Cabeçalho do modal --}}
@@ -367,8 +367,8 @@
             
             {{-- Rodapé do Modal com os Botões de Ação --}}
             <div class="px-6 py-4 bg-gray-50 text-right space-x-3">
-                <button type="button" id="cancelModalBtn" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition-colors">Cancelar</button>
-                <button type="submit" class="bg-[#272727] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"><i class="bi bi-floppy"></i> Salvar Alterações</button>
+                <button type="button" id="cancelModalBtn" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg border border-gray-300 hover:bg-red-200 focus:outline-none focus:ring-2 cursor-pointer focus:ring-offset-2 focus:ring-gray-600 transition-colors"><i class="bi bi-x-circle"></i> Cancelar</button>
+                <button type="submit" class="bg-[#272727] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 cursor-pointer transition-colors"><i class="bi bi-floppy"></i> Salvar Alterações</button>
             </div>
         </form>
     </div>
@@ -396,59 +396,5 @@
 </div>
 <!-- Incluir o Footer -->
 @include('components._footer')
-<script>
-    // Espera o conteúdo da página carregar completamente antes de rodar o script
-    document.addEventListener('DOMContentLoaded', () => {
-        // Pega os elementos do HTML que vamos manipular
-        const modal = document.getElementById('editModal');
-        const openBtn = document.getElementById('openModalBtn');
-        const closeBtn = document.getElementById('closeModalBtn');
-        const cancelBtn = document.getElementById('cancelModalBtn');
-
-        // Função para abrir o modal
-        const openModal = () => {
-            if (modal) {
-                modal.classList.remove('hidden'); // Mostra o modal
-                modal.classList.add('flex');
-            }
-        };
-
-        // Função para fechar o modal
-        const closeModal = () => {
-            if (modal) {
-                modal.classList.add('hidden'); // Esconde o modal
-                modal.classList.remove('flex');
-            }
-        };
-
-        // Adiciona os eventos de clique aos botões
-        // Verifica se os botões existem na página antes de adicionar o evento
-        if (openBtn) {
-            openBtn.addEventListener('click', openModal);
-        }
-        if (closeBtn) {
-            closeBtn.addEventListener('click', closeModal);
-        }
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', closeModal);
-        }
-
-        // Evento para fechar o modal ao clicar no fundo escuro
-        if (modal) {
-            modal.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    closeModal();
-                }
-            });
-        }
-
-        // Evento para fechar o modal com a tecla 'Escape'
-        document.addEventListener('keydown', (event) => {
-            if (!modal.classList.contains('hidden') && event.key === "Escape") {
-                closeModal();
-            }
-        });
-    });
-</script>
 </body>
 </html>
