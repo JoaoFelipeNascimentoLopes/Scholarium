@@ -91,6 +91,11 @@ Route::get('/instituicao/configuracoes', [InstituicaoController::class, 'configu
     ->name('instituicao.configuracoes')
     ->middleware(AuthInstituicao::class);
 
+// Esta rota vai receber os dados do formulário de edição e atualizar no banco
+Route::put('/instituicao/configuracoes', [InstituicaoController::class, 'updateConfiguracoes'])
+    ->name('instituicao.configuracoes.update')
+    ->middleware(AuthInstituicao::class);
+
 
 // ROTAS - PROFESSOR
 // -----------------

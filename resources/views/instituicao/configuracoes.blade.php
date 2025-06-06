@@ -278,12 +278,100 @@
             </div>
 
             </div> <div class="mt-8 pt-6 border-t border-gray-200 text-right">
-                <a href="#" class="inline-block bg-[#272727] text-white font-regular py-2 px-5 rounded-lg shadow hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75 transition-colors">
-                    <i class="bi bi-pencil-square mr-2"></i>Alterar Dados
-                </a>
+                <button type="button" id="openModalBtn" class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75 transition-colors">
+    <i class="bi bi-pencil-square mr-2"></i> Alterar Dados
+</button>
             </div>
         </div> 
     </details>
+</div>
+<div id="editModal" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-center justify-center p-4 transition-opacity duration-300" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    {{-- Painel do modal --}}
+    <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl transform transition-all duration-300 overflow-hidden">
+        {{-- Cabeçalho do modal --}}
+        <div class="flex items-center justify-between px-6 py-4">
+            <h3 class="text-2xl font-medium text-gray-900 poppins-semibold" id="modal-title"><i class="bi bi-pencil-square mr-2"></i> Alteração de Dados</h3>
+            {{-- Botão de fechar (X) --}}
+            <button id="closeModalBtn" class="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none">&times;</button>
+        </div>
+
+        {{-- Formulário de Edição --}}
+        <form action="{{ route('instituicao.configuracoes.update') }}" method="POST">
+            @csrf
+            @method('PUT')
+            
+            <div class="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
+                <h2 class="text-md font-bold text-[#272727] mb-4"><i class="bi bi-buildings"></i> Dados da Instituição</h2>
+                <hr>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label for="nomeInstituicao" class="block text-sm font-medium text-gray-700"><i class="bi bi-alphabet"></i> Nome da Instituição</label>
+                        <input type="text" name="nomeInstituicao" id="nomeInstituicao" value="{{ old('nomeInstituicao', $instituicao->nomeInstituicao) }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" required>
+                        @error('nomeInstituicao')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+
+                    <div>
+                        <label for="cnpjInstituicao" class="block text-sm font-medium text-gray-700"><i class="bi bi-hash"></i> CNPJ</label>
+                        <input type="text" name="cnpjInstituicao" id="cnpjInstituicao" value="{{ old('cnpjInstituicao', $instituicao->cnpjInstituicao) }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" required>
+                        @error('cnpjInstituicao')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+
+                    <div>
+                        <label for="telefoneInstituicao" class="block text-sm font-medium text-gray-700"><i class="bi bi-telephone"></i> Telefone</label>
+                        <input type="text" name="telefoneInstituicao" id="telefoneInstituicao" value="{{ old('telefoneInstituicao', $instituicao->telefoneInstituicao) }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" required>
+                        @error('telefoneInstituicao')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+
+                     <div class="md:col-span-2">
+                        <label for="emailInstituicao" class="block text-sm font-medium text-gray-700"><i class="bi bi-envelope-at"></i> E-mail</label>
+                        <input type="email" name="emailInstituicao" id="emailInstituicao" value="{{ old('emailInstituicao', $instituicao->emailInstituicao) }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" required>
+                        @error('emailInstituicao')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+                </div>
+
+                <h2 class="text-md font-bold text-[#272727] mb-4"><i class="bi bi-geo-alt"></i> Endereço da Instituição</h2>
+                <hr>
+
+                <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+                    <div class="md:col-span-2">
+                        <label for="cepInstituicao" class="block text-sm font-medium text-gray-700"><i class="bi bi-signpost-split"></i> CEP</label>
+                        <input type="text" name="cepInstituicao" id="cepInstituicao" value="{{ old('cepInstituicao', $instituicao->cepInstituicao) }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" required>
+                        @error('cepInstituicao')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+
+                    <div class="md:col-span-4">
+                        <label for="logradouroInstituicao" class="block text-sm font-medium text-gray-700"><i class="bi bi-signpost-split"></i> Logradouro</label>
+                        <input type="text" name="logradouroInstituicao" id="logradouroInstituicao" value="{{ old('logradouroInstituicao', $instituicao->logradouroInstituicao) }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" required readonly>
+                        @error('logradouroInstituicao')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label for="numeroInstituicao" class="block text-sm font-medium text-gray-700"><i class="bi bi-123"></i> Número</label>
+                        <input type="text" name="numeroInstituicao" id="numeroInstituicao" value="{{ old('numeroInstituicao', $instituicao->numeroInstituicao) }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" required maxlength="4">
+                        @error('numeroInstituicao')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+
+                    <div class="md:col-span-3">
+                        <label for="cidadeInstituicao" class="block text-sm font-medium text-gray-700"><i class="bi bi-geo-alt"></i> Cidade</label>
+                        <input type="text" name="cidadeInstituicao" id="cidadeInstituicao" value="{{ old('cidadeInstituicao', $instituicao->cidadeInstituicao) }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" required readonly>
+                        @error('cidadeInstituicao')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+
+                     <div class="md:col-span-1">
+                        <label for="ufInstituicao" class="block text-sm font-medium text-gray-700"><i class="bi bi-geo-alt"></i> UF</label>
+                        <input type="text" name="ufInstituicao" id="ufInstituicao" value="{{ old('ufInstituicao', $instituicao->ufInstituicao) }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" required readonly maxlength="2">
+                        @error('ufInstituicao')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
+                </div>
+            </div>
+            
+            {{-- Rodapé do Modal com os Botões de Ação --}}
+            <div class="px-6 py-4 bg-gray-50 text-right space-x-3">
+                <button type="button" id="cancelModalBtn" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition-colors">Cancelar</button>
+                <button type="submit" class="bg-[#272727] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"><i class="bi bi-floppy"></i> Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
 </div>
 <br>
 <div class="bg-white rounded-xl shadow-2xl poppins-regular">
@@ -306,6 +394,61 @@
         </a>
     </div>
 </div>
+<!-- Incluir o Footer -->
 @include('components._footer')
+<script>
+    // Espera o conteúdo da página carregar completamente antes de rodar o script
+    document.addEventListener('DOMContentLoaded', () => {
+        // Pega os elementos do HTML que vamos manipular
+        const modal = document.getElementById('editModal');
+        const openBtn = document.getElementById('openModalBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+        const cancelBtn = document.getElementById('cancelModalBtn');
+
+        // Função para abrir o modal
+        const openModal = () => {
+            if (modal) {
+                modal.classList.remove('hidden'); // Mostra o modal
+                modal.classList.add('flex');
+            }
+        };
+
+        // Função para fechar o modal
+        const closeModal = () => {
+            if (modal) {
+                modal.classList.add('hidden'); // Esconde o modal
+                modal.classList.remove('flex');
+            }
+        };
+
+        // Adiciona os eventos de clique aos botões
+        // Verifica se os botões existem na página antes de adicionar o evento
+        if (openBtn) {
+            openBtn.addEventListener('click', openModal);
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', closeModal);
+        }
+
+        // Evento para fechar o modal ao clicar no fundo escuro
+        if (modal) {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Evento para fechar o modal com a tecla 'Escape'
+        document.addEventListener('keydown', (event) => {
+            if (!modal.classList.contains('hidden') && event.key === "Escape") {
+                closeModal();
+            }
+        });
+    });
+</script>
 </body>
 </html>

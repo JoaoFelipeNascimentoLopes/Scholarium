@@ -6,6 +6,8 @@ use App\Mail\ConfirmacaoCadastroInstituicao;
 use Illuminate\Http\Request;
 use App\Models\Instituicao;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session; // <-- ADICIONE este import
+use Illuminate\Validation\Rule;       // <-- ADICIONE este import
 
 class InstituicaoController extends Controller
 {
@@ -88,6 +90,32 @@ class InstituicaoController extends Controller
     
     return view('instituicao.configuracoes', ['instituicao' => $instituicao]);
 }
+public function updateConfiguracoes(Request $request)
+    {
+        $idInstituicaoLogada = session('usuario_id');
+
+        // Validação dos dados
+        $validatedData = $request->validate([
+            'nomeInstituicao' => 'required|string|max:255',
+            'cnpjInstituicao' => ['required', 'string', 'max:18', Rule::unique('tbinstituicao', 'cnpjInstituicao')->ignore($idInstituicaoLogada)],
+            'emailInstituicao' => ['required', 'email', Rule::unique('tbinstituicao', 'emailInstituicao')->ignore($idInstituicaoLogada)],
+            'telefoneInstituicao' => 'required|string|max:20',
+            'cepInstituicao' => 'required|string|max:10',
+            'logradouroInstituicao' => 'required|string|max:255',
+            'numeroInstituicao' => 'required|string|max:10',
+            'cidadeInstituicao' => 'required|string|max:255',
+            'ufInstituicao' => 'required|string|max:2',
+        ]);
+
+        // Encontra e atualiza a instituição
+        $instituicao = Instituicao::find($idInstituicaoLogada);
+        if ($instituicao) {
+            $instituicao->update($validatedData);
+            return redirect()->route('instituicao.configuracoes')->with('success', 'Dados da instituição atualizados com sucesso!');
+        }
+
+        return redirect()->route('instituicao.configuracoes')->with('error', 'Ocorreu um erro ao atualizar os dados.');
+    }
 
 }
 
