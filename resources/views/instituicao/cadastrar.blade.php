@@ -399,7 +399,11 @@
                         <small id="confirmaSenhaMensagem" class="text-red-600 mt-1 hidden">As senhas não correspondem.</small>
                     </div>
                 </div>
-                
+                <br>
+                <div class="text-sm">
+                    <p>Ao realizar seu cadastro, você automaticamente confirma que concorda com as cláusulas descritas em nosso Termo de Uso.</p>
+                    <p>Para visualizar o Termo de Uso do Scholarium <a href="{{ asset('downloads/termo_de_uso.pdf') }}" download class="underline decoration-solid">clique aqui!</a></p>
+                </div>
                 <br>
                 <div>
                     <button type="submit" class="w-full bg-[#272727] text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition"><i class="bi bi-clipboard2-plus"></i> Cadastrar Instituição</button>
