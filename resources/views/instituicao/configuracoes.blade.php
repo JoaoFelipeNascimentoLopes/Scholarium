@@ -199,7 +199,7 @@
             </button>
 
             <h1 class="text-2xl font-bold mb-5"><i class="bi bi-gear"></i> Configurações</h1>
-            <p>Aqui você pode gerenciar a sua Instituição de Ensino.</p><br>
+            <p>Aqui você pode gerenciar a sua Instituição de Ensino e ter acesso às informações gerais do Scholarium</p><br>
             <div class="bg-white shadow-2xl rounded-xl overflow-hidden">
 
    <details class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-600 hover:shadow-2xl">
@@ -286,5 +286,26 @@
     </details>
 </div>
 <br>
+<div class="bg-white rounded-xl shadow-2xl poppins-regular">
+    <div class="px-6 py-5">
+        <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-info-circle"></i> Sobre o Sistema</h3>
+        <br>
+        <p><i class="bi bi-git"></i> Versão Atual: 1.0 (alpha)</p>
+        <p><i class="bi bi-calendar-date"></i> Lançamento: 2025</p>
+    </div>
+</div>
+<br>
+<div class="bg-white rounded-xl shadow-2xl poppins-regular">
+    <div class="px-6 py-5">
+        <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-file-text"></i> Documentação</h3>
+        <br>
+        <p>Caso possua alguma dúvida em como gerenciar sua Instituição de Ensino pelo Scholarium, não exite em consultar nosso Manual do Usuário disponível para download no botão abaixo.</p>
+        <br>
+        <a href="{{ asset('downloads/manual_do_usuario.pdf') }}" download class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors">
+            <i class="bi bi-download mr-2"></i>Baixar Manual do Usuário
+        </a>
+    </div>
+</div>
+@include('components._footer')
 </body>
 </html>
