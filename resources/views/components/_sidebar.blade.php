@@ -17,6 +17,9 @@
         <a href="{{ route('instituicao.disciplinas') }}" class="text-lg block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
             <i class="bi bi-journal-bookmark"></i> Disciplinas
         </a>
+        <a href="{{ route('instituicao.cursos.create') }}" class="text-lg block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+            <i class="bi bi-award"></i> Cursos
+        </a>
         <a href="{{ route('instituicao.configuracoes') }}" class="text-lg block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
             <i class="bi bi-gear"></i> Configurações
         </a>

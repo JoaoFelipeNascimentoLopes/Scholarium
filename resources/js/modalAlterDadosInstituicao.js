@@ -5,6 +5,7 @@
         const openBtn = document.getElementById('openModalBtn');
         const closeBtn = document.getElementById('closeModalBtn');
         const cancelBtn = document.getElementById('cancelModalBtn');
+        const form = document.getElementById('alterInstituicaoForm');
 
         // Função para abrir o modal
         const openModal = () => {
@@ -17,6 +18,7 @@
         // Função para fechar o modal
         const closeModal = () => {
             if (modal) {
+                form.reset(); // Reseta o formulário dentro do modal
                 modal.classList.add('hidden'); // Esconde o modal
                 modal.classList.remove('flex');
             }

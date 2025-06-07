@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InstituicaoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\AuthInstituicao;
+use App\Http\Controllers\CursoController; 
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -94,6 +95,20 @@ Route::get('/instituicao/configuracoes', [InstituicaoController::class, 'configu
 // Esta rota vai receber os dados do formulário de edição e atualizar no banco
 Route::put('/instituicao/configuracoes', [InstituicaoController::class, 'updateConfiguracoes'])
     ->name('instituicao.configuracoes.update')
+    ->middleware(AuthInstituicao::class);
+
+// ROTAS - CURSOS DENTRO DA INSTITUIÇÃO
+// ----------------------------------------
+
+
+// Rota para exibir o FORMULÁRIO DE CRIAÇÃO de curso
+Route::get('/instituicao/cursos', [CursoController::class, 'create'])
+    ->name('instituicao.cursos.create')
+    ->middleware(AuthInstituicao::class);
+
+// Rota para SALVAR o novo curso no banco
+Route::post('/instituicao/cursos', [CursoController::class, 'store'])
+    ->name('instituicao.cursos.store')
     ->middleware(AuthInstituicao::class);
 
 

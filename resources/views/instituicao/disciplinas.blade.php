@@ -185,8 +185,7 @@
 
             <h1 class="text-2xl font-bold mb-5"><i class="bi bi-journal-bookmark"></i> Disciplinas</h1>
             <p>Aqui você pode gerenciar as Disciplinas cadastradas em sua Instituição de Ensino.</p><br>
-            
-            </div>
-    </div>
+
+        
 </body>
 </html>

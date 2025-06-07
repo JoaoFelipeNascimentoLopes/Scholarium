@@ -296,7 +296,7 @@
         </div>
 
         {{-- Formulário de Edição --}}
-        <form action="{{ route('instituicao.configuracoes.update') }}" method="POST">
+        <form action="{{ route('instituicao.configuracoes.update') }}" method="POST" id="alterInstituicaoForm">
             @csrf
             @method('PUT')
             
