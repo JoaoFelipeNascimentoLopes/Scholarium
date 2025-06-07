@@ -394,7 +394,5 @@
         </a>
     </div>
 </div>
-<!-- Incluir o Footer -->
-@include('components._footer')
 </body>
 </html>

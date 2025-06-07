@@ -299,7 +299,7 @@
                                 <div class="mb-4 w-2/5">
                                     <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso"><i class="bi bi-bar-chart-steps"></i> Nível<span class="text-red-800">*</span></label>
                                     <select name="nivelCurso" id="nivelCurso" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" required>
-                                        <option value="" disabled selected>Selecione um nível</option>
+                                        <option value="" disabled selected>Selecione um Nível</option>
                                         <option value="Ensino Fundamental">Ensino Fundamental</option>
                                         <option value="Ensino Médio">Ensino Médio</option>
                                         <option value="Técnico">Técnico</option>
@@ -332,8 +332,152 @@
                 </div>
             </div>
             <br>
+            {{-- Você pode colocar esta seção abaixo do seu formulário ou dos relatórios --}}
+            <div class="bg-white rounded-xl shadow-2xl poppins-regular">
+                <h2 class="text-xl font-bold text-[#272727] mb-4 px-6 py-5"><i class="bi bi-table"></i> Lista de Cursos Cadastrados</h2>
+                <div class="overflow-x-auto px-6">
+                    <div class="mb-4">
+                        <!-- Formulário de Busca -->
+                        <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso"><i class="bi bi-bar-chart-steps"></i> Busca Avançada</label>
+                        <form action="{{ route('instituicao.cursos.create') }}" method="GET" class="flex items-center gap-2">
+                            <div class="relative w-full">
+                                <input 
+                                    type="text" 
+                                    name="busca" 
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" 
+                                    placeholder="Pesquisar por nome do curso..."
+                                    value="{{ request('busca') }}"
+                                >
+                            </div>
+                            <button type="submit" class="bg-[#272727] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-600 transition-colors">
+                                <i class="bi bi-search"></i>
+                            </button>
+                            {{-- Link para limpar a busca --}}
+                            @if(request('busca'))
+                                <a href="{{ route('instituicao.cursos.create') }}" class="cursor-pointer bg-gray-300 hover:bg-red-200 text-[#272727] py-2 px-4 rounded-lg">
+                                    <i class="bi bi-eraser-fill"></i>
+                                </a>
+                            @endif
+                        </form>
+                </div>
+                <br>
+                <table class="min-w-full bg-white">
+                    <thead class="bg-[#272727] text-white">
+                        <tr>
+                            <th class="py-3 px-4 text-left text-sm font-semibold uppercase">ID</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold uppercase">Nome do Curso</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold uppercase">Nível</th>
+                            <th class="py-3 px-4 text-left text-sm font-semibold uppercase">Status</th>
+                            <th class="py-3 px-4 text-center text-sm font-semibold uppercase">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                        @forelse ($cursos as $curso)
+                        <tr class="border-b border-gray-200 hover:bg-gray-50">
+                            <td class="py-3 px-4">{{ $curso->id }}</td>
+                            <td class="py-3 px-4">{{ $curso->nomeCurso }}</td>
+                            <td class="py-3 px-4">{{ $curso->nivelCurso }}</td>
+                            <td class="py-3 px-4">
+                                {{-- Badge de status com cor condicional --}}
+                                @if ($curso->statusCurso == 'ativo')
+                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Ativo</span>
+                                @else
+                                    <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Inativo</span>
+                                @endif
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <div class="flex justify-center items-center gap-2">
+                                    {{-- Botão de Alterar --}}
+                                    <a href="{{ route('cursos.edit', $curso->id) }}" class="text-blue-600 hover:text-blue-900 cursor-pointer" title="Alterar Curso">
+                                        <i class="bi bi-pencil-square text-lg"></i>
+                                    </a>
+                                    {{-- Botão de Excluir (dentro de um formulário por segurança) --}}
+                                    <form action="{{ route('cursos.destroy', $curso ->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este curso?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-900 cursor-pointer" title="Excluir Curso">
+                                            <i class="bi bi-trash-fill text-lg"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="py-4 px-4 text-center text-gray-500">
+                                Nenhum curso cadastrado ainda.
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            {{-- Links de Paginação --}}
+            <div class="mt-6 px-6 py-5 font-poppins-regular">
+                {{-- Verifica se há cursos para paginar --}}
+                {{ $cursos->links() }}
+            </div>
+        </div>
+    <br>
+    </div>
+</div>
+<div id="edit-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl">
+        <div class="flex justify-between items-center border-b pb-3">
+            <h3 class="text-xl font-bold text-[#272727]">Editar Curso</h3>
+            <button id="close-modal-button" class="text-gray-500 hover:text-red-600 text-2xl">&times;</button>
+        </div>
+
+        <div class="mt-4">
+            {{-- O action deste form será preenchido dinamicamente pelo JavaScript --}}
+            <form id="edit-form" action="" method="POST">
+                @csrf
+                @method('PUT')
+
+                {{-- Campos do formulário (parecidos com o seu formulário de edição) --}}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="edit-nomeCurso" class="block text-sm font-medium text-gray-700">Nome</label>
+                        <input type="text" name="nomeCurso" id="edit-nomeCurso" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    <div>
+                        <label for="edit-nivelCurso" class="block text-sm font-medium text-gray-700">Nível</label>
+                        <select name="nivelCurso" id="edit-nivelCurso" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                            <option value="Ensino Fundamental">Ensino Fundamental</option>
+                            <option value="Ensino Médio">Ensino Médio</option>
+                            <option value="Técnico">Técnico</option>
+                            <option value="Superior">Superior</option>
+                            <option value="Pós-Graduação">Pós-Graduação</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label for="edit-descricaoCurso" class="block text-sm font-medium text-gray-700">Descrição</label>
+                    <textarea name="descricaoCurso" id="edit-descricaoCurso" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
+                </div>
+                <div class="mt-4">
+                     <label for="edit-statusCurso" class="block text-sm font-medium text-gray-700">Status</label>
+                    <select name="statusCurso" id="edit-statusCurso" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        <option value="Ativo">Ativo</option>
+                        <option value="Inativo">Inativo</option>
+                    </select>
+                </div>
+                
+                <div class="mt-6 flex justify-end gap-4">
+                    <button type="button" id="cancel-button" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="bg-[#272727] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-600">
+                        Salvar Alterações
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+    <!-- Incluir o Footer -->
+@include('components._footer')
+</div>
+    
     @if (session('success') || session('error'))
     @php
         $toastMessage = session('success') ?? session('error');

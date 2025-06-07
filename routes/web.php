@@ -115,6 +115,20 @@ Route::post('/instituicao/cursos', [CursoController::class, 'store'])
 Route::get('/reports/cursos/{status}', [RelatorioController::class, 'gerarRelatorioCursos'])
      ->name('reports.cursos');
 
+     // Em routes/web.php
+
+// Rota para exibir o formulário de edição de um curso específico
+Route::get('/instituicao/cursos/{curso}/editar', [CursoController::class, 'edit'])->name('cursos.edit');
+
+// Rota para salvar as alterações do formulário de edição
+Route::put('/instituicao/cursos/{curso}', [CursoController::class, 'update'])->name('cursos.update');
+
+// Rota para excluir um curso
+Route::delete('/instituicao/cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy');
+
+// Rota para puxar os dados de um curso específico
+Route::get('/api/cursos/{curso}', [CursoController::class, 'getCursoData'])->name('cursos.data');
+
 
 // ROTAS - PROFESSOR
 // -----------------
