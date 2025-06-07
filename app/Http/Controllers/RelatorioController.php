@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use Illuminate\Http\Request;
+use App\Models\Instituicao;
 use Barryvdh\DomPDF\Facade\Pdf; // Importa a facade do PDF
 
 class RelatorioController extends Controller
@@ -21,6 +22,9 @@ class RelatorioController extends Controller
         if (!$instituicaoId) {
             return redirect()->back()->with('error', 'Sessão inválida para gerar relatório.');
         }
+
+        // --- NOVO: BUSCA OS DADOS DA INSTITUIÇÃO ---
+        $instituicao = Instituicao::find($instituicaoId);
 
         // 2. Monta a consulta ao banco de dados, começando com o filtro da instituição
         $query = Curso::where('instituicaoCurso', $instituicaoId);
@@ -40,10 +44,10 @@ class RelatorioController extends Controller
         $cursos = $query->orderBy('nomeCurso', 'asc')->get();
 
         // 5. Carrega a view do PDF, passando os dados (cursos e título) para ela
-        $pdf = PDF::loadView('reports.cursos_pdf', compact('cursos', 'titulo'));
+        $pdf = PDF::loadView('reports.cursos_pdf', compact('cursos', 'titulo', 'instituicao'));
 
         // 6. Define o nome do arquivo e força o download no navegador do usuário
-        $nomeArquivo = 'relatorio-cursos-' . $status . '.pdf';
+        $nomeArquivo = 'relatorio-cursos-' . $status . '-' . $instituicaoId . '.pdf';
         return $pdf->download($nomeArquivo);
     }
 }
