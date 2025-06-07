@@ -208,13 +208,13 @@
                             <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-filetype-pdf"></i> Relatórios</h3>
                             <br>
                             <div class="flex justify-center">
-                                <a href="" download class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors content-center mr-5">
+                                <a href="{{ route('reports.cursos', ['status' => 'todos']) }}" class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors content-center mr-5">
                                     <i class="bi bi-filetype-pdf"></i> Cursos Cadastrados
                                 </a>
-                                <a href="" download class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors content-center mr-5">
+                                <a href="{{ route('reports.cursos', ['status' => 'ativos']) }}" class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors content-center mr-5">
                                     <i class="bi bi-filetype-pdf"></i> Cursos Ativos
                                 </a>
-                                <a href="" download class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors content-center">
+                                <a href="{{ route('reports.cursos', ['status' => 'inativos']) }}" class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors content-center">
                                     <i class="bi bi-filetype-pdf"></i> Cursos Inativos
                                 </a>
                             </div>

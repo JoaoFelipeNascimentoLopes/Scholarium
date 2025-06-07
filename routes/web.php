@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContatoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InstituicaoController;
+use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\AuthInstituicao;
 use App\Http\Controllers\CursoController; 
@@ -110,6 +111,9 @@ Route::get('/instituicao/cursos', [CursoController::class, 'create'])
 Route::post('/instituicao/cursos', [CursoController::class, 'store'])
     ->name('instituicao.cursos.store')
     ->middleware(AuthInstituicao::class);
+
+Route::get('/reports/cursos/{status}', [RelatorioController::class, 'gerarRelatorioCursos'])
+     ->name('reports.cursos');
 
 
 // ROTAS - PROFESSOR
