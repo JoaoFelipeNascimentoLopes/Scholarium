@@ -34,7 +34,7 @@ class CursoController extends Controller
                            ->select('nivelCurso', DB::raw('count(*) as total'))
                            ->groupBy('nivelCurso')
                            ->pluck('total', 'nivelCurso');
-        
+
         $labelsNiveis = $niveisCursos->keys();
         $dataNiveis = $niveisCursos->values();
 
@@ -56,11 +56,11 @@ class CursoController extends Controller
         // --- Bloco 4: Enviando tudo para a View ---
         // Todas as variáveis são enviadas de uma vez
         return view('instituicao.cursos', compact(
-            'totalCursos', 
-            'totalAtivos', 
-            'totalInativos', 
-            'labelsNiveis', 
-            'dataNiveis', 
+            'totalCursos',
+            'totalAtivos',
+            'totalInativos',
+            'labelsNiveis',
+            'dataNiveis',
             'cursos'
         ));
     }
