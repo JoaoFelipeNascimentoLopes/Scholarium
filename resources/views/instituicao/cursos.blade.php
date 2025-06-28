@@ -163,7 +163,7 @@
         }
     </style>
     <style>
-        
+
     </style>
 </head>
 <body>
@@ -286,11 +286,11 @@
                                 <!-- Nome -->
                                 <div class="mb-4 w-3/5 mr-5">
                                     <label class="block text-[#272727] text-sm font-bold mb-2" for="nomeCurso"><i class="bi bi-alphabet"></i> Nome<span class="text-red-800">*</span></label>
-                                    <input 
-                                        type="text" 
-                                        name="nomeCurso" 
-                                        id="nomeCurso" 
-                                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" 
+                                    <input
+                                        type="text"
+                                        name="nomeCurso"
+                                        id="nomeCurso"
+                                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
                                         placeholder="Ex.: Técnico em Informática, Ensino Médio, etc."
                                         required
                                     >
@@ -308,16 +308,16 @@
                                     </select>
                                 </div>
                             </div>
-                            
+
                             <div class="flex">
                                 <div class="mb-4 w-full">
-                                    <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso"><i class="bi bi-bar-chart-steps"></i> Descrição</label>
-                                    <textarea 
-                                        name="descricaoCurso" 
-                                        id="descricaoCurso" 
-                                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" 
-                                        placeholder="Descreva o curso, suas características e objetivos." 
-                                        rows="2"
+                                    <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso"><i class="bi bi-bar-chart-steps"></i> Descrição (Max. 200 caracteres)</label>
+                                    <textarea
+                                        name="descricaoCurso"
+                                        id="descricaoCurso"
+                                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
+                                        placeholder="Descreva o curso, suas características e objetivos."
+                                        rows="5"
                                         maxlength="200"
                                         style="resize: none"
                                     ></textarea>
@@ -341,10 +341,10 @@
                         <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso"><i class="bi bi-bar-chart-steps"></i> Busca Avançada</label>
                         <form action="{{ route('instituicao.cursos.create') }}" method="GET" class="flex items-center gap-2">
                             <div class="relative w-full">
-                                <input 
-                                    type="text" 
-                                    name="busca" 
-                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" 
+                                <input
+                                    type="text"
+                                    name="busca"
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
                                     placeholder="Pesquisar por nome do curso..."
                                     value="{{ request('busca') }}"
                                 >
@@ -462,7 +462,7 @@
                         <option value="Inativo">Inativo</option>
                     </select>
                 </div>
-                
+
                 <div class="mt-6 flex justify-end gap-4">
                     <button type="button" id="cancel-button" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300">
                         Cancelar
@@ -477,7 +477,7 @@
     <!-- Incluir o Footer -->
 @include('components._footer')
 </div>
-    
+
     @if (session('success') || session('error'))
     @php
         $toastMessage = session('success') ?? session('error');

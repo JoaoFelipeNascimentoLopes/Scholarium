@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\ContatoController;
+use App\Http\Controllers\DisciplinaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InstituicaoController;
 use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\AuthInstituicao;
-use App\Http\Controllers\CursoController; 
+use App\Http\Controllers\CursoController;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -73,10 +74,6 @@ Route::get('/instituicao/estudantes', function () {
     return view('instituicao.estudantes');
 })->name('instituicao.estudantes')->middleware(AuthInstituicao::class);
 
-// Rota para a Dashboard de Disciplina - Instituição
-Route::get('/instituicao/disciplinas', function () {
-    return view('instituicao.disciplinas');
-})->name('instituicao.disciplinas')->middleware(AuthInstituicao::class);
 
 // Rota para a Dashboard de Professores - Instituição
 Route::get('/instituicao/professores', function () {
@@ -129,6 +126,11 @@ Route::delete('/instituicao/cursos/{curso}', [CursoController::class, 'destroy']
 // Rota para puxar os dados de um curso específico
 Route::get('/api/cursos/{curso}', [CursoController::class, 'getCursoData'])->name('cursos.data');
 
+// ROTAS - DISCIPLINAS
+// -------------------
+Route::get('/instituicao/disciplinas', [DisciplinaController::class, 'create'])->name('instituicao.disciplinas_create')->middleware(AuthInstituicao::class);
+
+Route::post('/instituicao/disciplinas', [DisciplinaController::class, 'store'])->name('instituicao.disciplinas.store');
 
 // ROTAS - PROFESSOR
 // -----------------
