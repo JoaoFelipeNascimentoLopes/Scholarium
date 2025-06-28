@@ -369,8 +369,9 @@
                     </form>
                 </div>
             </div>
+
         </div>
-        <br>
+        @include('components._footer')
         <script src="{{ asset('js/resetInputFormCursos.js') }}"></script>
 </body>
 </html>

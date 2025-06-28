@@ -130,7 +130,7 @@ Route::get('/api/cursos/{curso}', [CursoController::class, 'getCursoData'])->nam
 // -------------------
 Route::get('/instituicao/disciplinas', [DisciplinaController::class, 'create'])->name('instituicao.disciplinas_create')->middleware(AuthInstituicao::class);
 
-Route::post('/instituicao/disciplinas', [DisciplinaController::class, 'store'])->name('instituicao.disciplinas.store');
+Route::post('/instituicao/disciplinas', [DisciplinaController::class, 'store'])->name('instituicao.disciplinas.store')->middleware(AuthInstituicao::class);
 
 // ROTAS - PROFESSOR
 // -----------------
