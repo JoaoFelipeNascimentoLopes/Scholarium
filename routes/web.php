@@ -137,6 +137,9 @@ Route::post('/instituicao/disciplinas', [DisciplinaController::class, 'store'])-
 
 Route::delete('/instituicao/disciplinas/{disciplina}', [DisciplinaController::class, 'destroy'])->name('disciplina.destroy')->middleware(AuthInstituicao::class);
 
+Route::get('/api/cursos/{curso}/disciplinas', [CursoController::class, 'getDisciplinasDoCurso'])
+    ->name('cursos.disciplinas.api');
+
 // Em routes/web.php
 Route::get('/relatorios/disciplinas/{status}', [RelatorioController::class, 'gerarRelatorioDisciplinas'])
     ->name('reports.disciplinas')

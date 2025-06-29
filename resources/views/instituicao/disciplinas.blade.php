@@ -453,7 +453,7 @@
                                         <i class="bi bi-eye-fill text-lg"></i>
                                     </button>
                                     {{-- Botão de Alterar --}}
-                                    <a href="{{ route('cursos.edit', $disciplina->id) }}" class="text-blue-600 hover:text-blue-900 cursor-pointer" title="Alterar Disciplina">
+                                    <a href="{{-- route('cursos.edit', $disciplina->id) --}}" class="text-blue-600 hover:text-blue-900 cursor-pointer" title="Alterar Disciplina">
                                         <i class="bi bi-pencil-square text-lg"></i>
                                     </a>
                                     {{-- Botão de Excluir (dentro de um formulário por segurança) --}}
@@ -480,7 +480,7 @@
             {{-- Links de Paginação --}}
             <div class="mt-6 px-6 py-5 font-poppins-regular">
                 {{-- Verifica se há cursos para paginar --}}
-
+                {{ $disciplinas->links() }}
             </div>
         </div>
         <br>

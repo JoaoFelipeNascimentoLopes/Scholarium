@@ -476,34 +476,39 @@
                             <button id="closeModalBtn" class="text-black cursor-pointer text-2xl leading-none">&times;
                             </button>
                         </div>
-                        <br>
                         <div class="flex">
                             <div class="flex w-1/2 mr-percent-5">
-                                <div class="mt-4 space-y-3 poppins-regular text-justify">
+                                <div class="mt-4 space-y-5 poppins-regular text-justify w-full">
                                     <div class="flex justify-between">
                                         <p><strong><i class="bi bi-hash"></i> ID:</strong> <span id="modal-id"></span></p>
                                         <p><strong><i class="bi bi-toggles2"></i> Status:</strong> <span id="modal-statusCurso"></span></p>
                                     </div>
                                     <p><strong><i class="bi bi-alphabet"></i> Nome:</strong> <span id="modal-nomeCurso"></span></p>
-                                    <p><strong><i class="bi bi-bar-chart-steps"></i> Nível:</strong> <span id="modal-nivelCurso"></span></p>
-                                    <p><strong>Quantidade de Período(s):</strong> <span id="modal-curso-periodos"></span></p>
+                                    <div class="flex justify-between">
+                                        <p><strong><i class="bi bi-bar-chart-steps"></i> Nível:</strong> <span id="modal-nivelCurso"></span></p>
+                                        <p><strong><i class="bi bi-clock"></i> CH Toral:</strong> <span id="modal-curso-carga-total" class="font-regular text-[#272727]"></span></p>
+                                    </div>
+                                    {{-- ... Descrição, Status, etc. ... --}}
+
                                 </div>
                             </div>
                             <div class="flex w-1/2">
-                                <div class="mt-4 space-y-3 poppins-regular">
+                                <div class="mt-4 space-y-4 poppins-regular">
                                     <h1><strong><i class="bi bi-backpack2"></i> Alunos Matriculados:</strong> 00</h1>
-                                    <p><strong><i class="bi bi-journal-bookmark"></i> Total de Disciplinas:</strong> <span id="modal-totalDisciplinas"></span></p>
                                     <p><strong><i class="bi bi-calendar3"></i> Data de Criação:</strong> <span id="modal-createdAt"></span></p>
                                     <p><strong><i class="bi bi-calendar3"></i> Última Atualização:</strong> <span id="modal-updatedAt"></span></p>
+                                    <p><strong><i class="bi bi-calculator"></i> Quantidade de Período(s):</strong> <span id="modal-curso-periodos"></span></p>
                                 </div>
                             </div>
                         </div>
                         <br>
                         <p class="text-justify"><strong><i class="bi bi-card-text"></i> Descrição:</strong> <span id="modal-descricaoCurso"></span></p>
-                        {{-- Gráficos --}}
-                        <div class="flex">
-
-                        </div>
+                        {{-- Disciplinas do Curso --}}
+                            <div class="mt-4 pt-4">
+                                <h4 class="font-bold text-md text-[#272727] mb-2"><i class="bi bi-journal-bookmark"></i> Disciplinas do Curso:</h4>
+                                <div id="modal-disciplinas-container" class="border rounded-lg max-h-60 overflow-y-auto bg-gray-50">
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>

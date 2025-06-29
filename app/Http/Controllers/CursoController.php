@@ -164,4 +164,28 @@ class CursoController extends Controller
         return redirect()->route('instituicao.cursos.create')
                          ->with('success', '✓ Curso atualizado com sucesso!');
     }
+    public function getDisciplinasDoCurso(Curso $curso)
+    {
+        // Segurança: Garante que só se pode pegar dados de cursos da própria instituição
+        if ($curso->instituicaoCurso != session('usuario_id')) {
+            abort(403, 'Acesso não autorizado.');
+        }
+
+        // 1. Busca as disciplinas ativas do curso
+        $disciplinasAtivas = $curso->disciplinas()
+            ->where('statusDisciplina', 'Ativa')
+            ->get();
+
+        // 2. CALCULA a soma da coluna 'cargaDisciplina' da coleção que buscamos
+        $cargaHorariaTotal = $disciplinasAtivas->sum('cargaDisciplina');
+
+        // 3. AGRUPA as disciplinas por período para a exibição em tabelas
+        $disciplinasAgrupadas = $disciplinasAtivas->groupBy('periodoDisciplina');
+
+        // 4. Retorna uma resposta JSON contendo AMBOS os dados
+        return response()->json([
+            'periodos' => $disciplinasAgrupadas,
+            'carga_horaria_total' => $cargaHorariaTotal
+        ]);
+    }
 }
