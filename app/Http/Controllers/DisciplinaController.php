@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Disciplina;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Models\Curso;
 use Illuminate\View\View;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class DisciplinaController extends Controller
 {
     //
-    public function create(): View
+    public function create(Request $request): View
     {
         $instituicaoId = session('usuario_id');
 
@@ -34,9 +35,21 @@ class DisciplinaController extends Controller
             ->orderBy('nomeCurso', 'asc') // Ordena por nome para facilitar a seleção
             ->get();
 
+        $queryDisciplinas = Disciplina::whereHas('curso', function ($query) use ($instituicaoId) {
+        $query->where('instituicaoCurso', $instituicaoId);
+    });
+
+        if ($request->filled('busca')) {
+            $queryDisciplinas->where('nomeDisciplina', 'LIKE', '%' . $request->busca . '%');
+        }
+
+        // A MÁGICA ESTÁ AQUI: ->with('curso')
+        // Esta linha diz ao Laravel: "Ao buscar as disciplinas, já traga junto os dados do curso de cada uma".
+        $disciplinas = $queryDisciplinas->with('curso')->latest()->paginate(10);
+
         // 2. Retorna a view do formulário e passa a variável '$cursos' para ela.
         //    (Assumindo que sua view se chama 'disciplinas_create.blade.php')
-        return view('instituicao.disciplinas', compact('cursos', 'totalDisciplinasAtivas', 'totalDisciplinasInativas', 'totalDisciplinas'));
+        return view('instituicao.disciplinas', compact('cursos', 'totalDisciplinasAtivas', 'totalDisciplinasInativas', 'totalDisciplinas', 'disciplinas'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -46,6 +59,7 @@ class DisciplinaController extends Controller
             'cursoDisciplina'     => 'required|exists:tbcurso,id',
             'cargaDisciplina'     => 'required|integer|min:1',
             'tipoDisciplina'      => 'required|string',
+            'periodoDisciplina'   => 'required|integer|min:1',
             'ementaDisciplina'    => 'nullable|file|mimes:pdf,doc,docx|max:5120',
             'descricaoDisciplina' => 'nullable|string|max:200',
         ]);
@@ -67,6 +81,18 @@ class DisciplinaController extends Controller
 
         // MELHORIA: Redirecionando para a lista de disciplinas para ver o novo item cadastrado.
         return redirect()->route('instituicao.disciplinas_create')
-            ->with('success', 'Disciplina cadastrada com sucesso!');
+            ->with('success', '✓ Disciplina cadastrada com sucesso!');
+    }
+    public function destroy(Disciplina $disciplina): \Illuminate\Http\RedirectResponse
+    {
+        // Tenta excluir o curso e trata possíveis erros
+        try {
+            $disciplina->delete();
+            return redirect()->route('instituicao.disciplinas_create')
+                ->with('success', '✓ Disciplina excluída com sucesso!');
+        } catch (QueryException $e) {
+            return redirect()->back()
+                ->with('error', '☒ Ocorreu um erro ao excluir a Disciplina. Verifique se ele não está vinculado a outras entidades.');
+        }
     }
 }

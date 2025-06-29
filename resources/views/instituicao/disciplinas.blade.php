@@ -13,8 +13,8 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=history_edu"/>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet"/>
+            href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+            rel="stylesheet"/>
     <title>Disciplinas - Instituição</title>
     <!-- Fontes -->
     <style>
@@ -216,17 +216,19 @@
                     <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-filetype-pdf"></i> Relatórios</h3>
                     <br>
                     <div class="flex justify-center">
-                        <a href="{{ route('reports.cursos', ['status' => 'todos']) }}"
-                           class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors content-center mr-5">
-                            <i class="bi bi-filetype-pdf"></i> Dis. Cadastradas
+                        <a href="{{ route('reports.disciplinas', ['status' => 'todas']) }}"
+                           class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 transition-colors">
+                            <i class="bi bi-file-earmark-text-fill"></i> Todas
                         </a>
-                        <a href="{{ route('reports.cursos', ['status' => 'ativos']) }}"
-                           class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors content-center mr-5">
-                            <i class="bi bi-filetype-pdf"></i> Dis. Ativas
+
+                        <a href="{{ route('reports.disciplinas', ['status' => 'ativas']) }}"
+                           class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 transition-colors ml-percent-5">
+                            <i class="bi bi-file-earmark-check-fill"></i> Disciplinas Ativas
                         </a>
-                        <a href="{{ route('reports.cursos', ['status' => 'inativos']) }}"
-                           class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors content-center">
-                            <i class="bi bi-filetype-pdf"></i> Dis. Inativas
+
+                        <a href="{{ route('reports.disciplinas', ['status' => 'inativas']) }}"
+                           class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 transition-colors ml-percent-5">
+                            <i class="bi bi-file-earmark-minus-fill"></i> Disciplinas Inativas
                         </a>
                     </div>
                 </div>
@@ -250,6 +252,8 @@
                     {{-- Garanta que a rota 'disciplinas.store' existe no seu arquivo web.php --}}
                     <form action="{{ route('instituicao.disciplinas.store') }}" method="POST" enctype="multipart/form-data" id="formDisciplina">
                         @csrf
+
+                        {{-- Exibe erros de validação, se houver --}}
                         @if ($errors->any())
                             <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-lg" role="alert">
                                 <p class="font-bold">Ocorreram alguns erros. Por favor, verifique:</p>
@@ -260,31 +264,35 @@
                                 </ul>
                             </div>
                         @endif
-                        {{-- LINHA 1: NOME E CURSO --}}
+
                         <div class="flex flex-wrap -mx-2">
-                            <div class="mb-4 w-full md:w-1/2 px-2">
+                            <div class="mb-4 w-full md:w-2/3 px-2">
                                 <label class="block text-[#272727] text-sm font-bold mb-2" for="nomeDisciplina">
-                                    <i class="bi bi-alphabet"></i> Nome<span class="text-red-800">*</span>
+                                    <i class="bi bi-alphabet"></i> Nome da Disciplina<span class="text-red-800">*</span>
                                 </label>
+                                {{-- CORREÇÃO: 'name' ajustado para 'nomeDisciplina' (singular) --}}
                                 <input
                                     type="text"
                                     name="nomeDisciplina"
                                     id="nomeDisciplina"
                                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
-                                    placeholder="Ex.: Matemática III, Algoritmos e Estruturas de Dados, etc."
+                                    placeholder="Ex.: Matemática III, Algoritmos e Estruturas de Dados"
                                     value="{{ old('nomeDisciplina') }}"
                                     required
                                 >
                             </div>
-                            <div class="mb-4 w-full md:w-1/2 px-2">
+                            <div class="mb-4 w-full md:w-1/3 px-2">
                                 <label class="block text-[#272727] text-sm font-bold mb-2" for="cursoDisciplina">
                                     <i class="bi bi-award"></i> Curso<span class="text-red-800">*</span>
                                 </label>
                                 <select name="cursoDisciplina" id="cursoDisciplina" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" required>
                                     <option value="" disabled selected>Selecione um Curso</option>
-                                    {{-- Este loop deve ser populado pelo seu Controller --}}
                                     @foreach ($cursos as $curso)
-                                        <option value="{{ $curso->id }}" {{ old('cursoDisciplina') == $curso->id ? 'selected' : '' }}>
+                                        <option
+                                            value="{{ $curso->id }}"
+                                            data-periodos="{{ $curso->periodosCurso }}"
+                                            {{ old('cursoDisciplina') == $curso->id ? 'selected' : '' }}
+                                        >
                                             {{ $curso->id }} - {{ $curso->nomeCurso }}
                                         </option>
                                     @endforeach
@@ -292,9 +300,6 @@
                             </div>
                         </div>
 
-                        {{-- ========================================================== --}}
-                        {{--    LINHA 2: CAMPOS DE CARGA HORÁRIA E TIPO RESTAURADOS AQUI   --}}
-                        {{-- ========================================================== --}}
                         <div class="flex flex-wrap -mx-2">
                             <div class="mb-4 w-full md:w-1/3 px-2">
                                 <label class="block text-[#272727] text-sm font-bold mb-2" for="cargaDisciplina">
@@ -305,7 +310,7 @@
                                     name="cargaDisciplina"
                                     id="cargaDisciplina"
                                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
-                                    placeholder="Ex.: 120, 60, 30"
+                                    placeholder="Ex.: 120"
                                     value="{{ old('cargaDisciplina') }}"
                                     required
                                 >
@@ -321,29 +326,38 @@
                                 </select>
                             </div>
                             <div class="mb-4 w-full md:w-1/3 px-2">
-                                <label class="block text-[#272727] text-sm font-bold mb-2" for="ementaDisciplina">
-                                    <i class="bi bi-paperclip"></i> Ementa (PDF, DOCX) Max. 5MB<span class="text-red-800">*</span>
+                                <label class="block text-[#272727] text-sm font-bold mb-2" for="periodoDisciplina">
+                                    <i class="bi bi-hash"></i> Período/Ano<span class="text-red-800">*</span>
                                 </label>
-                                <input
-                                    type="file"
-                                    name="ementaDisciplina"
-                                    id="ementaDisciplina"
-                                    class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-md file:border-0
-                file:text-sm file:font-semibold
-                file:bg-[#272727] file:text-white
-                hover:file:bg-gray-700"
-                                    accept=".pdf,.doc,.docx"
-                                >
+                                <select name="periodoDisciplina" id="periodoDisciplina" class="w-full px-3 py-2 border rounded-lg bg-gray-200 cursor-not-allowed" required disabled>
+                                    <option value="">Disponível após a seleção de curso</option>
+                                </select>
                             </div>
                         </div>
 
-                        {{-- LINHA 3: DESCRIÇÃO --}}
+                        <div class="mb-4 w-full">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-[#272727] text-sm font-bold" for="ementaDisciplina">
+                                    <i class="bi bi-paperclip"></i> Ementa da Disciplina (PDF ou DOCX)
+                                </label>
+                                {{-- Link para baixar o modelo --}}
+                                <a href="{{ asset('modelos/modelo_ementa.docx') }}" download class="text-xs text-[#272727] hover:text-gray-700 hover:underline font-semibold">
+                                    <i class="bi bi-download"></i> Baixar Modelo
+                                </a>
+                            </div>
+                            <input
+                                type="file"
+                                name="ementaDisciplina"
+                                id="ementaDisciplina"
+                                class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#272727] file:text-white hover:file:bg-gray-700"
+                                accept=".pdf,.doc,.docx"
+                            >
+                        </div>
+
                         <div class="flex">
                             <div class="mb-4 w-full">
                                 <label class="block text-[#272727] text-sm font-bold mb-2" for="descricaoDisciplina">
-                                    <i class="bi bi-body-text"></i> Descrição (Max. 200 caracteres)
+                                    <i class="bi bi-body-text"></i> Descrição (Opcional, max. 200 caracteres)
                                 </label>
                                 <textarea
                                     name="descricaoDisciplina"
@@ -357,21 +371,177 @@
                             </div>
                         </div>
 
-                        {{-- BOTÕES DE AÇÃO --}}
                         <div class="flex justify-end mt-4">
                             <button type="button" id="btnLimparCampos" class="cursor-pointer bg-gray-300 hover:bg-red-200 text-[#272727] py-2 px-4 rounded-lg mr-5">
                                 <i class="bi bi-eraser-fill"></i> Limpar Campos
                             </button>
-                            <button type="submit" class="cursor-pointer bg-[#272727] hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg">
+                            <button type="submit" class="cursor-pointer bg-[#272727] hover:bg-gray-600 text-white py-2 px-4 rounded-lg shadow-md">
                                 <i class="bi bi-floppy"></i> Salvar Disciplina
                             </button>
                         </div>
                     </form>
+
+                    {{-- Lembrete: O script para o select dinâmico de períodos deve estar nesta mesma página --}}
                 </div>
             </div>
+        <br>
 
         </div>
-        @include('components._footer')
+        <br>
+        <div class="bg-white rounded-xl shadow-2xl poppins-regular">
+            <h2 class="text-xl font-bold text-[#272727] mb-4 px-6 py-5"><i class="bi bi-table"></i> Lista de Disciplinas Cadastradas</h2>
+            <div class="overflow-x-auto px-6">
+                <div class="mb-4">
+                    <!-- Formulário de Busca -->
+                    <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso"><i class="bi bi-bar-chart-steps"></i> Busca Avançada</label>
+                    <form action=" " method="GET" class="flex items-center gap-2">
+                        <div class="relative w-full">
+                            <input
+                                type="text"
+                                name="busca"
+                                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
+                                placeholder="Pesquisar por nome do curso..."
+                                value="{{ request('busca') }}"
+                            >
+                        </div>
+                        <button type="submit" class="bg-[#272727] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-600 transition-colors">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        {{-- Link para limpar a busca --}}
+                        @if(request('busca'))
+                            <a href="{{ route('instituicao.disciplinas_create') }}" class="cursor-pointer bg-gray-300 hover:bg-red-200 text-[#272727] py-2 px-4 rounded-lg">
+                                <i class="bi bi-eraser-fill"></i>
+                            </a>
+                        @endif
+                    </form>
+                </div>
+                <br>
+                <table class="min-w-full bg-white">
+                    <thead class="bg-[#272727] text-white">
+                    <tr>
+                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-hash"></i> ID</th>
+                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-alphabet"></i> Nome da Disciplina</th>
+                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-clock"></i> Carga Horária</th>
+                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-award"></i> Curso</th>
+                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-toggles2"></i> Status</th>
+                        <th class="py-3 px-4 text-center text-sm font-semibold uppercase"><i class="bi bi-sliders"></i> Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                    @forelse ($disciplinas as $disciplina)
+                        <tr class="border-b border-gray-200 hover:bg-gray-50">
+                            <td class="py-3 px-4">{{ $disciplina->id }}</td>
+                            <td class="py-3 px-4">{{ $disciplina->nomeDisciplina }}</td>
+                            <td class="py-3 px-4">{{ $disciplina->cargaDisciplina }} horas</td>
+                            <td class="py-3 px-4">{{ $disciplina->curso->nomeCurso }}</td>
+                            <td class="py-3 px-4">
+                                {{-- Badge de status com cor condicional --}}
+                                @if ($disciplina->statusDisciplina == 'Ativa')
+                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Ativo</span>
+                                @else
+                                    <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Inativo</span>
+                                @endif
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <div class="flex justify-center items-center gap-2">
+                                    <button
+                                        type="button"
+                                        class="text-gray-600 hover:text-gray-900 cursor-pointer view-details-btn"
+                                        title="Ver Detalhes"
+                                        data-curso="{{ json_encode($disciplina) }}" {{-- Passa todos os dados do curso em formato JSON --}}
+                                    >
+                                        <i class="bi bi-eye-fill text-lg"></i>
+                                    </button>
+                                    {{-- Botão de Alterar --}}
+                                    <a href="{{ route('cursos.edit', $disciplina->id) }}" class="text-blue-600 hover:text-blue-900 cursor-pointer" title="Alterar Disciplina">
+                                        <i class="bi bi-pencil-square text-lg"></i>
+                                    </a>
+                                    {{-- Botão de Excluir (dentro de um formulário por segurança) --}}
+                                    <form action="{{ route('disciplina.destroy', $disciplina->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta disciplina?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-900 cursor-pointer" title="Excluir Disciplina">
+                                            <i class="bi bi-trash-fill text-lg"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="py-4 px-4 text-center text-gray-500">
+                                Nenhum curso cadastrado ainda.
+                            </td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
+            {{-- Links de Paginação --}}
+            <div class="mt-6 px-6 py-5 font-poppins-regular">
+                {{-- Verifica se há cursos para paginar --}}
+
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+        @if (session('success') || session('error'))
+            @php
+                $toastMessage = session('success') ?? session('error');
+                $isError = session()->has('error');
+            @endphp
+
+            <div
+                    id="toast-notification"
+                    class="
+            fixed top-4 right-4 z-50 {{-- <-- MUDANÇA AQUI --}}
+            w-full max-w-xs p-4 rounded-lg shadow-lg
+            text-white poppins-semibold
+            {{ $isError ? 'bg-red-500' : 'bg-green-500' }}
+
+            {{-- Classes de animação --}}
+            transition-all duration-500 ease-in-out
+            transform
+            opacity-0
+            -translate-y-4 {{-- <-- MUDANÇA NA ANIMAÇÃO AQUI --}}
+        "
+            >
+                <span id="toast-message">{{ $toastMessage }}</span>
+            </div>
+
+            <script>
+                (function () {
+                    const message = @json($toastMessage);
+                    const toastElement = document.getElementById('toast-notification');
+                    const messageElement = document.getElementById('toast-message');
+
+                    if (!toastElement || !messageElement || !message) {
+                        return;
+                    }
+
+                    messageElement.textContent = message;
+
+                    // ANIMAÇÃO DE ENTRADA
+                    requestAnimationFrame(() => {
+                        // Remove as classes que escondem o elemento.
+                        toastElement.classList.remove('opacity-0', '-translate-y-4'); // <-- MUDANÇA AQUI
+                    });
+
+                    // ANIMAÇÃO DE SAÍDA (após 3 segundos)
+                    setTimeout(() => {
+                        // Adiciona as classes para esconder o elemento novamente.
+                        toastElement.classList.add('opacity-0', '-translate-y-4'); // <-- MUDANÇA AQUI
+
+                        toastElement.addEventListener('transitionend', () => {
+                            toastElement.remove();
+                        }, {once: true});
+
+                    }, 3000); // 3 segundos
+                })();
+            </script>
+        @endif
         <script src="{{ asset('js/resetInputFormCursos.js') }}"></script>
+        <script src="{{ asset('js/selectionPeriodos.js') }}"></script>
 </body>
 </html>

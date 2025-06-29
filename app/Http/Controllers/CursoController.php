@@ -64,7 +64,14 @@ class CursoController extends Controller
             'cursos'
         ));
     }
+    public function getTotalDisciplinas(Curso $curso)
+    {
+        // A consulta que você queria: conta as disciplinas relacionadas a este curso.
+        $total = $curso->disciplinas()->count();
 
+        // Retorna a resposta em formato JSON, que o JavaScript pode entender facilmente.
+        return response()->json(['total_disciplinas' => $total]);
+    }
     /**
      * Armazena um novo curso no banco de dados.
      *
@@ -77,6 +84,7 @@ class CursoController extends Controller
         $request->validate([
             'nomeCurso' => 'required|string|max:255',
             'nivelCurso' => 'required|string',
+            'periodoCurso' => 'nullable|integer|min:1',
             'descricaoCurso' => 'nullable|string|max:200',
         ]);
 
@@ -84,6 +92,7 @@ class CursoController extends Controller
             Curso::create([
                 'nomeCurso' => $request->nomeCurso,
                 'nivelCurso' => $request->nivelCurso,
+                'periodosCurso' => $request->periodosCurso,
                 'descricaoCurso' => $request->descricaoCurso,
                 'instituicaoCurso' => session('usuario_id'),
                 'statusCurso' => 'Ativo',
@@ -92,39 +101,39 @@ class CursoController extends Controller
         } catch (QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
                 return redirect()->back()
-                    ->with('error', 'Este curso já está cadastrado para esta instituição.')
+                    ->with('error', '☒ Este curso já está cadastrado para esta instituição.')
                     ->withInput();
             }
             return redirect()->back()
-                ->with('error', 'Ocorreu um erro inesperado ao salvar o curso.')
+                ->with('error', '☒ Ocorreu um erro inesperado ao salvar o curso.')
                 ->withInput();
         }
 
         return redirect()->route('instituicao.cursos.create')
-                         ->with('success', 'Curso cadastrado com sucesso!');
+                         ->with('success', '✓ Curso cadastrado com sucesso!');
     }
     public function destroy(Curso $curso): RedirectResponse
     {
         // Verifica se o curso pertence à instituição do usuário logado
         if ($curso->instituicaoCurso !== session('usuario_id')) {
-            return redirect()->back()->with('error', 'Você não tem permissão para excluir este curso.');
+            return redirect()->back()->with('error', '☒ Você não tem permissão para excluir este curso.');
         }
 
         // Tenta excluir o curso e trata possíveis erros
         try {
             $curso->delete();
             return redirect()->route('instituicao.cursos.create')
-                             ->with('success', 'Curso excluído com sucesso!');
+                             ->with('success', '✓ Curso excluído com sucesso!');
         } catch (QueryException $e) {
             return redirect()->back()
-                             ->with('error', 'Ocorreu um erro ao excluir o curso. Verifique se ele não está vinculado a outras entidades.');
+                             ->with('error', '☒ Ocorreu um erro ao excluir o curso. Verifique se ele não está vinculado a outras entidades.');
         }
     }
     public function edit(Curso $curso): View
     {
         // Verifica se o curso pertence à instituição do usuário logado
         if ($curso->instituicaoCurso !== session('usuario_id')) {
-            abort(403, 'Você não tem permissão para editar este curso.');
+            abort(403, '☒ Você não tem permissão para editar este curso.');
         }
 
         return view('instituicao.cursos_edit', compact('curso'));
@@ -133,7 +142,7 @@ class CursoController extends Controller
     {
         // Verifica se o curso pertence à instituição do usuário logado
         if ($curso->instituicaoCurso !== session('usuario_id')) {
-            return redirect()->back()->with('error', 'Você não tem permissão para editar este curso.');
+            return redirect()->back()->with('error', '☒ Você não tem permissão para editar este curso.');
         }
 
         // Validação dos dados recebidos
@@ -153,6 +162,6 @@ class CursoController extends Controller
         ]);
 
         return redirect()->route('instituicao.cursos.create')
-                         ->with('success', 'Curso atualizado com sucesso!');
+                         ->with('success', '✓ Curso atualizado com sucesso!');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curso;
+use App\Models\Disciplina;
 use Illuminate\Http\Request;
 use App\Models\Instituicao;
 use Barryvdh\DomPDF\Facade\Pdf; // Importa a facade do PDF
@@ -48,6 +49,41 @@ class RelatorioController extends Controller
 
         // 6. Define o nome do arquivo e força o download no navegador do usuário
         $nomeArquivo = 'relatorio-cursos-' . $status . '-' . $instituicaoId . '.pdf';
+        return $pdf->download($nomeArquivo);
+    }
+    public function gerarRelatorioDisciplinas($status)
+    {
+        $instituicaoId = session('usuario_id');
+        if (!$instituicaoId) {
+            return redirect()->back()->with('error', 'Sessão inválida.');
+        }
+
+        $instituicao = Instituicao::find($instituicaoId);
+
+        // 1. Inicia a consulta em Disciplina, filtrando por cursos da instituição
+        $query = Disciplina::whereHas('curso', function ($q) use ($instituicaoId) {
+            $q->where('instituicaoCurso', $instituicaoId);
+        });
+
+        $titulo = "Relatório de Disciplinas Cadastradas";
+
+        // 2. Adiciona os filtros de status da disciplina
+        if ($status === 'ativas') {
+            $query->where('statusDisciplina', 'Ativa');
+            $titulo = "Relatório de Disciplinas Ativas";
+        } elseif ($status === 'inativas') {
+            $query->where('statusDisciplina', 'Inativo');
+            $titulo = "Relatório de Disciplinas Inativas";
+        }
+
+        // 3. Executa a consulta, trazendo os dados do curso junto (eager loading)
+        $disciplinas = $query->with('curso')->orderBy('nomeDisciplina', 'asc')->get();
+
+        // 4. Carrega uma nova view de PDF para as disciplinas
+        $pdf = PDF::loadView('reports.disciplinas_pdf', compact('disciplinas', 'titulo', 'instituicao'));
+
+        // 5. Gera o nome do arquivo e força o download
+        $nomeArquivo = 'relatorio-disciplinas-' . $status . '-' . date('Y-m-d') . '.pdf';
         return $pdf->download($nomeArquivo);
     }
 }

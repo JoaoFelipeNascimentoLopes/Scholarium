@@ -15,6 +15,7 @@ class Curso extends Model
         'nomeCurso',
         'instituicaoCurso',
         'nivelCurso',
+        'periodosCurso',
         'descricaoCurso',
         'statusCurso',
     ];
@@ -22,5 +23,12 @@ class Curso extends Model
     public function instituicao()
     {
         return $this->belongsTo(Instituicao::class, 'instituicaoCurso', 'id');
+    }
+    public function disciplinas()
+    {
+        // 1º Parâmetro: O Model da disciplina. Assumi que se chama 'Tbdisciplina'.
+        // 2º Parâmetro: O nome da coluna da chave estrangeira na tabela 'tbdisciplina'.
+        // 3º Parâmetro: O nome da chave primária na tabela de cursos (geralmente 'id').
+        return $this->hasMany(Disciplina::class, 'cursoDisciplina', 'id');
     }
 }

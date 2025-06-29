@@ -115,22 +115,32 @@ Route::get('/reports/cursos/{status}', [RelatorioController::class, 'gerarRelato
      // Em routes/web.php
 
 // Rota para exibir o formulário de edição de um curso específico
-Route::get('/instituicao/cursos/{curso}/editar', [CursoController::class, 'edit'])->name('cursos.edit');
+Route::get('/instituicao/cursos/{curso}/editar', [CursoController::class, 'edit'])->name('cursos.edit')->middleware(AuthInstituicao::class);
 
 // Rota para salvar as alterações do formulário de edição
-Route::put('/instituicao/cursos/{curso}', [CursoController::class, 'update'])->name('cursos.update');
+Route::put('/instituicao/cursos/{curso}', [CursoController::class, 'update'])->name('cursos.update')->middleware(AuthInstituicao::class);
 
 // Rota para excluir um curso
-Route::delete('/instituicao/cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy');
+Route::delete('/instituicao/cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy')->middleware(AuthInstituicao::class);
 
 // Rota para puxar os dados de um curso específico
-Route::get('/api/cursos/{curso}', [CursoController::class, 'getCursoData'])->name('cursos.data');
+Route::get('/api/cursos/{curso}', [CursoController::class, 'getCursoData'])->name('cursos.data')->middleware(AuthInstituicao::class);
+
+Route::get('/cursos/{curso}/total-disciplinas', [CursoController::class, 'getTotalDisciplinas'])->name('cursos.totalDisciplinas')->middleware(AuthInstituicao::class);
+
 
 // ROTAS - DISCIPLINAS
 // -------------------
 Route::get('/instituicao/disciplinas', [DisciplinaController::class, 'create'])->name('instituicao.disciplinas_create')->middleware(AuthInstituicao::class);
 
 Route::post('/instituicao/disciplinas', [DisciplinaController::class, 'store'])->name('instituicao.disciplinas.store')->middleware(AuthInstituicao::class);
+
+Route::delete('/instituicao/disciplinas/{disciplina}', [DisciplinaController::class, 'destroy'])->name('disciplina.destroy')->middleware(AuthInstituicao::class);
+
+// Em routes/web.php
+Route::get('/relatorios/disciplinas/{status}', [RelatorioController::class, 'gerarRelatorioDisciplinas'])
+    ->name('reports.disciplinas')
+    ->middleware(AuthInstituicao::class); // É importante proteger esta rota também
 
 // ROTAS - PROFESSOR
 // -----------------

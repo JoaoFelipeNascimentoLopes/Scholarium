@@ -17,6 +17,7 @@ class Disciplina extends Model
         'cursoDisciplina',
         'cargaDisciplina',
         'tipoDisciplina',
+        'periodoDisciplina',
         'ementaDisciplina',
         'descricaoDisciplina',
         'statusDisciplina',
