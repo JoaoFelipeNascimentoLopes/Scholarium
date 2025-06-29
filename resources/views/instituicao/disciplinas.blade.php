@@ -9,6 +9,8 @@
     @vite(['resources/js/app.js'])
     <link rel="icon" href="{{ asset('images/page_Icon.png') }}" type="image/png">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {{-- Biblioteca para Gerar Gráficos  --}}
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script> {{-- Plugin para adionar detalhes na Biblioteca de Gráficos  --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=history_edu"/>
@@ -233,12 +235,14 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-xl shadow-2xl poppins-regular w-1/2">
+            <div class="bg-white rounded-xl shadow-lg w-full md:w-1/2">
                 <div class="px-6 py-5">
-                    <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-bar-chart-line"></i> Disciplinas </h3>
+                    <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-bar-chart-line"></i> Disciplinas por Curso</h3>
                     <br>
-                    <canvas id="graficoNiveis" width="400" height="200"></canvas>
-
+                    {{-- Canvas para o único gráfico que vamos exibir --}}
+                    <div class="relative h-64 md:h-80"> {{-- Adicionado 'relative' e altura para responsividade --}}
+                        <canvas id="graficoDisciplinasPorCurso"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -453,7 +457,7 @@
                                         <i class="bi bi-eye-fill text-lg"></i>
                                     </button>
                                     {{-- Botão de Alterar --}}
-                                    <a href="{{-- route('cursos.edit', $disciplina->id) --}}" class="text-blue-600 hover:text-blue-900 cursor-pointer" title="Alterar Disciplina">
+                                    <a href="{{ route('disciplinas.edit', $disciplina->id) }}" class="text-blue-600 hover:text-blue-900 cursor-pointer" title="Alterar Disciplina">
                                         <i class="bi bi-pencil-square text-lg"></i>
                                     </a>
                                     {{-- Botão de Excluir (dentro de um formulário por segurança) --}}
@@ -543,5 +547,79 @@
         @endif
         <script src="{{ asset('js/resetInputFormCursos.js') }}"></script>
         <script src="{{ asset('js/selectionPeriodos.js') }}"></script>
+        <script src="{{ asset('js/graficoDisciplinasCurso.js') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+
+                // --- 1. REGISTRAR O PLUGIN GLOBALMENTE ---
+                // Esta linha "ativa" o plugin para que o Chart.js possa usá-lo.
+                // Coloque-a no início do seu script.
+                Chart.register(ChartDataLabels);
+
+                // --- CÓDIGO PARA O GRÁFICO DE DISCIPLINAS POR CURSO ---
+                const ctx = document.getElementById('graficoDisciplinasPorCurso');
+                if (ctx) {
+                    const labels = @json($labelsDisciplinasPorCurso);
+                    const data = @json($dataDisciplinasPorCurso);
+
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Nº de Disciplinas',
+                                data: data,
+                                backgroundColor: [
+                                    'rgba(39, 39, 39, 0.8)',
+                                    'rgba(239, 68, 68, 0.8)',   // Vermelho Forte
+                                    'rgba(34, 197, 94, 0.8)',   // Verde Vibrante
+                                    'rgba(217, 70, 239, 0.8)',  // Magenta/Fúcsia
+                                    'rgba(245, 158, 11, 0.8)',  // Âmbar/Dourado
+                                    'rgba(20, 184, 166, 0.8)',  // Verde-água (Teal)
+                                    'rgba(99, 102, 241, 0.8)',  // Índigo
+                                    'rgba(132, 204, 22, 0.8)',  // Verde Limão
+                                    'rgba(14, 165, 233, 0.8)',  // Azul Céu
+                                    'rgba(107, 114, 128, 0.8)',
+                                    'rgba(54, 162, 235, 0.8)',
+                                    'rgba(255, 206, 86, 0.8)',
+                                    'rgba(75, 192, 192, 0.8)',
+                                    'rgba(153, 102, 255, 0.8)',
+                                    'rgba(255, 159, 64, 0.8)'
+                                ],
+                                borderColor: '#ffffff',
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                },
+                                title: {
+                                    display: false,
+                                    text: 'Proporção de Disciplinas por Curso'
+                                },
+                                // --- 2. CONFIGURAR O PLUGIN PARA ESTE GRÁFICO ---
+                                datalabels: {
+                                    // Formata o número que aparece no gráfico
+                                    formatter: (value, context) => {
+                                        // Retorna apenas o valor numérico da fatia
+                                        return value;
+                                    },
+                                    // Define a cor do número
+                                    color: '#ffffff', // Branco, para ter um bom contraste com as fatias coloridas
+                                    font: {
+                                        weight: 'bold', // Deixa o número em negrito
+                                        size: 14 // Tamanho da fonte
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
 </body>
 </html>

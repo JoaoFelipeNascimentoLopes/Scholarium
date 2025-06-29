@@ -191,99 +191,107 @@
         </button>
         <br>
         <h1 class="text-2xl font-bold text-[#272727] mb-6"><i class="bi bi-arrow-clockwise"></i> Alteração de Dados</h1>
-        <p>Aqui você pode alterar os dados do Curso selecionado.</p>
+        <p>Aqui você pode alterar os dados da Disciplina selecionada.</p>
         <br>
         <div class="bg-white rounded-xl shadow-2xl poppins-regular p-8">
 
             {{-- Título da Página --}}
             <h1 class="text-2xl font-bold text-[#272727] mb-6">
-                <i class="bi bi-pencil-square"></i> Editar Curso: {{ $curso->nomeCurso }}
+                <i class="bi bi-pencil-square"></i> Editar Disciplina: {{ $disciplina->nomeDisciplina }}
             </h1>
 
-            <form action="{{ route('cursos.update', $curso->id) }}" method="POST">
+            <form action="{{ route('disciplinas.update', $disciplina->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT') {{-- Diretiva para usar o método HTTP PUT --}}
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{-- Nome do Curso --}}
-                    <div>
-                        <label for="nomeCurso" class="block text-sm font-medium text-gray-700"><i
-                                class="bi bi-alphabet"></i> Nome do Curso <span class="text-red-600">*</span></label>
-                        <input type="text" name="nomeCurso" id="nomeCurso"
-                               value="{{ old('nomeCurso', $curso->nomeCurso) }}"
-                               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
-                               required>
+                <fieldset class="space-y-6">
+
+                    {{-- Linha 1: Nome e Curso --}}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="nomeDisciplina" class="block text-sm font-medium text-gray-700">Nome da Disciplina <span class="text-red-600">*</span></label>
+                            <input type="text" name="nomeDisciplina" id="nomeDisciplina" value="{{ old('nomeDisciplina', $disciplina->nomeDisciplina) }}" class="mt-1 w-full px-3 py-2 border rounded-lg" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-2" for="cursoDisciplina">
+                                <i class="bi bi-award"></i> Curso (não pode ser alterado)
+                            </label>
+                            <input
+                                type="text"
+                                id="cursoDisciplina"
+                                class="w-full px-3 py-2 border rounded-lg bg-gray-100 cursor-not-allowed"
+                                value="{{ $disciplina->curso->nomeCurso }}"
+                                disabled
+                            >
+                        </div>
                     </div>
 
-                    {{-- Nível do Curso --}}
+                    {{-- Linha 2: Carga, Tipo e Período --}}
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label for="cargaDisciplina" class="block text-sm font-medium text-gray-700">Carga Horária (Horas) <span class="text-red-600">*</span></label>
+                            <input type="number" name="cargaDisciplina" id="cargaDisciplina" value="{{ old('cargaDisciplina', $disciplina->cargaDisciplina) }}" class="mt-1 w-full px-3 py-2 border rounded-lg" required>
+                        </div>
+                        <div>
+                            <label for="tipoDisciplina" class="block text-sm font-medium text-gray-700">Tipo <span class="text-red-600">*</span></label>
+                            <select name="tipoDisciplina" id="tipoDisciplina" class="mt-1 w-full px-3 py-2 border rounded-lg" required>
+                                <option value="Anual" {{ old('tipoDisciplina', $disciplina->tipoDisciplina) == 'Anual' ? 'selected' : '' }}>Anual</option>
+                                <option value="Semestral" {{ old('tipoDisciplina', $disciplina->tipoDisciplina) == 'Semestral' ? 'selected' : '' }}>Semestral</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="periodoDisciplina" class="block text-sm font-medium text-gray-700">Período/Ano <span class="text-red-600">*</span></label>
+                            <input type="number" name="periodoDisciplina" id="periodoDisciplina" value="{{ old('periodoDisciplina', $disciplina->periodoDisciplina) }}" class="mt-1 w-full px-3 py-2 border rounded-lg" required min="1">
+                        </div>
+                    </div>
+
+                    {{-- Linha 3: Descrição --}}
                     <div>
-                        <label for="nivelCurso" class="block text-sm font-medium text-gray-700"><i
-                                class="bi bi-bar-chart-steps"></i> Nível <span class="text-red-600">*</span></label>
-                        <select name="nivelCurso" id="nivelCurso"
-                                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
-                                required>
-                            <option
-                                value="Ensino Fundamental" {{ old('nivelCurso', $curso->nivelCurso) == 'Ensino Fundamental' ? 'selected' : '' }}>
-                                Ensino Fundamental
-                            </option>
-                            <option
-                                value="Ensino Médio" {{ old('nivelCurso', $curso->nivelCurso) == 'Ensino Médio' ? 'selected' : '' }}>
-                                Ensino Médio
-                            </option>
-                            <option
-                                value="Técnico" {{ old('nivelCurso', $curso->nivelCurso) == 'Técnico' ? 'selected' : '' }}>
-                                Técnico
-                            </option>
-                            <option
-                                value="Superior" {{ old('nivelCurso', $curso->nivelCurso) == 'Superior' ? 'selected' : '' }}>
-                                Superior
-                            </option>
-                            <option
-                                value="Pós-Graduação" {{ old('nivelCurso', $curso->nivelCurso) == 'Pós-Graduação' ? 'selected' : '' }}>
-                                Pós-Graduação
-                            </option>
+                        <label for="descricaoDisciplina" class="block text-sm font-medium text-gray-700">Descrição</label>
+                        <textarea name="descricaoDisciplina" id="descricaoDisciplina" rows="3" class="mt-1 w-full px-3 py-2 border rounded-lg">{{ old('descricaoDisciplina', $disciplina->descricaoDisciplina) }}</textarea>
+                    </div>
+
+                    {{-- Linha 4: Ementa --}}
+                    <div class="mb-4 w-full">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-[#272727] text-sm font-bold" for="ementaDisciplina">
+                                <i class="bi bi-paperclip"></i> Ementa da Disciplina (PDF ou DOCX)
+                            </label>
+                            {{-- Link para baixar o modelo --}}
+                            <a href="{{ asset('modelos/modelo_ementa.docx') }}" download class="text-xs text-[#272727] hover:text-gray-700 hover:underline font-semibold">
+                                <i class="bi bi-download"></i> Baixar Modelo
+                            </a>
+                        </div>
+                        <input
+                            type="file"
+                            name="ementaDisciplina"
+                            id="ementaDisciplina"
+                            class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#272727] file:text-white hover:file:bg-gray-700"
+                            accept=".pdf,.doc,.docx"
+                        >
+                    </div>
+
+                    {{-- Linha 5: Status --}}
+                    <div>
+                        <label for="statusDisciplina" class="block text-sm font-medium text-gray-700">Status <span class="text-red-600">*</span></label>
+                        <select name="statusDisciplina" id="statusDisciplina" class="mt-1 w-full px-3 py-2 border rounded-lg" required>
+                            <option value="Ativa" {{ old('statusDisciplina', $disciplina->statusDisciplina) == 'Ativa' ? 'selected' : '' }}>Ativa</option>
+                            <option value="Inativo" {{ old('statusDisciplina', $disciplina->statusDisciplina) == 'Inativo' ? 'selected' : '' }}>Inativo</option>
                         </select>
                     </div>
-                </div>
-
-                {{-- Descrição --}}
-                <div class="mt-6">
-                    <label for="descricaoCurso" class="block text-sm font-medium text-gray-700"><i
-                            class="bi bi-bar-chart-steps"></i> Descrição (Max. 200 caracteres)</label>
-                    <textarea name="descricaoCurso" id="descricaoCurso" rows="3" maxlength="200"
-                              class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600">{{ old('descricaoCurso', $curso->descricaoCurso) }}</textarea>
-                </div>
-
-                {{-- Status do Curso --}}
-                <div class="mt-6">
-                    <label for="statusCurso" class="block text-sm font-medium text-gray-700"><i
-                            class="bi bi-toggle2-off"></i> Status <span class="text-red-600">*</span></label>
-                    <select name="statusCurso" id="statusCurso"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
-                            required>
-                        <option
-                            value="Ativo" {{ old('statusCurso', $curso->statusCurso) == 'Ativo' ? 'selected' : '' }}>
-                            Ativo
-                        </option>
-                        <option
-                            value="Inativo" {{ old('statusCurso', $curso->statusCurso) == 'Inativo' ? 'selected' : '' }}>
-                            Inativo
-                        </option>
-                    </select>
-                </div>
+                </fieldset>
 
                 {{-- Botões de Ação --}}
                 <div class="mt-8 flex justify-end gap-4">
-                    <a href="{{ route('instituicao.cursos.create') }}"
-                       class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg border border-gray-300 hover:bg-red-200 focus:outline-none focus:ring-2 cursor-pointer focus:ring-offset-2 focus:ring-gray-600 transition-colors"><i
-                            class="bi bi-x-circle"></i> Cancelar
+                    <a href="{{ route('instituicao.disciplinas_create') }}" class="bg-white text-gray-700 font-semibold py-2 px-4 rounded-lg border border-gray-300 hover:bg-red-200 focus:outline-none focus:ring-2 cursor-pointer focus:ring-offset-2 focus:ring-gray-600 transition-colors">
+                        <i class="bi bi-x-circle"></i> Cancelar
                     </a>
-                    <button type="submit"
-                            class="cursor-pointer bg-[#272727] hover:bg-gray-600 text-white py-2 px-4 rounded-lg">
+                    <button type="submit" class="cursor-pointer bg-[#272727] hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg">
                         <i class="bi bi-floppy"></i> Salvar Alterações
                     </button>
                 </div>
             </form>
         </div>
+        <br>
 </body>
 </html>

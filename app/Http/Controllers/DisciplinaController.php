@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Curso;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 
 class DisciplinaController extends Controller
 {
@@ -36,8 +37,23 @@ class DisciplinaController extends Controller
             ->get();
 
         $queryDisciplinas = Disciplina::whereHas('curso', function ($query) use ($instituicaoId) {
-        $query->where('instituicaoCurso', $instituicaoId);
-    });
+            $query->where('instituicaoCurso', $instituicaoId);
+        });
+
+        // --- DADOS PARA O GRÁFICO (APENAS DISCIPLINAS POR CURSO) ---
+        $disciplinasPorCurso = Disciplina::whereHas('curso', function ($q) use ($instituicaoId) {
+            $q->where('instituicaoCurso', $instituicaoId);
+        })
+            ->join('tbcurso', 'tbdisciplina.cursoDisciplina', '=', 'tbcurso.id')
+            ->select('tbcurso.nomeCurso', DB::raw('count(*) as total'))
+            ->groupBy('tbcurso.nomeCurso')
+            ->orderBy('total', 'desc')
+            ->pluck('total', 'tbcurso.nomeCurso');
+
+        // Prepara os dados para o Chart.js
+        $labelsDisciplinasPorCurso = $disciplinasPorCurso->keys();
+        $dataDisciplinasPorCurso = $disciplinasPorCurso->values();
+
 
         if ($request->filled('busca')) {
             $queryDisciplinas->where('nomeDisciplina', 'LIKE', '%' . $request->busca . '%');
@@ -49,23 +65,23 @@ class DisciplinaController extends Controller
 
         // 2. Retorna a view do formulário e passa a variável '$cursos' para ela.
         //    (Assumindo que sua view se chama 'disciplinas_create.blade.php')
-        return view('instituicao.disciplinas', compact('cursos', 'totalDisciplinasAtivas', 'totalDisciplinasInativas', 'totalDisciplinas', 'disciplinas'));
+        return view('instituicao.disciplinas', compact('cursos', 'totalDisciplinasAtivas', 'totalDisciplinasInativas', 'totalDisciplinas', 'disciplinas', 'labelsDisciplinasPorCurso', 'dataDisciplinasPorCurso'));
     }
 
     public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
-            'nomeDisciplina'      => 'required|string|max:255',
-            'cursoDisciplina'     => 'required|exists:tbcurso,id',
-            'cargaDisciplina'     => 'required|integer|min:1',
-            'tipoDisciplina'      => 'required|string',
-            'periodoDisciplina'   => 'required|integer|min:1',
-            'ementaDisciplina'    => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'nomeDisciplina' => 'required|string|max:255',
+            'cursoDisciplina' => 'required|exists:tbcurso,id',
+            'cargaDisciplina' => 'required|integer|min:1',
+            'tipoDisciplina' => 'required|string',
+            'periodoDisciplina' => 'required|integer|min:1',
+            'ementaDisciplina' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
             'descricaoDisciplina' => 'nullable|string|max:200',
         ]);
 
         // Agora, quando adicionamos a ementa, estamos adicionando a um array que já tem os outros dados.
-        if($request->hasFile('ementaDisciplina')) {
+        if ($request->hasFile('ementaDisciplina')) {
             $path = $request->file('ementaDisciplina')->store('ementas', 'public');
             $validatedData['ementaDisciplina'] = $path;
         }
@@ -83,8 +99,13 @@ class DisciplinaController extends Controller
         return redirect()->route('instituicao.disciplinas_create')
             ->with('success', '✓ Disciplina cadastrada com sucesso!');
     }
+
     public function destroy(Disciplina $disciplina): \Illuminate\Http\RedirectResponse
     {
+        // A verificação de segurança para Disciplinas
+        if ($disciplina->cursoDisciplina->instituicaoCurso != session('usuario_id')) {
+            abort(403, 'Você não tem permissão para acessar esta disciplina.');
+        }
         // Tenta excluir o curso e trata possíveis erros
         try {
             $disciplina->delete();
@@ -94,5 +115,58 @@ class DisciplinaController extends Controller
             return redirect()->back()
                 ->with('error', '☒ Ocorreu um erro ao excluir a Disciplina. Verifique se ele não está vinculado a outras entidades.');
         }
+    }
+
+    // Em app/Http/Controllers/DisciplinaController.php
+
+    public function edit(Disciplina $disciplina): View
+    {
+        // A verificação de segurança agora acessa o relacionamento 'curso' primeiro
+        // para pegar o objeto Curso, e só então acessa a propriedade 'instituicaoCurso'.
+        if ($disciplina->curso->instituicaoCurso != session('usuario_id')) {
+            abort(403, 'Acesso Não Autorizado');
+        }
+
+        // Como o curso da disciplina não pode ser alterado, não precisamos buscar a lista de cursos.
+        // Apenas a disciplina que está sendo editada é enviada para a view.
+        return view('instituicao.disciplinas_edit', compact('disciplina'));
+    }
+
+    public function update(Request $request, Disciplina $disciplina): RedirectResponse
+    {
+        // Verificação de segurança (está ótima!)
+        if ($disciplina->curso->instituicaoCurso != session('usuario_id')) {
+            abort(403, 'Acesso Não Autorizado');
+        }
+
+        // 1. Validação Corrigida
+        // A chave 'cargaDisciplina' foi ajustada para corresponder ao formulário e ao banco.
+        $validatedData = $request->validate([
+            'nomeDisciplina'      => 'required|string|max:255',
+            'cargaDisciplina'     => 'required|integer|min:1',
+            'tipoDisciplina'      => 'required|string',
+            'periodoDisciplina'   => 'required|integer|min:1',
+            'descricaoDisciplina' => 'nullable|string|max:200',
+            'ementaDisciplina'    => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'statusDisciplina'    => 'required|string',
+        ]);
+
+        // 2. Lógica para tratar a ATUALIZAÇÃO do arquivo de ementa
+        if ($request->hasFile('ementaDisciplina')) {
+            // Se já existia um arquivo antigo, apaga ele primeiro.
+            if ($disciplina->ementaDisciplina) {
+                Storage::disk('public')->delete($disciplina->ementaDisciplina);
+            }
+            // Salva o novo arquivo e atualiza o caminho nos dados validados.
+            $validatedData['ementaDisciplina'] = $request->file('ementaDisciplina')->store('ementas', 'public');
+        }
+
+        // 3. Atualiza o registro no banco com todos os dados validados e processados.
+        $disciplina->update($validatedData);
+
+        // 4. Redirecionamento Corrigido
+        // Redireciona para a página de LISTAGEM para que o usuário veja a alteração.
+        return redirect()->route('instituicao.disciplinas_create')
+            ->with('success', '✓ Disciplina atualizada com sucesso!');
     }
 }

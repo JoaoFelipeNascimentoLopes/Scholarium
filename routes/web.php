@@ -112,8 +112,6 @@ Route::post('/instituicao/cursos', [CursoController::class, 'store'])
 Route::get('/reports/cursos/{status}', [RelatorioController::class, 'gerarRelatorioCursos'])
      ->name('reports.cursos');
 
-     // Em routes/web.php
-
 // Rota para exibir o formulário de edição de um curso específico
 Route::get('/instituicao/cursos/{curso}/editar', [CursoController::class, 'edit'])->name('cursos.edit')->middleware(AuthInstituicao::class);
 
@@ -138,12 +136,16 @@ Route::post('/instituicao/disciplinas', [DisciplinaController::class, 'store'])-
 Route::delete('/instituicao/disciplinas/{disciplina}', [DisciplinaController::class, 'destroy'])->name('disciplina.destroy')->middleware(AuthInstituicao::class);
 
 Route::get('/api/cursos/{curso}/disciplinas', [CursoController::class, 'getDisciplinasDoCurso'])
-    ->name('cursos.disciplinas.api');
+    ->name('cursos.disciplinas.api')->middleware(AuthInstituicao::class);
 
 // Em routes/web.php
 Route::get('/relatorios/disciplinas/{status}', [RelatorioController::class, 'gerarRelatorioDisciplinas'])
     ->name('reports.disciplinas')
     ->middleware(AuthInstituicao::class); // É importante proteger esta rota também
+
+Route::get('/instituicao/disciplinas/{disciplina}/editar', [DisciplinaController::class, 'edit'])->name('disciplinas.edit')->middleware(AuthInstituicao::class);
+
+Route::put('/instituicao/disciplinas/{disciplina}', [DisciplinaController::class, 'update'])->name('disciplinas.update')->middleware(AuthInstituicao::class);
 
 // ROTAS - PROFESSOR
 // -----------------
