@@ -570,21 +570,21 @@
                                 label: 'Nº de Disciplinas',
                                 data: data,
                                 backgroundColor: [
-                                    'rgba(39, 39, 39, 0.8)',
-                                    'rgba(239, 68, 68, 0.8)',   // Vermelho Forte
-                                    'rgba(34, 197, 94, 0.8)',   // Verde Vibrante
-                                    'rgba(217, 70, 239, 0.8)',  // Magenta/Fúcsia
-                                    'rgba(245, 158, 11, 0.8)',  // Âmbar/Dourado
-                                    'rgba(20, 184, 166, 0.8)',  // Verde-água (Teal)
-                                    'rgba(99, 102, 241, 0.8)',  // Índigo
-                                    'rgba(132, 204, 22, 0.8)',  // Verde Limão
-                                    'rgba(14, 165, 233, 0.8)',  // Azul Céu
-                                    'rgba(107, 114, 128, 0.8)',
-                                    'rgba(54, 162, 235, 0.8)',
-                                    'rgba(255, 206, 86, 0.8)',
-                                    'rgba(75, 192, 192, 0.8)',
-                                    'rgba(153, 102, 255, 0.8)',
-                                    'rgba(255, 159, 64, 0.8)'
+                                    'rgba(39, 39, 39, 0.8)',      // Sua cor principal: #272727
+                                    'rgba(82, 82, 82, 0.8)',      // Cinza Chumbo
+                                    'rgba(115, 115, 115, 0.8)',    // Cinza Médio-Escuro
+                                    'rgba(163, 163, 163, 0.8)',    // Cinza Médio
+                                    'rgba(212, 212, 212, 0.8)',    // Cinza Claro
+                                    'rgba(64, 64, 64, 0.8)',
+                                    'rgba(100, 100, 100, 0.8)',
+                                    'rgba(140, 140, 140, 0.8)',
+                                    'rgba(180, 180, 180, 0.8)',
+                                    'rgba(220, 220, 220, 0.8)',
+                                    'rgba(45, 45, 45, 0.8)',
+                                    'rgba(125, 125, 125, 0.8)',
+                                    'rgba(170, 170, 170, 0.8)',
+                                    'rgba(200, 200, 200, 0.8)',
+                                    'rgba(245, 245, 245, 0.8)'
                                 ],
                                 borderColor: '#ffffff',
                                 borderWidth: 2

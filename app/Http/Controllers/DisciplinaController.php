@@ -124,7 +124,7 @@ class DisciplinaController extends Controller
         // A verificação de segurança agora acessa o relacionamento 'curso' primeiro
         // para pegar o objeto Curso, e só então acessa a propriedade 'instituicaoCurso'.
         if ($disciplina->curso->instituicaoCurso != session('usuario_id')) {
-            abort(403, 'Acesso Não Autorizado');
+            abort(403, '☒ Acesso Não Autorizado');
         }
 
         // Como o curso da disciplina não pode ser alterado, não precisamos buscar a lista de cursos.
@@ -136,7 +136,7 @@ class DisciplinaController extends Controller
     {
         // Verificação de segurança (está ótima!)
         if ($disciplina->curso->instituicaoCurso != session('usuario_id')) {
-            abort(403, 'Acesso Não Autorizado');
+            abort(403, '☒ Acesso Não Autorizado');
         }
 
         // 1. Validação Corrigida
