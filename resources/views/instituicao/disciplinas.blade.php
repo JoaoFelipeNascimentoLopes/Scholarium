@@ -450,12 +450,20 @@
                                 <div class="flex justify-center items-center gap-2">
                                     <button
                                         type="button"
-                                        class="text-gray-600 hover:text-gray-900 cursor-pointer view-details-btn"
+                                        class="text-gray-600 hover:text-blue-900 cursor-pointer view-disciplina-details-btn"
                                         title="Ver Detalhes"
-                                        data-curso="{{ json_encode($disciplina) }}" {{-- Passa todos os dados do curso em formato JSON --}}
+                                        data-url="{{ route('disciplinas.data', $disciplina->id) }}"
                                     >
                                         <i class="bi bi-eye-fill text-lg"></i>
                                     </button>
+                                    @if ($disciplina->ementaDisciplina)
+                                        <a  href="{{ Storage::url($disciplina->ementaDisciplina) }}"
+                                            download
+                                            class="text-green-600 hover:text-green-900"
+                                            title="Baixar Ementa">
+                                            <i class="bi bi-file-earmark-arrow-down-fill text-lg"></i>
+                                        </a>
+                                    @endif
                                     {{-- Botão de Alterar --}}
                                     <a href="{{ route('disciplinas.edit', $disciplina->id) }}" class="text-blue-600 hover:text-blue-900 cursor-pointer" title="Alterar Disciplina">
                                         <i class="bi bi-pencil-square text-lg"></i>
@@ -480,6 +488,45 @@
                     @endforelse
                     </tbody>
                 </table>
+            </div>
+            {{-- Modal - Detalhes da DIsciplina --}}
+            <div id="detailsModal" class="fixed hidden inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-center justify-center p-4 transition-opacity duration-300">
+                <div class="relative mx-auto p-5 w-auto min-w-[320px] max-w-[95%] md:max-w-5xl flex flex-col max-h-[90vh] shadow-lg rounded-md bg-white">
+                    <div class="flex justify-between items-start pb-3">
+                        <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-info-circle-fill"></i> Detalhes da Disciplina</h3>
+                        <button id="closeModalBtn" class="text-black cursor-pointer text-2xl leading-none">&times;</button>
+                    </div>
+                    <div class="flex flex-wrap md:flex-nowrap">
+                        <div class="w-full md:w-1/2 md:mr-4">
+                            <div class="mt-4 space-y-4 poppins-regular text-justify w-full">
+                                <div class="flex justify-between">
+                                    <p><strong><i class="bi bi-hash"></i> ID:</strong> <span id="modal-disciplina-id"></span></p>
+                                    <p><strong><i class="bi bi-toggles2"></i> Status:</strong> <span id="modal-disciplina-status"></span></p>
+                                </div>
+
+                                <p><strong><i class="bi bi-alphabet"></i> Nome:</strong> <span id="modal-disciplina-nome"></span></p>
+                                <p><strong><i class="bi bi-award"></i> Curso:</strong> <span id="modal-disciplina-curso"></span></p>
+                                <p><strong><i class="bi bi-clock"></i> Carga Horária: </strong> <span id="modal-disciplina-carga" class="font-regular text-[#272727]"></span></p>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-1/2 md:ml-4">
+                            <div class="mt-4 space-y-4 poppins-regular">
+                                <p><strong><i class="bi bi-bookmark"></i> Tipo: </strong> <span id="modal-disciplina-tipo"></span></p>
+                                <p><strong><i class="bi bi-hash"></i> Período: </strong> <span id="modal-disciplina-periodo"></span></p>
+
+                                <p><strong><i class="bi bi-people-fill"></i> Alunos Matriculados: </strong> <span id="modal-disciplina-alunos">A implementar</span></p>
+                                <p><strong><i class="bi bi-calendar3"></i> Data de Criação:</strong> <span id="modal-disciplina-createdAt"></span></p>
+                                <p><strong><i class="bi bi-calendar3"></i> Última Atualização:</strong> <span id="modal-disciplina-updatedAt"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4">
+                        <p class="text-justify"><strong><i class="bi bi-card-text"></i> Descrição:</strong> <span id="modal-disciplina-descricao"></span></p>
+                    </div>
+                    <div class="mt-4 pt-4 text-xs text-gray-500">
+
+                    </div>
+                </div>
             </div>
             {{-- Links de Paginação --}}
             <div class="mt-6 px-6 py-5 font-poppins-regular">
@@ -621,5 +668,79 @@
                 }
             });
         </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('detailsModal');
+        if (!modal) return;
+
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const openModalBtns = document.querySelectorAll('.view-disciplina-details-btn');
+
+        // Seleciona todos os spans que vamos preencher
+        const modalId = document.getElementById('modal-disciplina-id');
+        const modalNome = document.getElementById('modal-disciplina-nome');
+        const modalCurso = document.getElementById('modal-disciplina-curso');
+        const modalCarga = document.getElementById('modal-disciplina-carga');
+        const modalTipo = document.getElementById('modal-disciplina-tipo');
+        const modalPeriodo = document.getElementById('modal-disciplina-periodo');
+        const modalStatus = document.getElementById('modal-disciplina-status');
+        const modalDescricao = document.getElementById('modal-disciplina-descricao');
+        const modalCreatedAt = document.getElementById('modal-disciplina-createdAt');
+        const modalUpdatedAt = document.getElementById('modal-disciplina-updatedAt');
+
+        function formatarData(dataString) {
+            if (!dataString) return 'N/A';
+            const data = new Date(dataString);
+            return data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+
+        openModalBtns.forEach(button => {
+            button.addEventListener('click', async function () {
+                const url = this.dataset.url;
+
+                // Mostra um estado de "carregando" e abre o modal
+                modalId.textContent = 'Carregando...';
+                // ... pode fazer o mesmo para outros campos ...
+                modal.classList.remove('hidden');
+
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Falha ao carregar dados da disciplina.');
+
+                    const disciplina = await response.json();
+
+                    // Preenche o modal com os dados recebidos
+                    modalId.textContent = disciplina.id;
+                    modalNome.textContent = disciplina.nomeDisciplina;
+                    // Acessa o nome do curso através do relacionamento carregado
+                    modalCurso.textContent = disciplina.curso ? disciplina.curso.nomeCurso : 'N/A';
+                    modalCarga.textContent = `${disciplina.cargaDisciplina} horas`;
+                    modalTipo.textContent = disciplina.tipoDisciplina;
+                    modalPeriodo.textContent = disciplina.periodoDisciplina ? `${disciplina.periodoDisciplina}º Período` : 'Não definido';
+                    modalDescricao.textContent = disciplina.descricaoDisciplina || 'Nenhuma descrição fornecida.';
+                    modalCreatedAt.textContent = formatarData(disciplina.created_at);
+                    modalUpdatedAt.textContent = formatarData(disciplina.updated_at);
+
+                    // Preenche o badge de status
+                    if (disciplina.statusDisciplina.toLowerCase() === 'ativa') {
+                        modalStatus.innerHTML = `<span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Ativo</span>`;
+                    } else {
+                        modalStatus.innerHTML = `<span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Inativo</span>`;
+                    }
+
+                } catch (error) {
+                    console.error('Erro ao buscar detalhes da disciplina:', error);
+                    modalNome.textContent = 'Erro ao carregar dados.';
+                }
+            });
+        });
+
+        // Lógica para fechar o modal
+        const closeModal = () => modal.classList.add('hidden');
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => (event.target === modal) && closeModal());
+        document.addEventListener('keydown', (event) => (event.key === "Escape" && !modal.classList.contains('hidden')) && closeModal());
+    });
+</script>
 </body>
 </html>

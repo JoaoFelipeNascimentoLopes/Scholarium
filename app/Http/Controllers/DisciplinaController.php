@@ -169,4 +169,17 @@ class DisciplinaController extends Controller
         return redirect()->route('instituicao.disciplinas_create')
             ->with('success', '✓ Disciplina atualizada com sucesso!');
     }
+    public function getDisciplinaData(Disciplina $disciplina)
+    {
+        // Segurança: Garante que só se pode pegar dados de disciplinas da própria instituição
+        if ($disciplina->curso->instituicaoCurso != session('usuario_id')) {
+            abort(403, 'Acesso não autorizado.');
+        }
+
+        // Carrega o relacionamento 'curso' para que os dados do curso venham junto
+        $disciplina->load('curso');
+
+        // Retorna a disciplina (com os dados do curso aninhados) como uma resposta JSON
+        return response()->json($disciplina);
+    }
 }

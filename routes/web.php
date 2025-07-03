@@ -147,6 +147,11 @@ Route::get('/instituicao/disciplinas/{disciplina}/editar', [DisciplinaController
 
 Route::put('/instituicao/disciplinas/{disciplina}', [DisciplinaController::class, 'update'])->name('disciplinas.update')->middleware(AuthInstituicao::class);
 
+// Rota de "API" para buscar os dados de uma disciplina para o modal
+Route::get('/api/disciplinas/{disciplina}', [DisciplinaController::class, 'getDisciplinaData'])
+    ->name('disciplinas.data')
+    ->middleware(AuthInstituicao::class);
+
 // ROTAS - PROFESSOR
 // -----------------
 

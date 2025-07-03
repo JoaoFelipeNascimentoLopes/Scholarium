@@ -196,8 +196,8 @@
         <div class="bg-white rounded-xl shadow-2xl poppins-regular p-8">
 
             {{-- Título da Página --}}
-            <h1 class="text-2xl font-bold text-[#272727] mb-6">
-                <i class="bi bi-pencil-square"></i> Editar Disciplina: {{ $disciplina->nomeDisciplina }}
+            <h1 class="text-xl text-[#272727] mb-6">
+                <i class="bi bi-pencil-square font-semibold"></i><strong> Editar Disciplina: </strong>{{$disciplina->id}} - {{ $disciplina->nomeDisciplina }} - {{ $disciplina->curso->nomeCurso }}
             </h1>
 
             <form action="{{ route('disciplinas.update', $disciplina->id) }}" method="POST" enctype="multipart/form-data">
@@ -248,7 +248,7 @@
                     {{-- Linha 3: Descrição --}}
                     <div>
                         <label for="descricaoDisciplina" class="block text-sm font-medium text-gray-700">Descrição</label>
-                        <textarea name="descricaoDisciplina" id="descricaoDisciplina" rows="3" class="mt-1 w-full px-3 py-2 border rounded-lg">{{ old('descricaoDisciplina', $disciplina->descricaoDisciplina) }}</textarea>
+                        <textarea name="descricaoDisciplina" id="descricaoDisciplina" maxlength="200" rows="3" class="mt-1 w-full px-3 py-2 border rounded-lg">{{ old('descricaoDisciplina', $disciplina->descricaoDisciplina) }}</textarea>
                     </div>
 
                     {{-- Linha 4: Ementa --}}

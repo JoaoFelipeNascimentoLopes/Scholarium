@@ -469,7 +469,7 @@
                 <div id="detailsModal"
                      class="fixed hidden inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-center justify-center p-4 transition-opacity duration-300">
                     <div
-                        class="relative mx-auto p-5 w-auto min-w-[320px] max-w-[95%] md:max-w-3xl flex flex-col max-h-[90vh] shadow-lg rounded-md bg-white">
+                        class="relative mx-auto p-5 w-auto min-w-[320px] max-w-[95%] md:max-w-5xl flex flex-col max-h-[90vh] shadow-lg rounded-md bg-white">
                         <div class="flex justify-between items-start pb-3">
                             <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-info-circle-fill"></i> Detalhes
                                 do Curso</h3>
