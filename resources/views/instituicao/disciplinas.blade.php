@@ -316,6 +316,7 @@
                                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
                                     placeholder="Ex.: 120"
                                     value="{{ old('cargaDisciplina') }}"
+                                    min="1"
                                     required
                                 >
                             </div>
@@ -433,7 +434,7 @@
                     </thead>
                     <tbody class="text-gray-700">
                     @forelse ($disciplinas as $disciplina)
-                        <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <tr class="border-b border-gray-200 hover:bg-gray-200">
                             <td class="py-3 px-4">{{ $disciplina->id }}</td>
                             <td class="py-3 px-4">{{ $disciplina->nomeDisciplina }}</td>
                             <td class="py-3 px-4">{{ $disciplina->cargaDisciplina }} horas</td>

@@ -308,7 +308,7 @@
                                 >
                             </div>
                             <!-- Nível -->
-                            <div class="mb-4 w-2/5">
+                            <div class="mb-4 w-1/5 mr-percent-1">
                                 <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso"><i
                                         class="bi bi-bar-chart-steps"></i> Nível<span
                                         class="text-red-800">*</span></label>
@@ -414,7 +414,7 @@
                     </thead>
                     <tbody class="text-gray-700">
                     @forelse ($cursos as $curso)
-                        <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <tr class="border-b border-gray-200 hover:bg-gray-200">
                             <td class="py-3 px-4">{{ $curso->id }}</td>
                             <td class="py-3 px-4">{{ $curso->nomeCurso }}</td>
                             <td class="py-3 px-4">{{ $curso->nivelCurso }}</td>
