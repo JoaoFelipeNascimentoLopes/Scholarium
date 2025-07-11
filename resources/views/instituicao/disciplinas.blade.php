@@ -426,9 +426,9 @@
                     <tr>
                         <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-hash"></i> ID</th>
                         <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-alphabet"></i> Nome da Disciplina</th>
-                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-clock"></i> Carga Horária</th>
+                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-clock"></i> Carga H.</th>
                         <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-award"></i> Curso</th>
-                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-toggles2"></i> Status</th>
+                        <th class="py-3 px-2.5 text-left text-sm font-semibold uppercase"><i class="bi bi-toggles2"></i> Status</th>
                         <th class="py-3 px-4 text-center text-sm font-semibold uppercase"><i class="bi bi-sliders"></i> Ações</th>
                     </tr>
                     </thead>
@@ -438,13 +438,13 @@
                             <td class="py-3 px-4">{{ $disciplina->id }}</td>
                             <td class="py-3 px-4">{{ $disciplina->nomeDisciplina }}</td>
                             <td class="py-3 px-4">{{ $disciplina->cargaDisciplina }} horas</td>
-                            <td class="py-3 px-4">{{ $disciplina->curso->nomeCurso }}</td>
-                            <td class="py-3 px-4">
+                            <td class="py-3 px-4">{{ $disciplina->curso->id }} - {{ $disciplina->curso->nomeCurso }}</td>
+                            <td class="py-3 px-2.5">
                                 {{-- Badge de status com cor condicional --}}
                                 @if ($disciplina->statusDisciplina == 'Ativa')
-                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Ativo</span>
+                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">● Ativa</span>
                                 @else
-                                    <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Inativo</span>
+                                    <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">● Inativa</span>
                                 @endif
                             </td>
                             <td class="py-3 px-4 text-center">
