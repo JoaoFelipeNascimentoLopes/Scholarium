@@ -24,7 +24,7 @@ class DisciplinaController extends Controller
             ->count();
 
         $totalDisciplinasInativas = Disciplina::where('statusDisciplina', 'Inativo') // 1. Filtra primeiro por status 'Inativo'
-        ->whereHas('curso', function ($query) use ($instituicaoId) {     // 2. Depois, filtra por cursos da instituição
+        ->whereHas('curso', function ($query) use ($instituicaoId) {     // 2. Depois filtra por cursos da instituição
             $query->where('instituicaoCurso', $instituicaoId);
         })
             ->count();
