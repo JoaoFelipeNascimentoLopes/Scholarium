@@ -343,7 +343,7 @@
                         <div class="mb-4 w-full">
                             <div class="flex justify-between items-center mb-2">
                                 <label class="block text-[#272727] text-sm font-bold" for="ementaDisciplina">
-                                    <i class="bi bi-paperclip"></i> Ementa da Disciplina (PDF ou DOCX)
+                                    <i class="bi bi-paperclip"></i> Ementa da Disciplina (PDF ou DOCX)<span class="text-red-800">*</span>
                                 </label>
                                 {{-- Link para baixar o modelo --}}
                                 <a href="{{ asset('modelos/modelo_ementa.docx') }}" download class="text-xs text-[#272727] hover:text-gray-700 hover:underline font-semibold">
@@ -399,7 +399,7 @@
                 <div class="mb-4">
                     <!-- Formulário de Busca -->
                     <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso"><i class="bi bi-bar-chart-steps"></i> Busca Avançada</label>
-                    <form action=" " method="GET" class="flex items-center gap-2">
+                    <form action=" " method="GET" class="flex items-center gap-2" id="pesquisaDisciplinas">
                         <div class="relative w-full">
                             <input
                                 type="text"
@@ -409,15 +409,13 @@
                                 value="{{ request('busca') }}"
                             >
                         </div>
-                        <button type="submit" class="bg-[#272727] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-600 transition-colors">
+                        <button type="submit" class="bg-[#272727] text-white font-semibold py-2.5 px-4 rounded-lg shadow hover:bg-gray-600 transition-colors">
                             <i class="bi bi-search"></i>
                         </button>
                         {{-- Link para limpar a busca --}}
-                        @if(request('busca'))
-                            <a href="{{ route('instituicao.disciplinas_create') }}" class="cursor-pointer bg-gray-300 hover:bg-red-200 text-[#272727] py-2 px-4 rounded-lg">
-                                <i class="bi bi-eraser-fill"></i>
-                            </a>
-                        @endif
+                        <button type="button" id="btnLimparCamposPesquisa" class="cursor-pointer bg-gray-300 hover:bg-red-200 text-[#272727] py-2.5 px-4 rounded-lg mr-5">
+                            <i class="bi bi-eraser-fill"></i>
+                        </button>
                     </form>
                 </div>
                 <br>
