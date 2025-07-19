@@ -103,7 +103,7 @@ class DisciplinaController extends Controller
     public function destroy(Disciplina $disciplina): \Illuminate\Http\RedirectResponse
     {
         // A verificação de segurança para Disciplinas
-        if ($disciplina->cursoDisciplina->instituicaoCurso != session('usuario_id')) {
+        if ($disciplina->curso->instituicaoCurso != session('usuario_id')) {
             abort(403, 'Você não tem permissão para acessar esta disciplina.');
         }
         // Tenta excluir o curso e trata possíveis erros
