@@ -97,7 +97,7 @@ class DisciplinaController extends Controller
 
         // MELHORIA: Redirecionando para a lista de disciplinas para ver o novo item cadastrado.
         return redirect()->route('instituicao.disciplinas_create')
-            ->with('success', '✓ Disciplina cadastrada com sucesso!');
+            ->with('success', '✔ Disciplina cadastrada com sucesso!');
     }
 
     public function destroy(Disciplina $disciplina): \Illuminate\Http\RedirectResponse
@@ -110,10 +110,10 @@ class DisciplinaController extends Controller
         try {
             $disciplina->delete();
             return redirect()->route('instituicao.disciplinas_create')
-                ->with('success', '✓ Disciplina excluída com sucesso!');
+                ->with('success', '✔ Disciplina excluída com sucesso!');
         } catch (QueryException $e) {
             return redirect()->back()
-                ->with('error', '☒ Ocorreu um erro ao excluir a Disciplina. Verifique se ele não está vinculado a outras entidades.');
+                ->with('error', '🗙 Ocorreu um erro ao excluir a Disciplina. Verifique se ele não está vinculado a outras entidades.');
         }
     }
 
@@ -167,7 +167,7 @@ class DisciplinaController extends Controller
         // 4. Redirecionamento Corrigido
         // Redireciona para a página de LISTAGEM para que o usuário veja a alteração.
         return redirect()->route('instituicao.disciplinas_create')
-            ->with('success', '✓ Disciplina atualizada com sucesso!');
+            ->with('success', '✔ Disciplina atualizada com sucesso!');
     }
     public function getDisciplinaData(Disciplina $disciplina)
     {

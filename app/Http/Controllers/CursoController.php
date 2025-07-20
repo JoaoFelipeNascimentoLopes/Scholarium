@@ -110,23 +110,23 @@ class CursoController extends Controller
         }
 
         return redirect()->route('instituicao.cursos.create')
-                         ->with('success', '✓ Curso cadastrado com sucesso!');
+                         ->with('success', '✔ Curso cadastrado com sucesso!');
     }
     public function destroy(Curso $curso): RedirectResponse
     {
         // Verifica se o curso pertence à instituição do usuário logado
         if ($curso->instituicaoCurso !== session('usuario_id')) {
-            return redirect()->back()->with('error', '☒ Você não tem permissão para excluir este curso.');
+            return redirect()->back()->with('error', '🗙 Você não tem permissão para excluir este curso.');
         }
 
         // Tenta excluir o curso e trata possíveis erros
         try {
             $curso->delete();
             return redirect()->route('instituicao.cursos.create')
-                             ->with('success', '✓ Curso excluído com sucesso!');
+                             ->with('success', '✔ Curso excluído com sucesso!');
         } catch (QueryException $e) {
             return redirect()->back()
-                             ->with('error', '☒ Ocorreu um erro ao excluir o curso. Verifique se ele não está vinculado a outras entidades.');
+                             ->with('error', '🗙 Ocorreu um erro ao excluir o curso. Verifique se ele não está vinculado a outras entidades.');
         }
     }
     public function edit(Curso $curso): View
@@ -142,7 +142,7 @@ class CursoController extends Controller
     {
         // Verifica se o curso pertence à instituição do usuário logado
         if ($curso->instituicaoCurso !== session('usuario_id')) {
-            return redirect()->back()->with('error', '☒ Você não tem permissão para editar este curso.');
+            return redirect()->back()->with('error', '🗙 Você não tem permissão para editar este curso.');
         }
 
         // Validação dos dados recebidos
@@ -162,7 +162,7 @@ class CursoController extends Controller
         ]);
 
         return redirect()->route('instituicao.cursos.create')
-                         ->with('success', '✓ Curso atualizado com sucesso!');
+                         ->with('success', '✔ Curso atualizado com sucesso!');
     }
     public function getDisciplinasDoCurso(Curso $curso)
     {
