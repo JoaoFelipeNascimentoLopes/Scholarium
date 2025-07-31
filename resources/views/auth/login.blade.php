@@ -217,21 +217,19 @@
             @endif
             <form action="" method="POST">
                 @csrf
-                <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="bi bi-person-bounding-box"></i> Tipo de
-                    Usuário</h2>
+                <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="bi bi-person-bounding-box"></i> Tipo de Usuário</h2>
                 <hr>
                 <br>
                 <fieldset class="space-y-3 flex justify-between ml-percent-5 mr-percent-5">
+                    {{-- Seus radio buttons de tipo de usuário --}}
                     <label class="flex items-center space-x-2">
                         <input type="radio" name="opcao" value="1" class="accent-[#272727]" checked />
                         <span><i class="bi bi-buildings"></i> Instituição</span>
                     </label>
-
                     <label class="flex items-center space-x-2">
                         <input type="radio" name="opcao" value="2" class="accent-[#272727]" />
                         <span><i class="bi bi-clipboard-data"></i> Professor</span>
                     </label>
-
                     <label class="flex items-center space-x-2">
                         <input type="radio" name="opcao" value="3" class="accent-[#272727]" />
                         <span><i class="bi bi-backpack"></i> Estudante</span>
@@ -243,32 +241,43 @@
                 <br>
                 <div class="flex">
                     <div class="mb-4 w-3/5">
-                        <label for="emailLogin" class="block text-[#272727] text-sm font-bold mb-2"><i
-                                class="bi bi-envelope-at"></i> E-Mail<span class="text-red-800">*</span></label>
-                        <input 
-                            type="email" 
-                            name="emailLogin" 
+                        <label for="emailLogin" class="block text-[#272727] text-sm font-bold mb-2">
+                            <i class="bi bi-envelope-at"></i> E-Mail<span class="text-red-800">*</span>
+                        </label>
+                        <input
+                            type="email"
+                            name="emailLogin"
                             id="emailLogin"
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Ex.: administração@escolabrazil.com" 
-                            value="{{ old('emailLogin') }}" 
+                            placeholder="Ex.: administração@escolabrazil.com"
+                            value="{{ old('emailLogin') }}"
                             required>
                     </div>
-                    <div class="mb-4 ml-percent-5 w-2/5">
-                        <label for="senhaLogin" class="block text-[#272727] text-sm font-bold mb-2"><i
-                                class="bi bi-person-lock"></i> Senha<span class="text-red-800">*</span></label>
-                        <input 
-                            type="password" 
-                            name="senhaLogin" 
+
+                    <div class="mb-4 ml-percent-5 w-2/5 relative">
+                        <label for="senhaLogin" class="block text-[#272727] text-sm font-bold mb-2">
+                            <i class="bi bi-person-lock"></i> Senha<span class="text-red-800">*</span>
+                        </label>
+                        {{-- Adicionado padding à direita (pr-10) para dar espaço ao ícone --}}
+                        <input
+                            type="password"
+                            name="senhaLogin"
                             id="senhaLogin"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Ex.: Pass@123" 
+                            class="w-full px-3 pr-10 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Ex.: Pass@123"
                             required>
+
+                        {{-- Botão de visualizar senha posicionado sobre o input --}}
+                        <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 top-6 pr-3 flex items-center" title="Mostrar/Esconder Senha">
+                            <i id="eyeIcon" class="bi bi-eye-slash-fill text-gray-400 hover:text-[#272727]"></i>
+                        </button>
                     </div>
                 </div>
                 <br>
                 <div>
-                    <button type="submit" class="w-full bg-[#272727] text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition"><i class="bi bi-box-arrow-in-right"></i> Login</button>
+                    <button type="submit" class="w-full bg-[#272727] text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </button>
                 </div>
             </form>
             <br>
@@ -289,5 +298,6 @@
         </div>
     </footer>
     <br>
+    <script src="{{ asset('js/viewPassword.js') }}"></script>
 </body>
 </html>

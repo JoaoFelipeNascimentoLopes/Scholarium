@@ -227,11 +227,11 @@
                     <!-- Nome -->
                     <div class="mb-4 w-3/5">
                         <label class="block text-[#272727] text-sm font-bold mb-2" for="nomeInstituicao"><i class="bi bi-alphabet"></i> Nome<span class="text-red-800">*</span></label>
-                        <input 
-                            type="text" 
-                            name="nomeInstituicao" 
-                            id="nomeInstituicao" 
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                        <input
+                            type="text"
+                            name="nomeInstituicao"
+                            id="nomeInstituicao"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Ex.: Escola Brasil"
                             required
                         >
@@ -239,11 +239,11 @@
                     <!-- CNPJ -->
                     <div class="mb-4 ml-percent-5 w-2/5">
                         <label for="cnpjInstituicao" class="block text-[#272727] text-sm font-bold mb-2"><i class="bi bi-hash"></i> CNPJ<span class="text-red-800">*</span></label>
-                        <input 
-                            type="text" 
-                            name="cnpjInstituicao" 
-                            id="cnpjInstituicao" 
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                        <input
+                            type="text"
+                            name="cnpjInstituicao"
+                            id="cnpjInstituicao"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Ex.: 12.345.678/0001-90"
                             maxlength="18"
                             required
@@ -254,7 +254,7 @@
                     <!-- E-Mail -->
                     <div class="mb-4 w-3/5">
                         <label for="emailInstituicao" class="block text-[#272727] text-sm font-bold mb-2"><i class="bi bi-envelope-at"></i> E-Mail<span class="text-red-800">*</span></label>
-                        <input 
+                        <input
                             type="email"
                             name="emailInstituicao"
                             id="emailInstituicao"
@@ -267,7 +267,7 @@
                     <!-- Telefone -->
                     <div class="mb-4 ml-percent-5 w-2/5">
                         <label for="telefoneInstituicao" class="block text-[#272727] text-sm font-bold mb-2"><i class="bi bi-telephone"></i> Telefone<span class="text-red-800">*</span></label>
-                        <input 
+                        <input
                             type="text"
                             name="telefoneInstituicao"
                             id="telefoneInstituicao"
@@ -286,7 +286,7 @@
                     <!-- CEP -->
                     <div class="mb-4 w-1/2">
                         <label for="cepInstituicao" class="block text-[#272727] text-sm font-bold mb-2"><i class="bi bi-signpost-split"></i> CEP<span class="text-red-800">*</span></label>
-                        <input 
+                        <input
                             type="text"
                             name="cepInstituicao"
                             id="cepInstituicao"
@@ -299,7 +299,7 @@
                     <!-- Logradouro -->
                     <div class="mb-4 w-1/2 ml-percent-5">
                         <label for="logradouroInstituicao" class="block text-[#272727] text-sm font-bold mb-2"><i class="bi bi-signpost-split"></i> Logradouro<span class="text-red-800">*</span></label>
-                        <input 
+                        <input
                             type="text"
                             name="logradouroInstituicao"
                             id="logradouroInstituicao"
@@ -314,7 +314,7 @@
                     <!-- Número -->
                     <div class="mb-4 w-1/3">
                         <label for="numeroInstituicao" class="block text-[#272727] text-sm font-bold mb-2"><i class="bi bi-123"></i> Número<span class="text-red-800">*</span></label>
-                        <input 
+                        <input
                             type="text"
                             name="numeroInstituicao"
                             id="numeroInstituicao"
@@ -327,7 +327,7 @@
                     <!-- Cidade -->
                     <div class="mb-4 w-1/3 ml-percent-5">
                         <label for="cidadeInstituicao" class="block text-[#272727] text-sm font-bold mb-2"><i class="bi bi-geo-alt"></i> Cidade<span class="text-red-800">*</span></label>
-                        <input 
+                        <input
                             type="text"
                             name="cidadeInstituicao"
                             id="cidadeInstituicao"
@@ -340,7 +340,7 @@
                     <!-- UF -->
                     <div class="mb-4 w-1/3 ml-percent-5">
                         <label for="ufInstituicao" class="block text-[#272727] text-sm font-bold mb-2"><i class="bi bi-geo-alt"></i> UF<span class="text-red-800">*</span></label>
-                        <input 
+                        <input
                             type="text"
                             name="ufInstituicao"
                             id="ufInstituicao"
@@ -365,37 +365,52 @@
                             <input type="radio" name="notasInstituicao" value="conceito" required class="form-radio text-blue-600 accent-[#272727]">
                             <span class="ml-2"><i class="bi bi-alphabet"></i> Conceitos (A .. D)</span>
                         </label>
-                    </div> 
+                    </div>
                 </div>
                 <br>
                 <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="bi bi-shield-lock"></i> Senha</h2>
                 <hr>
                 <br>
-                <div class="flex">
-                    <!-- Senha -->
-                    <div class="mb-4 w-1/2">
-                        <label for="senhaInstituicao" class="block text-[#272727] text-sm font-bold mb-2"><i class="bi bi-person-lock"></i> Senha<span class="text-red-800">*</span></label>
-                        <input 
-                            type="password"
-                            name="senhaInstituicao"
-                            id="senhaInstituicao"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Ex.: Pass@123"
-                            required
-                        >
+                <div class="flex flex-wrap -mx-2">
+                    <div class="mb-4 w-full md:w-1/2 px-2">
+                        <label for="senhaInstituicao" class="block text-[#272727] text-sm font-bold mb-2">
+                            <i class="bi bi-person-lock"></i> Senha<span class="text-red-800">*</span>
+                        </label>
+
+                        <div class="relative">
+                            <input
+                                type="password"
+                                name="senhaInstituicao"
+                                id="senhaInstituicao"
+                                class="w-full px-3 pr-10 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Ex.: Pass@123"
+                                required
+                            >
+                            <button type="button" id="toggleSenha" class="absolute inset-y-0 right-0 pr-3 flex items-center" title="Mostrar/Esconder Senha">
+                                <i id="eyeIconSenha" class="bi bi-eye-slash-fill text-gray-400 hover:text-[#272727]"></i>
+                            </button>
+                        </div>
                         <small id="senhaMensagem" class="text-red-600 mt-1 hidden">A senha deve conter ao menos: uma letra maiúscula, uma letra minúscula, um número, um caractere especial e pelo menos 8 caracteres.</small>
                     </div>
-                    <!-- Confirme a Senha -->
-                    <div class="mb-4 w-1/2 ml-5">
-                        <label for="confirmaSenhaInstituicao" class="block text-[#272727] text-sm font-bold mb-2"><i class="bi bi-person-lock"></i> Confirme a Senha<span class="text-red-800">*</span></label>
-                        <input 
-                            type="password"
-                            name="confirmaSenhaInstituicao"
-                            id="confirmaSenhaInstituicao"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Ex.: Pass@123"
-                            required
-                        >
+
+                    <div class="mb-4 w-full md:w-1/2 px-2">
+                        <label for="confirmaSenhaInstituicao" class="block text-[#272727] text-sm font-bold mb-2">
+                            <i class="bi bi-person-lock"></i> Confirme a Senha<span class="text-red-800">*</span>
+                        </label>
+
+                        <div class="relative">
+                            <input
+                                type="password"
+                                name="confirmaSenhaInstituicao"
+                                id="confirmaSenhaInstituicao"
+                                class="w-full px-3 pr-10 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Ex.: Pass@123"
+                                required
+                            >
+                            <button type="button" id="toggleConfirmaSenha" class="absolute inset-y-0 right-0 pr-3 flex items-center" title="Mostrar/Esconder Senha">
+                                <i id="eyeIconConfirmaSenha" class="bi bi-eye-slash-fill text-gray-400 hover:text-[#272727]"></i>
+                            </button>
+                        </div>
                         <small id="confirmaSenhaMensagem" class="text-red-600 mt-1 hidden">As senhas não correspondem.</small>
                     </div>
                 </div>
