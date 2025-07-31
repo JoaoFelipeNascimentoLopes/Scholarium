@@ -17,55 +17,70 @@ class DisciplinaController extends Controller
     {
         $instituicaoId = session('usuario_id');
 
-        $totalDisciplinasAtivas = Disciplina::where('statusDisciplina', 'Ativa') // 1. Filtra primeiro por status 'Ativa'
-        ->whereHas('curso', function ($query) use ($instituicaoId) {   // 2. Depois, filtra por cursos da instituição
-            $query->where('instituicaoCurso', $instituicaoId);
-        })
-            ->count();
-
-        $totalDisciplinasInativas = Disciplina::where('statusDisciplina', 'Inativo') // 1. Filtra primeiro por status 'Inativo'
-        ->whereHas('curso', function ($query) use ($instituicaoId) {     // 2. Depois filtra por cursos da instituição
-            $query->where('instituicaoCurso', $instituicaoId);
-        })
-            ->count();
-
-        $totalDisciplinas = $totalDisciplinasAtivas + $totalDisciplinasInativas;
-        // 1. Busca no banco de dados todos os cursos que pertencem
-        //    à instituição do usuário que está logado.
-        $cursos = Curso::where('instituicaoCurso', session('usuario_id'))
-            ->orderBy('nomeCurso', 'asc') // Ordena por nome para facilitar a seleção
-            ->get();
-
-        $queryDisciplinas = Disciplina::whereHas('curso', function ($query) use ($instituicaoId) {
+        // --- Bloco 1: Estatísticas para os Cards do Dashboard ---
+        $baseQuery = Disciplina::whereHas('curso', function ($query) use ($instituicaoId) {
             $query->where('instituicaoCurso', $instituicaoId);
         });
 
-        // --- DADOS PARA O GRÁFICO (APENAS DISCIPLINAS POR CURSO) ---
-        $disciplinasPorCurso = Disciplina::whereHas('curso', function ($q) use ($instituicaoId) {
-            $q->where('instituicaoCurso', $instituicaoId);
-        })
+        $totalDisciplinasAtivas = (clone $baseQuery)->where('statusDisciplina', 'Ativa')->count();
+        $totalDisciplinasInativas = (clone $baseQuery)->where('statusDisciplina', 'Inativo')->count();
+        $totalDisciplinas = $totalDisciplinasAtivas + $totalDisciplinasInativas;
+
+
+        // --- Bloco 2: Dados para o Gráfico de Disciplinas por Curso ---
+        $disciplinasPorCurso = (clone $baseQuery)
             ->join('tbcurso', 'tbdisciplina.cursoDisciplina', '=', 'tbcurso.id')
             ->select('tbcurso.nomeCurso', DB::raw('count(*) as total'))
             ->groupBy('tbcurso.nomeCurso')
             ->orderBy('total', 'desc')
             ->pluck('total', 'tbcurso.nomeCurso');
 
-        // Prepara os dados para o Chart.js
         $labelsDisciplinasPorCurso = $disciplinasPorCurso->keys();
         $dataDisciplinasPorCurso = $disciplinasPorCurso->values();
 
 
+        // --- Bloco 3: Lógica da Tabela com Busca, Ordenação e Paginação ---
+
+        // a) Captura e valida os parâmetros de ordenação da URL
+        $sortBy = $request->query('sortBy', 'id');
+        $direction = $request->query('direction', 'desc');
+        $colunasPermitidas = ['id', 'nomeDisciplina', 'cargaDisciplina', 'statusDisciplina'];
+        if (!in_array($sortBy, $colunasPermitidas)) {
+            $sortBy = 'id';
+        }
+
+        // b) Constrói a consulta para a tabela, reutilizando a baseQuery
+        $queryDisciplinas = clone $baseQuery;
+
+        // c) Adiciona o filtro de busca, se houver
         if ($request->filled('busca')) {
             $queryDisciplinas->where('nomeDisciplina', 'LIKE', '%' . $request->busca . '%');
         }
 
-        // A MÁGICA ESTÁ AQUI: ->with('curso')
-        // Esta linha diz ao Laravel: "Ao buscar as disciplinas, já traga junto os dados do curso de cada uma".
-        $disciplinas = $queryDisciplinas->with('curso')->latest()->paginate(10);
+        // d) Aplica a ordenação e executa a paginação
+        $disciplinas = $queryDisciplinas->with('curso')
+            ->orderBy($sortBy, $direction)
+            ->paginate(10);
 
-        // 2. Retorna a view do formulário e passa a variável '$cursos' para ela.
-        //    (Assumindo que sua view se chama 'disciplinas_create.blade.php')
-        return view('instituicao.disciplinas', compact('cursos', 'totalDisciplinasAtivas', 'totalDisciplinasInativas', 'totalDisciplinas', 'disciplinas', 'labelsDisciplinasPorCurso', 'dataDisciplinasPorCurso'));
+
+        // --- Bloco 4: Dados para o Formulário de Criação ---
+        $cursos = Curso::where('instituicaoCurso', $instituicaoId)
+            ->orderBy('nomeCurso')
+            ->get();
+
+
+        // --- Bloco 5: Enviando todas as variáveis para a View ---
+        return view('instituicao.disciplinas', compact(
+            'totalDisciplinasAtivas',
+            'totalDisciplinasInativas',
+            'totalDisciplinas',
+            'labelsDisciplinasPorCurso',
+            'dataDisciplinasPorCurso',
+            'disciplinas',
+            'cursos',
+            'sortBy',
+            'direction'
+        ));
     }
 
     public function store(Request $request): RedirectResponse

@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {{-- Biblioteca para Gerar Gráficos  --}}
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script> {{-- Plugin para adionar detalhes na Biblioteca de Gráficos  --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    @livewireStyles
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=history_edu"/>
     <link
@@ -422,12 +423,69 @@
                 <table class="min-w-full bg-white">
                     <thead class="bg-[#272727] text-white">
                     <tr>
-                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-hash"></i> ID</th>
-                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-alphabet"></i> Nome da Disciplina</th>
-                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-clock"></i> Carga H.</th>
-                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase"><i class="bi bi-award"></i> Curso</th>
-                        <th class="py-3 px-2.5 text-left text-sm font-semibold uppercase"><i class="bi bi-toggles2"></i> Status</th>
-                        <th class="py-3 px-4 text-center text-sm font-semibold uppercase"><i class="bi bi-sliders"></i> Ações</th>
+                        {{-- COLUNA ID --}}
+                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase">
+                            {{-- Rota corrigida para '.index' --}}
+                            <a href="{{ route('instituicao.disciplinas_create', request()->merge(['sortBy' => 'id', 'direction' => ($sortBy == 'id' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}" class="flex items-center gap-2 group">
+                                <i class="bi bi-hash"></i>
+                                <span>ID</span>
+                                @if($sortBy == 'id')
+                                    <i class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
+                                @else
+                                    {{-- Ícone neutro para colunas inativas --}}
+                                    <i class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
+                                @endif
+                            </a>
+                        </th>
+
+                        {{-- COLUNA NOME DA DISCIPLINA --}}
+                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase">
+                            <a href="{{ route('instituicao.disciplinas_create', request()->merge(['sortBy' => 'nomeDisciplina', 'direction' => ($sortBy == 'nomeDisciplina' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}" class="flex items-center gap-2 group">
+                                <i class="bi bi-alphabet"></i>
+                                <span>Nome da Disciplina</span>
+                                @if($sortBy == 'nomeDisciplina')
+                                    <i class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
+                                @else
+                                    <i class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
+                                @endif
+                            </a>
+                        </th>
+
+                        {{-- COLUNA CARGA H. --}}
+                        <th class="py-3 px-4 text-left text-sm font-semibold uppercase">
+                            <a href="{{ route('instituicao.disciplinas_create', request()->merge(['sortBy' => 'cargaDisciplina', 'direction' => ($sortBy == 'cargaDisciplina' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}" class="flex items-center gap-2 group">
+                                <i class="bi bi-clock"></i>
+                                <span>CH</span>
+                                @if($sortBy == 'cargaDisciplina')
+                                    <i class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
+                                @else
+                                    <i class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
+                                @endif
+                            </a>
+                        </th>
+
+                        {{-- COLUNA CURSO (Não ordenável) --}}
+                        <th class="py-3 px-10 text-left text-sm font-semibold uppercase">
+                            <i class="bi bi-award"></i> Curso
+                        </th>
+
+                        {{-- COLUNA STATUS --}}
+                        <th class="py-3 px-2.5 text-left text-sm font-semibold uppercase">
+                            <a href="{{ route('instituicao.disciplinas_create', request()->merge(['sortBy' => 'statusDisciplina', 'direction' => ($sortBy == 'statusDisciplina' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}" class="flex items-center gap-2 group">
+                                <i class="bi bi-toggles2"></i>
+                                <span>Status</span>
+                                @if($sortBy == 'statusDisciplina')
+                                    <i class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
+                                @else
+                                    <i class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
+                                @endif
+                            </a>
+                        </th>
+
+                        {{-- COLUNA AÇÕES (Não ordenável) --}}
+                        <th class="py-3 px-4 text-center text-sm font-semibold uppercase">
+                            <i class="bi bi-sliders"></i> Ações
+                        </th>
                     </tr>
                     </thead>
                     <tbody class="text-gray-700">
@@ -435,8 +493,8 @@
                         <tr class="border-b border-gray-200 hover:bg-gray-200">
                             <td class="py-3 px-4">{{ $disciplina->id }}</td>
                             <td class="py-3 px-4">{{ $disciplina->nomeDisciplina }}</td>
-                            <td class="py-3 px-4">{{ $disciplina->cargaDisciplina }} horas</td>
-                            <td class="py-3 px-4">{{ $disciplina->curso->id }} - {{ $disciplina->curso->nomeCurso }}</td>
+                            <td class="py-3 px-4">{{ $disciplina->cargaDisciplina }} hrs</td>
+                            <td class="py-3 px-10">{{ $disciplina->curso->id }} - {{ $disciplina->curso->nomeCurso }}</td>
                             <td class="py-3 px-2.5">
                                 {{-- Badge de status com cor condicional --}}
                                 @if ($disciplina->statusDisciplina == 'Ativa')

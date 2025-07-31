@@ -22,46 +22,59 @@ class CursoController extends Controller
     {
         $instituicaoId = session('usuario_id');
 
-        // --- Bloco 1: Contagem para os Cards de Informações Gerais ---
+        // --- Bloco 1: Contagem para os Cards (sem alterações) ---
         $totalAtivos = Curso::where('instituicaoCurso', $instituicaoId)->where('statusCurso', 'Ativo')->count();
         $totalInativos = Curso::where('instituicaoCurso', $instituicaoId)->where('statusCurso', 'Inativo')->count();
         $totalCursos = $totalAtivos + $totalInativos;
 
-        // --- Bloco 2: Dados para o Gráfico de Níveis ---
-        // (Sua lógica que considera apenas cursos ativos está ótima)
+        // --- Bloco 2: Dados para o Gráfico de Níveis (sem alterações) ---
         $niveisCursos = Curso::where('instituicaoCurso', $instituicaoId)
-                           ->where('statusCurso', 'Ativo')
-                           ->select('nivelCurso', DB::raw('count(*) as total'))
-                           ->groupBy('nivelCurso')
-                           ->pluck('total', 'nivelCurso');
+            ->where('statusCurso', 'Ativo')
+            ->select('nivelCurso', DB::raw('count(*) as total'))
+            ->groupBy('nivelCurso')
+            ->pluck('total', 'nivelCurso');
 
         $labelsNiveis = $niveisCursos->keys();
         $dataNiveis = $niveisCursos->values();
 
-        // --- Bloco 3: Lógica da Tabela com Busca e Paginação ---
-        // 1. Inicia a consulta base, sem executar ainda
+        // --- Bloco 3: Lógica da Tabela (AGORA COM ORDENAÇÃO) ---
+
+        // NOVO: Captura os parâmetros de ordenação da URL, com valores padrão.
+        $sortBy = $request->query('sortBy', 'id');
+        $direction = $request->query('direction', 'desc');
+
+        // NOVO: Validação de segurança para as colunas permitidas.
+        $colunasPermitidas = ['id', 'nomeCurso', 'nivelCurso', 'statusCurso'];
+        if (!in_array($sortBy, $colunasPermitidas)) {
+            $sortBy = 'id'; // Retorna ao padrão se a coluna for inválida
+        }
+
+        // 1. Inicia a consulta base
         $queryCursos = Curso::where('instituicaoCurso', $instituicaoId);
 
-        // 2. Verifica se o campo 'busca' foi preenchido no formulário
+        // 2. Adiciona o filtro de busca, se houver
         if ($request->filled('busca')) {
-            // Se foi, adiciona uma condição 'where' à consulta para filtrar pelo nome.
             $termoBusca = $request->busca;
             $queryCursos->where('nomeCurso', 'LIKE', '%' . $termoBusca . '%');
         }
 
-        // 3. Executa a consulta (já com o filtro, se houver) e pagina os resultados
-        $cursos = $queryCursos->latest()->paginate(10);
+        // 3. ATUALIZADO: Aplica a ordenação dinâmica à consulta.
+        $queryCursos->orderBy($sortBy, $direction);
+
+        // 4. Executa a consulta e pagina os resultados. O .latest() foi removido pois agora temos orderBy().
+        $cursos = $queryCursos->paginate(10);
 
 
-        // --- Bloco 4: Enviando tudo para a View ---
-        // Todas as variáveis são enviadas de uma vez
+        // --- Bloco 4: Enviando tudo para a View (COM AS NOVAS VARIÁVEIS) ---
         return view('instituicao.cursos', compact(
             'totalCursos',
             'totalAtivos',
             'totalInativos',
             'labelsNiveis',
             'dataNiveis',
-            'cursos'
+            'cursos',
+            'sortBy',    // <-- NOVO: Envia a coluna de ordenação atual para a view
+            'direction'  // <-- NOVO: Envia a direção da ordenação atual para a view
         ));
     }
     public function getTotalDisciplinas(Curso $curso)
