@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
@@ -402,52 +402,52 @@
                     </form>
                 </div>
                 <br>
-                <table class="min-w-full bg-white">
+                <table class="min-w-full bg-white" id="tabela-cursos">
                     <thead class="bg-[#272727] text-white">
                     <tr>
                         <th class="py-3 px-4 text-left text-sm font-semibold uppercase">
                             {{-- CORREÇÃO: A rota foi alterada de '.create' para '.index' --}}
-                            <a href="{{ route('instituicao.cursos.create', request()->merge(['sortBy' => 'id', 'direction' => ($sortBy == 'id' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}" class="flex items-center gap-2 group">
+                            <a href="{{ route('instituicao.cursos.create', request()->merge(['sortBy' => 'id', 'direction' => ($sortBy == 'id' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}#tabela-cursos" class="flex items-center gap-2 group">
                                 <i class="bi bi-hash"></i>
                                 <span>ID</span>
                                 @if($sortBy == 'id')
-                                    <i class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
+                                    <i title="Ordenar" class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
                                 @else
                                     {{-- Ícone neutro para colunas inativas --}}
-                                    <i class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
+                                    <i title="Ordenar" class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
                                 @endif
                             </a>
                         </th>
                         <th class="py-3 px-4 text-left text-sm font-semibold uppercase">
-                            <a href="{{ route('instituicao.cursos.create', request()->merge(['sortBy' => 'nomeCurso', 'direction' => ($sortBy == 'nomeCurso' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}" class="flex items-center gap-2 group">
+                            <a href="{{ route('instituicao.cursos.create', request()->merge(['sortBy' => 'nomeCurso', 'direction' => ($sortBy == 'nomeCurso' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}#tabela-cursos" class="flex items-center gap-2 group">
                                 <i class="bi bi-alphabet"></i>
                                 <span>Nome do Curso</span>
                                 @if($sortBy == 'nomeCurso')
-                                    <i class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
+                                    <i title="Ordenar" class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
                                 @else
-                                    <i class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
+                                    <i title="Ordenar" class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
                                 @endif
                             </a>
                         </th>
                         <th class="py-3 px-4 text-left text-sm font-semibold uppercase">
-                            <a href="{{ route('instituicao.cursos.create', request()->merge(['sortBy' => 'nivelCurso', 'direction' => ($sortBy == 'nivelCurso' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}" class="flex items-center gap-2 group">
+                            <a href="{{ route('instituicao.cursos.create', request()->merge(['sortBy' => 'nivelCurso', 'direction' => ($sortBy == 'nivelCurso' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}#tabela-cursos" class="flex items-center gap-2 group">
                                 <i class="bi bi-bar-chart-steps"></i>
                                 <span>Nível</span>
                                 @if($sortBy == 'nivelCurso')
-                                    <i class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
+                                    <i title="Ordenar" class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
                                 @else
-                                    <i class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
+                                    <i title="Ordenar" class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
                                 @endif
                             </a>
                         </th>
                         <th class="py-3 px-4 text-left text-sm font-semibold uppercase">
-                            <a href="{{ route('instituicao.cursos.create', request()->merge(['sortBy' => 'statusCurso', 'direction' => ($sortBy == 'statusCurso' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}" class="flex items-center gap-2 group">
+                            <a href="{{ route('instituicao.cursos.create', request()->merge(['sortBy' => 'statusCurso', 'direction' => ($sortBy == 'statusCurso' && $direction == 'asc') ? 'desc' : 'asc'])->all()) }}#tabela-cursos" class="flex items-center gap-2 group">
                                 <i class="bi bi-toggles2"></i>
                                 <span>Status</span>
                                 @if($sortBy == 'statusCurso')
-                                    <i class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
+                                    <i title="Ordenar" class="bi {{ $direction == 'asc' ? 'bi-arrow-up' : 'bi-arrow-down' }}"></i>
                                 @else
-                                    <i class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
+                                    <i title="Ordenar" class="bi bi-arrow-down-up text-gray-400 group-hover:text-white transition-colors"></i>
                                 @endif
                             </a>
                         </th>
