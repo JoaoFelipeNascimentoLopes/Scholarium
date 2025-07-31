@@ -16,6 +16,7 @@ class Curso extends Model
         'instituicaoCurso',
         'nivelCurso',
         'periodosCurso',
+        'formatoCurso',
         'descricaoCurso',
         'statusCurso',
     ];

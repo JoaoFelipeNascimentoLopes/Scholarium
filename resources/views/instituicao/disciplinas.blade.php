@@ -290,15 +290,17 @@
                                 <label class="block text-[#272727] text-sm font-bold mb-2" for="cursoDisciplina">
                                     <i class="bi bi-award"></i> Curso<span class="text-red-800">*</span>
                                 </label>
-                                <select name="cursoDisciplina" id="cursoDisciplina" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" required>
+                                <select name="cursoDisciplina" id="cursoDisciplina" class="w-full px-3 py-2 border rounded-lg" required>
                                     <option value="" disabled selected>Selecione um Curso</option>
                                     @foreach ($cursos as $curso)
                                         <option
                                             value="{{ $curso->id }}"
-                                            data-periodos="{{ $curso->periodosCurso }}"
+                                            data-periodos="{{ $curso->periodosCurso ?? 0 }}"
+                                            {{-- ADICIONE A LINHA ABAIXO --}}
+                                            data-formato="{{ $curso->formatoCurso }}"
                                             {{ old('cursoDisciplina') == $curso->id ? 'selected' : '' }}
                                         >
-                                            {{ $curso->id }} - {{ $curso->nomeCurso }}
+                                            {{ $curso->nomeCurso }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -323,13 +325,26 @@
                             </div>
                             <div class="mb-4 w-full md:w-1/3 px-2">
                                 <label class="block text-[#272727] text-sm font-bold mb-2" for="tipoDisciplina">
-                                    <i class="bi bi-journal-bookmark"></i> Tipo de Disciplina<span class="text-red-800">*</span>
+                                    <i class="bi bi-journal-bookmark"></i> Formato da Disciplina
                                 </label>
-                                <select name="tipoDisciplina" id="tipoDisciplina" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" required>
-                                    <option value="" disabled {{ old('tipoDisciplina') ? '' : 'selected' }}>Selecione o Tipo</option>
-                                    <option value="Anual" {{ old('tipoDisciplina') == 'Anual' ? 'selected' : '' }}>Anual</option>
-                                    <option value="Semestral" {{ old('tipoDisciplina') == 'Semestral' ? 'selected' : '' }}>Semestral</option>
-                                </select>
+                                {{-- O campo oculto continua igual, ele é responsável por enviar o dado --}}
+                                <input type="hidden" name="tipoDisciplina" id="tipoDisciplinaHidden">
+
+                                <div class="relative mt-1">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        {{-- Colocamos o ícone aqui, posicionado na direita --}}
+                                        <i class="bi bi-lock text-[#272727]"></i>
+                                    </div>
+
+                                    {{-- Adicionamos um padding à direita (pr-10) para o texto não ficar embaixo do ícone --}}
+                                    <input
+                                        type="text"
+                                        id="tipoDisciplinaVisible"
+                                        class="w-full pl-3 pr-10 py-2 border rounded-lg bg-gray-200 cursor-not-allowed text-black"
+                                        placeholder="Selecione um curso"
+                                        readonly
+                                    >
+                                </div>
                             </div>
                             <div class="mb-4 w-full md:w-1/3 px-2">
                                 <label class="block text-[#272727] text-sm font-bold mb-2" for="periodoDisciplina">
@@ -548,7 +563,7 @@
             </div>
             {{-- Modal - Detalhes da DIsciplina --}}
             <div id="detailsModal" class="fixed hidden inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-center justify-center p-4 transition-opacity duration-300">
-                <div class="relative mx-auto p-5 w-auto min-w-[320px] max-w-[95%] md:max-w-5xl flex flex-col max-h-[90vh] shadow-lg rounded-md bg-white">
+                <div class="relative mx-auto p-5 w-auto min-w-[55%] max-w-[95%] md:max-w-5xl flex flex-col max-h-[90vh] shadow-lg rounded-md bg-white">
                     <div class="flex justify-between items-start pb-3">
                         <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-info-circle-fill"></i> Detalhes da Disciplina</h3>
                         <button id="closeModalBtn" class="text-black cursor-pointer text-2xl leading-none">&times;</button>

@@ -93,37 +93,42 @@ class CursoController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // Seu método store já está perfeito, com o try-catch. Nenhuma alteração aqui.
-        $request->validate([
+        $validatedData = $request->validate([
             'nomeCurso' => 'required|string|max:255',
             'nivelCurso' => 'required|string',
-            'periodoCurso' => 'nullable|integer|min:1',
+            'periodosCurso' => 'required|integer|min:1',
+            'formatoCurso' => 'required|string', // <-- NOVO CAMPO VALIDADO
             'descricaoCurso' => 'nullable|string|max:200',
         ]);
 
+        // 2. PREPARAÇÃO DOS DADOS PARA SALVAR
+        //    Adicionamos os dados que não vêm do formulário diretamente ao array validado.
+        $validatedData['instituicaoCurso'] = session('usuario_id');
+        $validatedData['statusCurso'] = 'Ativo';
+
+        // O try-catch continua sendo uma excelente prática para lidar com erros de banco.
         try {
-            Curso::create([
-                'nomeCurso' => $request->nomeCurso,
-                'nivelCurso' => $request->nivelCurso,
-                'periodosCurso' => $request->periodosCurso,
-                'descricaoCurso' => $request->descricaoCurso,
-                'instituicaoCurso' => session('usuario_id'),
-                'statusCurso' => 'Ativo',
-            ]);
+            // 3. SALVAR NO BANCO DE DADOS
+            //    Agora passamos o array $validatedData completo, que é mais limpo e seguro.
+            Curso::create($validatedData);
 
         } catch (QueryException $e) {
+            // Lida com o erro de curso duplicado
             if ($e->errorInfo[1] == 1062) {
                 return redirect()->back()
                     ->with('error', '☒ Este curso já está cadastrado para esta instituição.')
                     ->withInput();
             }
+            // Lida com outros erros de banco
             return redirect()->back()
                 ->with('error', '☒ Ocorreu um erro inesperado ao salvar o curso.')
                 ->withInput();
         }
 
+        // 4. REDIRECIONAMENTO CORRIGIDO
+        //    Redireciona para a lista de cursos (index) para o usuário ver o item novo.
         return redirect()->route('instituicao.cursos.create')
-                         ->with('success', '✔ Curso cadastrado com sucesso!');
+            ->with('success', '✔ Curso cadastrado com sucesso!');
     }
     public function destroy(Curso $curso): RedirectResponse
     {

@@ -12,6 +12,7 @@
     const modalId = document.getElementById('modal-id');
     const modalNomeCurso = document.getElementById('modal-nomeCurso');
     const modalNivelCurso = document.getElementById('modal-nivelCurso');
+    const modalFormatoCurso = document.getElementById('modal-formatoCurso');
     const modalPeriodos = document.getElementById('modal-curso-periodos');
     const modalCargaTotal = document.getElementById('modal-curso-carga-total');
     const modalDescricaoCurso = document.getElementById('modal-descricaoCurso');
@@ -41,6 +42,7 @@
     modalId.textContent = cursoData.id;
     modalNomeCurso.textContent = cursoData.nomeCurso;
     modalNivelCurso.textContent = cursoData.nivelCurso;
+    modalFormatoCurso.textContent = cursoData.formatoCurso;
     modalPeriodos.textContent = cursoData.periodosCurso ? `${cursoData.periodosCurso} períodos` : 'Não informado';
     modalDescricaoCurso.textContent = cursoData.descricaoCurso || 'Nenhuma descrição fornecida.';
     modalCreatedAt.textContent = formatarData(cursoData.created_at);

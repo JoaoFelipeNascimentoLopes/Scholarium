@@ -293,55 +293,78 @@
                 <div>
                     <form action="{{ route('instituicao.cursos.store') }}" method="POST" id="formCurso">
                         @csrf
-                        <div class="flex">
-                            <!-- Nome -->
-                            <div class="mb-4 w-3/5 mr-5">
-                                <label class="block text-[#272727] text-sm font-bold mb-2" for="nomeCurso"><i
-                                        class="bi bi-alphabet"></i> Nome<span class="text-red-800">*</span></label>
+
+                        <!-- LINHA 1: NOME DO CURSO -->
+                        <div class="flex mb-4">
+                            <div class="w-full">
+                                <label class="block text-[#272727] text-sm font-bold mb-2" for="nomeCurso">
+                                    <i class="bi bi-alphabet"></i> Nome do Curso<span class="text-red-800">*</span>
+                                </label>
                                 <input
                                     type="text"
                                     name="nomeCurso"
                                     id="nomeCurso"
                                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
                                     placeholder="Ex.: Técnico em Informática, Ensino Médio, etc."
+                                    value="{{ old('nomeCurso') }}"
                                     required
                                 >
                             </div>
+                        </div>
+
+                        <!-- LINHA 2: NÍVEL, PERÍODOS E FORMATO -->
+                        <div class="flex flex-wrap -mx-2">
                             <!-- Nível -->
-                            <div class="mb-4 w-1/5 mr-percent-1">
-                                <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso"><i
-                                        class="bi bi-bar-chart-steps"></i> Nível<span
-                                        class="text-red-800">*</span></label>
-                                <select name="nivelCurso" id="nivelCurso"
-                                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
-                                        required>
-                                    <option value="" disabled selected>Selecione um Nível</option>
-                                    <option value="Ensino Fundamental">Ensino Fundamental</option>
-                                    <option value="Ensino Médio">Ensino Médio</option>
-                                    <option value="Técnico">Técnico</option>
-                                    <option value="Superior">Superior</option>
-                                    <option value="Pós-Graduação">Pós-Graduação</option>
+                            <div class="w-full md:w-1/3 px-2 mb-4">
+                                <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso">
+                                    <i class="bi bi-bar-chart-steps"></i> Nível<span class="text-red-800">*</span>
+                                </label>
+                                <select name="nivelCurso" id="nivelCurso" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" required>
+                                    <option value="" disabled {{ old('nivelCurso') ? '' : 'selected' }}>Selecione um Nível</option>
+                                    <option value="Ensino Fundamental" {{ old('nivelCurso') == 'Ensino Fundamental' ? 'selected' : '' }}>Ensino Fundamental</option>
+                                    <option value="Ensino Médio" {{ old('nivelCurso') == 'Ensino Médio' ? 'selected' : '' }}>Ensino Médio</option>
+                                    <option value="Técnico" {{ old('nivelCurso') == 'Técnico' ? 'selected' : '' }}>Técnico</option>
+                                    <option value="Superior" {{ old('nivelCurso') == 'Superior' ? 'selected' : '' }}>Superior</option>
+                                    <option value="Pós-Graduação" {{ old('nivelCurso') == 'Pós-Graduação' ? 'selected' : '' }}>Pós-Graduação</option>
                                 </select>
                             </div>
-                            <div class="w-full md:w-1/4 px-2 mb-4">
-                                <label for="periodosCurso" class="block text-sm font-bold text-[#272727] mb-2">Qtd. de Períodos</label>
+
+                            <!-- Quantidade de Períodos -->
+                            <div class="w-full md:w-1/3 px-2 mb-4">
+                                <label for="periodosCurso" class="block text-sm font-bold text-[#272727] mb-2"><i class="bi bi-123"></i> Qtd. de Períodos<span class="text-red-800">*</span></label>
                                 <input
                                     type="number"
                                     name="periodosCurso"
                                     id="periodosCurso"
                                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
-                                    placeholder="Ex: 8 (semestres) ou 3 (anos)"
-                                    value="{{ old('periodosCurso', $curso->periodosCurso ?? '') }}"
+                                    placeholder="Ex: 8 ou 3"
+                                    value="{{ old('periodosCurso') }}"
                                     required
                                     min="1"
                                 >
                             </div>
+
+                            <!-- ============================================= -->
+                            <!--          NOVO CAMPO ADICIONADO AQUI           -->
+                            <!-- ============================================= -->
+                            <div class="w-full md:w-1/3 px-2 mb-4">
+                                <label for="formatoCurso" class="block text-sm font-bold text-[#272727] mb-2">
+                                    <i class="bi bi-calendar-week"></i> Formato do Curso<span class="text-red-800">*</span>
+                                </label>
+                                <select name="formatoCurso" id="formatoCurso" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" required>
+                                    <option value="" disabled {{ old('formatoCurso') ? '' : 'selected' }}>Selecione o Formato</option>
+                                    <option value="Anual" {{ old('formatoCurso') == 'Anual' ? 'selected' : '' }}>Anual</option>
+                                    <option value="Semestral" {{ old('formatoCurso') == 'Semestral' ? 'selected' : '' }}>Semestral</option>
+                                </select>
+                            </div>
                         </div>
 
+                        <!-- LINHA 3: DESCRIÇÃO -->
                         <div class="flex">
                             <div class="mb-4 w-full">
-                                <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso"><i
-                                        class="bi bi-bar-chart-steps"></i> Descrição (Max. 200 caracteres)</label>
+                                <label class="block text-[#272727] text-sm font-bold mb-2" for="descricaoCurso">
+                                    <i class="bi bi-body-text"></i> Descrição (Opcional, max. 200 caracteres)
+                                </label>
                                 <textarea
                                     name="descricaoCurso"
                                     id="descricaoCurso"
@@ -350,16 +373,16 @@
                                     rows="5"
                                     maxlength="200"
                                     style="resize: none"
-                                ></textarea>
+                                >{{ old('descricaoCurso') }}</textarea>
                             </div>
                         </div>
+
+                        <!-- BOTÕES DE AÇÃO -->
                         <div class="flex justify-end">
-                            <button type="button" id="btnLimparCampos"
-                                    class="cursor-pointer bg-gray-300 hover:bg-red-200 text-[#272727] py-2 px-4 rounded-lg mr-5">
+                            <button type="button" id="btnLimparCampos" class="cursor-pointer bg-gray-300 hover:bg-red-200 text-[#272727] py-2 px-4 rounded-lg mr-5">
                                 <i class="bi bi-eraser-fill"></i> Limpar Campos
                             </button>
-                            <button type="submit"
-                                    class="cursor-pointer bg-[#272727] hover:bg-gray-600 text-white py-2 px-4 rounded-lg">
+                            <button type="submit" class="cursor-pointer bg-[#272727] hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg">
                                 <i class="bi bi-floppy"></i> Salvar Curso
                             </button>
                         </div>
@@ -513,7 +536,7 @@
                 <div id="detailsModal"
                      class="fixed hidden inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-center justify-center p-4 transition-opacity duration-300">
                     <div
-                        class="relative mx-auto p-5 w-auto min-w-[320px] max-w-[95%] md:max-w-5xl flex flex-col max-h-[90vh] shadow-lg rounded-md bg-white">
+                        class="relative mx-auto p-5 w-auto min-w-[55%] max-w-[100%] md:max-w-5xl flex flex-col max-h-[90vh] shadow-lg rounded-md bg-white">
                         <div class="flex justify-between items-start pb-3">
                             <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-info-circle-fill"></i> Detalhes
                                 do Curso</h3>
@@ -526,6 +549,7 @@
                                     <div class="flex justify-between">
                                         <p><strong><i class="bi bi-hash"></i> ID:</strong> <span id="modal-id"></span></p>
                                         <p><strong><i class="bi bi-toggles2"></i> Status:</strong> <span id="modal-statusCurso"></span></p>
+                                        <p><strong><i class="bi bi-toggles2"></i> Formato:</strong> <span id="modal-formatoCurso"></span></p>
                                     </div>
                                     <p><strong><i class="bi bi-alphabet"></i> Nome:</strong> <span id="modal-nomeCurso"></span></p>
                                     <div class="flex justify-between">
