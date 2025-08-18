@@ -126,6 +126,7 @@ Route::get('/api/cursos/{curso}', [CursoController::class, 'getCursoData'])->nam
 
 Route::get('/cursos/{curso}/total-disciplinas', [CursoController::class, 'getTotalDisciplinas'])->name('cursos.totalDisciplinas')->middleware(AuthInstituicao::class);
 
+Route::get('/relatorios/cursos/{curso}/dossie', [App\Http\Controllers\RelatorioController::class, 'gerarRelatorioGeralCurso'])->name('reports.cursos.dossie');
 
 // ROTAS - DISCIPLINAS
 // -------------------

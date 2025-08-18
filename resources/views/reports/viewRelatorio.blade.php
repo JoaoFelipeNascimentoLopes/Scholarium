@@ -43,13 +43,12 @@
         </h1>
         <div class="flex items-center gap-4">
             <!-- Botão de Voltar (Corrigido) -->
-            <button
-                onclick="window.history.back();"
-                class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center gap-2"
-                title="Fechar Relatório">
+            <a href="{{ $returnUrl ?? url()->previous() }}"
+               class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center gap-2"
+               title="Fechar Relatório">
                 <i class="bi bi-x-circle-fill"></i>
                 Fechar
-            </button>
+            </a>
         </div>
     </div>
 

@@ -56,6 +56,35 @@ class RelatorioController extends Controller
         // 8. Retorna a view do visualizador, passando os dados necessários
         return view('reports.viewRelatorio', compact('pdfBase64', 'titulo', 'nomeArquivo'));
     }
+    public function gerarRelatorioGeralCurso(Curso $curso)
+    {
+        // 1. Validação: Verifica se o curso pertence à instituição logada
+        $instituicaoId = session('usuario_id');
+        if ($curso->instituicaoCurso != $instituicaoId) {
+            // Se não pertencer, retorna um erro ou redireciona
+            return redirect()->back()->with('error', 'Acesso negado a este curso.');
+        }
+
+        // 2. Carrega os dados da instituição
+        $instituicao = Instituicao::find($instituicaoId);
+
+        // 3. Carrega as disciplinas relacionadas ao curso, ordenadas por período
+        // O método 'disciplinas' deve estar definido no Model 'Curso'
+        $disciplinas = $curso->disciplinas()->orderBy('periodoDisciplina', 'asc')->get();
+
+        // 4. Define o título e o nome do arquivo para o relatório
+        $titulo = "Relatório Geral do Curso: " . $curso->nomeCurso;
+        $nomeArquivo = 'relatorio-geral-' . \Illuminate\Support\Str::slug($curso->nomeCurso) . '.pdf';
+
+        // 5. Carrega a nova view do PDF com todos os dados
+        $pdf = PDF::loadView('reports.dossie_curso_pdf', compact('curso', 'disciplinas', 'instituicao', 'titulo'));
+
+        // 6. Converte o PDF para Base64 para embutir no visualizador
+        $pdfBase64 = base64_encode($pdf->output());
+
+        // 7. Retorna a view do visualizador
+        return view('reports.viewRelatorio', compact('pdfBase64', 'titulo', 'nomeArquivo'));
+    }
 
     /**
      * Gera um relatório de disciplinas em PDF e exibe em um visualizador.

@@ -91,24 +91,57 @@
             <div id="painel" class="tab-content hidden p-4">
                 <div class="flex flex-wrap -mx-2">
                     <div class="w-full md:w-1/2 px-2 mb-4">
-                        <div class="bg-white rounded-xl shadow-2xl poppins-regular h-full">
+                        <!-- O container do card agora é um flex container vertical -->
+                        <div class="bg-white rounded-xl shadow-2xl poppins-regular h-full flex flex-col">
+
+                            <!-- Seção principal com as informações (ocupa o espaço necessário) -->
                             <div class="px-6 py-5">
-                                <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-award"></i> Informações Gerais</h3><br>
-                                <div class="flex justify-between">
-                                    <h1><i class="bi bi-award"></i> Cursos Cadastrados</h1>
-                                    <h1 class="text-lg font-bold text-[#272727]">{{ $totalCursos }}</h1>
-                                </div><br><br>
-                                <div class="flex justify-between ml-5">
-                                    <h1><i class="bi bi-check-circle"></i> Cursos Ativos</h1>
-                                    <h1 class="text-lg font-bold text-[#272727]">{{ $totalAtivos }}</h1>
-                                </div><br>
-                                <div class="flex justify-between ml-5">
-                                    <h1><i class="bi bi-ban"></i> Cursos Inativos</h1>
-                                    <h1 class="text-lg font-bold text-[#272727]">{{ $totalInativos }}</h1>
+                                <h3 class="text-xl font-bold text-[#272727] mb-4"><i class="bi bi-bar-chart-line-fill"></i> Informações Gerais</h3>
+
+                                <!-- Item Principal: Cursos Cadastrados -->
+                                <div class="flex justify-between items-center py-3">
+                                    <div class="flex items-center text-gray-700">
+                                        <i class="bi bi-award text-lg mr-3"></i>
+                                        <span>Cursos Cadastrados</span>
+                                    </div>
+                                    <span class="text-2xl font-bold text-[#272727] bg-gray-100 px-3 py-1 rounded-lg">{{ $totalCursos }}</span>
                                 </div>
+
+                                <!-- Divisória -->
+                                <hr class="my-2 border-gray-200">
+
+                                <!-- Sub-itens: Ativos e Inativos -->
+                                <div class="pl-6">
+                                    <!-- Cursos Ativos -->
+                                    <div class="flex justify-between items-center py-2 text-gray-600">
+                                        <div class="flex items-center">
+                                            <i class="bi bi-check-circle mr-3 text-green-500"></i>
+                                            <span>Cursos Ativos</span>
+                                        </div>
+                                        <span class="text-lg font-semibold text-green-600">{{ $totalAtivos }}</span>
+                                    </div>
+
+                                    <!-- Cursos Inativos -->
+                                    <div class="flex justify-between items-center py-2 text-gray-600">
+                                        <div class="flex items-center">
+                                            <i class="bi bi-ban mr-3 text-red-500"></i>
+                                            <span>Cursos Inativos</span>
+                                        </div>
+                                        <span class="text-lg font-semibold text-red-600">{{ $totalInativos }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Seção de Ação Rápida (empurrada para o final do card) -->
+                            <!-- A classe 'mt-auto' faz a mágica de empurrar esta div para baixo -->
+                            <div class="mt-auto border-t border-gray-200 bg-gray-50 px-6 py-4 rounded-b-xl">
+                                <a href="#" onclick="openTab(event, 'gerenciamento')" class="w-full text-center block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors">
+                                    <i class="bi bi-pencil-square"></i> Gerenciar Cursos
+                                </a>
                             </div>
                         </div>
                     </div>
+
                     <div class="w-full md:w-1/2 px-2 mb-4">
                         <div class="bg-white rounded-xl shadow-2xl poppins-regular h-full">
                             <div class="px-6 py-5">
@@ -288,6 +321,57 @@
                         </div>
                     </div>
                 </div>
+                <br>
+                <div class="bg-white rounded-xl shadow-2xl poppins-regular">
+                    <div class="px-6 py-5">
+                        <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-file-earmark-zip-fill"></i> Relatório Geral do Curso</h3>
+                        <p class="mt-2 text-gray-600">Gere um relatório completo com dados, disciplinas e informações de um curso específico.</p>
+                        <br>
+
+                        <!-- Formulário para selecionar o curso e gerar o relatório -->
+                        <form action="" method="GET" id="formRelatorioGeral">
+                            @csrf
+
+                            <!-- Seletor de Curso -->
+                            <div class="mb-3">
+                                <select name="curso_id" id="curso_id_select" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" required>
+                                    <option value="" disabled selected>Selecione um curso</option>
+                                    {{-- Loop para popular o seletor com os cursos --}}
+                                    @foreach ($cursos as $curso)
+                                        <option value="{{ $curso->id }}">{{ $curso->nomeCurso }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <button type="submit" class="inline-block bg-[#272727] text-white font-semibold py-2 px-5 rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 transition-colors">
+                                <i class="bi bi-file-earmark-text-fill"></i> Gerar Relatório
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Script para montar a URL dinamicamente (pode ser o mesmo de antes) -->
+                <script>
+                    // Na sua view principal (com as abas)
+                    document.getElementById('formRelatorioGeral').addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        const select = document.getElementById('curso_id_select');
+                        const cursoId = select.value;
+
+                        if (cursoId) {
+                            // Pega a URL da página atual
+                            const returnUrl = window.location.href;
+
+                            // Monta a URL do relatório, adicionando a URL de retorno como um parâmetro
+                            const url = `{{ url('/relatorios/cursos') }}/${cursoId}/dossie?return_url=${encodeURIComponent(returnUrl)}`;
+
+                            // Navega para a nova URL na mesma aba
+                            window.location.href = url;
+                        } else {
+                            alert('Por favor, selecione um curso para gerar o relatório.');
+                        }
+                    });
+                </script>
             </div>
         </div>
 
