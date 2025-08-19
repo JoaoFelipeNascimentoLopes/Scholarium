@@ -200,7 +200,7 @@
                 <i class="bi bi-pencil-square"></i> Editar Curso: {{ $curso->nomeCurso }}
             </h1>
 
-            <form action="{{ route('cursos.update', $curso->id) }}" method="POST">
+            <form action="{{ route('cursos.update', $curso->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT') {{-- Diretiva para usar o método HTTP PUT --}}
 
@@ -244,8 +244,27 @@
                             </option>
                         </select>
                     </div>
-                </div>
 
+                </div>
+                <div class="mt-6">
+                    <label class="block text-sm font-medium text-gray-700">Projeto Pedagógico do Curso (PPC)</label>
+                    @if ($curso->ppcCurso)
+                        <div class="my-2 p-2 bg-gray-50 rounded-md border">
+                            <span class="text-sm">Arquivo Atual:</span>
+                            <a href="{{ Storage::url($curso->ppcCurso) }}" target="_blank" class="text-[#272727] hover:underline font-semibold">
+                                <i class="bi bi-file-earmark-arrow-down-fill"></i> Ver/Baixar PPC Atual
+                            </a>
+                        </div>
+                    @endif
+                    <p class="text-xs text-gray-500 mb-1">Envie um novo arquivo apenas se desejar substituir o atual.</p>
+                    <input
+                        type="file"
+                        name="ppcCurso"
+                        id="ppcCurso"
+                        class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#272727] file:text-white hover:file:bg-gray-700"
+                        accept=".pdf"
+                    >
+                </div>
                 {{-- Descrição --}}
                 <div class="mt-6">
                     <label for="descricaoCurso" class="block text-sm font-medium text-gray-700"><i
@@ -271,6 +290,7 @@
                         </option>
                     </select>
                 </div>
+
 
                 {{-- Botões de Ação --}}
                 <div class="mt-8 flex justify-end gap-4">

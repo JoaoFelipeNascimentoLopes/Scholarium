@@ -18,6 +18,7 @@ class Curso extends Model
         'periodosCurso',
         'formatoCurso',
         'descricaoCurso',
+        'ppcCurso',
         'statusCurso',
     ];
 

@@ -176,11 +176,42 @@
                         <h3 class="text-xl font-bold text-[#272727]"><i class="bi bi-plus-square"></i> Cadastrar Curso</h3><br>
                         <h2 class="text-md font-bold text-gray-800 mb-4"><i class="bi bi-award"></i> Dados do Curso</h2>
                         <div>
-                            <form action="{{ route('instituicao.cursos.store') }}" method="POST" id="formCurso">
+                            <form action="{{ route('instituicao.cursos.store') }}" method="POST" id="formCurso" enctype="multipart/form-data">
                                 @csrf
-                                <div class="mb-4">
+                                <div class="flex flex-wrap -mx-2 mb-4">
+                                <div class="w-full md:w-1/2 px-2 mb-4 md:mb-0">
                                     <label class="block text-[#272727] text-sm font-bold mb-2" for="nomeCurso"><i class="bi bi-alphabet"></i> Nome do Curso<span class="text-red-800">*</span></label>
                                     <input type="text" name="nomeCurso" id="nomeCurso" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" placeholder="Ex.: Técnico em Informática, Ensino Médio, etc." value="{{ old('nomeCurso') }}" required>
+                                </div>
+                                    <div class="w-full md:w-1/2 px-2 mb-4 md:mb-0">
+
+                                        <!-- Container para o rótulo e o botão de download -->
+                                        <div class="flex justify-between items-center mb-2">
+                                            <label for="ppcCurso" class="block text-sm font-bold text-[#272727]">
+                                                <i class="bi bi-file-earmark-pdf"></i> Projeto Pedagógico do Curso (PPC)<span class="text-red-800">*</span>
+                                            </label>
+
+                                            <!-- Botão para baixar o modelo -->
+                                            <a href="{{ asset('downloads/modelo_ppc.docx') }}" download
+                                               class="text-xs text-[#272727] hover:text-gray-700 hover:underline font-semibold"
+                                               title="Baixar um modelo de PPC em branco">
+                                                <i class="bi bi-download"></i>
+                                                <span>Baixar Modelo</span>
+                                            </a>
+                                        </div>
+
+                                        <input
+                                            type="file"
+                                            name="ppcCurso"
+                                            id="ppcCurso"
+                                            class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#272727] file:text-white hover:file:bg-gray-700"
+                                            accept=".pdf"
+                                            required
+                                        >
+                                        @error('ppcCurso')
+                                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="flex flex-wrap -mx-2 mb-4">
                                     <div class="w-full md:w-1/3 px-2 mb-4 md:mb-0">
@@ -283,7 +314,19 @@
                                             <button type="button" class="text-gray-600 hover:text-gray-900 cursor-pointer view-details-btn" title="Ver Detalhes" data-curso="{{ json_encode($curso) }}">
                                                 <i class="bi bi-eye-fill text-lg"></i>
                                             </button>
+
+                                            <!-- BOTÃO DE DOWNLOAD DO PPC -->
+                                            @if ($curso->ppcCurso)
+                                                <a href="{{ Storage::url($curso->ppcCurso) }}"
+                                                   download
+                                                   class="text-green-600 hover:text-green-900 cursor-pointer"
+                                                   title="Baixar PPC do Curso">
+                                                    <i class="bi bi-file-earmark-arrow-down-fill text-lg"></i>
+                                                </a>
+                                            @endif
+
                                             <a href="{{ route('cursos.edit', $curso->id) }}" class="text-blue-600 hover:text-blue-900 cursor-pointer" title="Alterar Curso"><i class="bi bi-pencil-square text-lg"></i></a>
+
                                             <form action="{{ route('cursos.destroy', $curso ->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este curso?');">
                                                 @csrf
                                                 @method('DELETE')
@@ -297,6 +340,7 @@
                             @endforelse
                             </tbody>
                         </table>
+
                     </div>
                     <div class="mt-6 px-6 py-5 font-poppins-regular">{{ $cursos->appends(request()->query())->fragment('tabela-cursos')->links() }}</div>
                 </div>

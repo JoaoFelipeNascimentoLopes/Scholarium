@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\DB; // Adicionado por boa prática
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage; // Importe a facade Storage
 
 class CursoController extends Controller
 {
@@ -99,7 +100,12 @@ class CursoController extends Controller
             'periodosCurso' => 'required|integer|min:1',
             'formatoCurso' => 'required|string', // <-- NOVO CAMPO VALIDADO
             'descricaoCurso' => 'nullable|string|max:200',
+            'ppcCurso' => 'nullable|file|mimes:pdf|max:5120',
         ]);
+
+        if ($request->hasFile('ppcCurso')) {
+            $validatedData['ppcCurso'] = $request->file('ppcCurso')->store('ppcs', 'public');
+        }
 
         // 2. PREPARAÇÃO DOS DADOS PARA SALVAR
         //    Adicionamos os dados que não vêm do formulário diretamente ao array validado.
@@ -139,12 +145,16 @@ class CursoController extends Controller
 
         // Tenta excluir o curso e trata possíveis erros
         try {
+            // Apaga o arquivo PPC se ele existir
+            if ($curso->ppcCurso) {
+                Storage::disk('public')->delete($curso->ppcCurso);
+            }
             $curso->delete();
             return redirect()->route('instituicao.cursos.create')
-                             ->with('success', '✔ Curso excluído com sucesso!');
+                ->with('success', '✔ Curso excluído com sucesso!');
         } catch (QueryException $e) {
             return redirect()->back()
-                             ->with('error', '🗙 Ocorreu um erro ao excluir o curso. Verifique se ele não está vinculado a outras entidades.');
+                ->with('error', '🗙 Ocorreu um erro ao excluir o curso. Verifique se ele não está vinculado a outras entidades.');
         }
     }
     public function edit(Curso $curso): View
@@ -164,23 +174,28 @@ class CursoController extends Controller
         }
 
         // Validação dos dados recebidos
-        $request->validate([
+        $validatedData = $request->validate([
             'nomeCurso' => 'required|string|max:255',
             'nivelCurso' => 'required|string',
             'descricaoCurso' => 'nullable|string|max:200',
+            'ppcCurso' => 'nullable|file|mimes:pdf|max:5120',
             'statusCurso' => 'required|string',
         ]);
 
-        // Atualiza os dados do curso
-        $curso->update([
-            'nomeCurso' => $request->nomeCurso,
-            'nivelCurso' => $request->nivelCurso,
-            'descricaoCurso' => $request->descricaoCurso,
-            'statusCurso' => $request->statusCurso,
-        ]);
+        if ($request->hasFile('ppcCurso')) {
+            // Apaga o PPC antigo se ele existir
+            if ($curso->ppcCurso) {
+                Storage::disk('public')->delete($curso->ppcCurso);
+            }
+            // Salva o novo arquivo e adiciona o caminho ao array de dados validados
+            $validatedData['ppcCurso'] = $request->file('ppcCurso')->store('ppcs', 'public');
+        }
+
+        // Atualiza os dados do curso com o array completo
+        $curso->update($validatedData);
 
         return redirect()->route('instituicao.cursos.create')
-                         ->with('success', '✔ Curso atualizado com sucesso!');
+            ->with('success', '✔ Curso atualizado com sucesso!');
     }
     public function getDisciplinasDoCurso(Curso $curso)
     {
