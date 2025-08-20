@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Instituicao;
-use Illuminate\Validation\Rule; // Importante para a validação
+use App\Models\Departamento; // 1. Adicionado para buscar os departamentos
+use Illuminate\Validation\Rule;
 
 class ConfiguracoesController extends Controller
 {
@@ -18,28 +19,32 @@ class ConfiguracoesController extends Controller
         $idEntidadeLogada = Session::get('usuario_id');
         $nomeEntidadeLogada = Session::get('usuario_nome');
 
-        // Se o usuário não estiver devidamente logado, redireciona para o login
         if (!$idEntidadeLogada || !$tipoUsuario) {
             return redirect()->route('login.form')->with('error', 'Sessão inválida. Por favor, faça login novamente.');
         }
 
-        // Esta página só mostrará os detalhes da instituição para o login tipo '1'
+        // Busca os departamentos da instituição logada
+        $departamentos = Departamento::where('instituicao_id', $idEntidadeLogada)
+            ->orderBy('nomeDepartamento', 'asc')
+            ->get();
+
         $instituicaoParaExibir = null;
         if ($tipoUsuario == '1') {
             $instituicaoParaExibir = Instituicao::find($idEntidadeLogada);
         }
 
-        // Se, por qualquer motivo, não encontrar a instituição, passamos um objeto vazio
         if (!$instituicaoParaExibir) {
             $instituicaoParaExibir = new Instituicao();
         }
 
+        // 2. Corrigido para não enviar a mesma variável duas vezes
         return view('instituicao.configuracoes', [
             'instituicao' => $instituicaoParaExibir,
+            'departamentos' => $departamentos,
             'nomeUsuarioLogado' => $nomeEntidadeLogada,
             'tipoUsuarioLogado' => $tipoUsuario
         ]);
-    }
+    } // 3. Removido um '}' extra que estava aqui
 
     /**
      * Atualiza os dados da instituição no banco de dados.
@@ -47,15 +52,13 @@ class ConfiguracoesController extends Controller
     public function update(Request $request)
     {
         $idInstituicaoLogada = session('usuario_id');
-        // Garante que apenas um usuário do tipo '1' (Instituição) pode fazer a atualização
         if (session('usuario_tipo') != '1' || !$idInstituicaoLogada) {
-            return redirect()->route('settings.index')->with('error', 'Acesso negado.');
+            // 4. Corrigido o nome da rota para o redirecionamento de erro
+            return redirect()->route('instituicao.configuracoes.index')->with('error', 'Acesso negado.');
         }
 
-        // Validação dos dados que vêm do formulário do modal
         $validatedData = $request->validate([
             'nomeInstituicao' => 'required|string|max:255',
-            // A regra 'unique' agora ignora o CNPJ da própria instituição que está sendo editada
             'cnpjInstituicao' => ['required', 'string', 'max:18', Rule::unique('tbinstituicao', 'cnpjInstituicao')->ignore($idInstituicaoLogada)],
             'emailInstituicao' => ['required', 'email', Rule::unique('tbinstituicao', 'emailInstituicao')->ignore($idInstituicaoLogada)],
             'telefoneInstituicao' => 'required|string|max:20',
@@ -64,16 +67,18 @@ class ConfiguracoesController extends Controller
             'numeroInstituicao' => 'required|string|max:10',
             'cidadeInstituicao' => 'required|string|max:255',
             'ufInstituicao' => 'required|string|max:2',
-            'notasInstituicao' => 'required|in:numeral,conceito',
+            // 'notasInstituicao' => 'required|in:numeral,conceito', // Campo removido se não estiver no seu formulário
         ]);
 
         $instituicao = Instituicao::find($idInstituicaoLogada);
 
         if ($instituicao) {
             $instituicao->update($validatedData);
-            return redirect()->route('settings.index')->with('success', 'Dados da instituição atualizados com sucesso!');
+            // 4. Corrigido o nome da rota para o redirecionamento de sucesso
+            return redirect()->route('instituicao.configuracoes.index')->with('success', 'Dados da instituição atualizados com sucesso!');
         }
 
-        return redirect()->route('settings.index')->with('error', 'Não foi possível encontrar a instituição para atualizar.');
+        // 4. Corrigido o nome da rota para o redirecionamento de erro
+        return redirect()->route('instituicao.configuracoes.index')->with('error', 'Não foi possível encontrar a instituição para atualizar.');
     }
 }

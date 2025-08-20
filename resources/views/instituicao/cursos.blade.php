@@ -256,13 +256,13 @@
                     <div class="overflow-x-auto px-6">
                         <div class="mb-4">
                             <label class="block text-[#272727] text-sm font-bold mb-2" for="nivelCurso"><i class="bi bi-bar-chart-steps"></i> Busca Avançada</label>
-                            <form action="{{ route('instituicao.cursos.create') }}" method="GET" class="flex items-center gap-2">
+                            <form action="{{ route('instituicao.cursos.create') }}#tabela-cursos" method="GET" class="flex items-center gap-2" id="pesquisaCurso">
                                 <input type="hidden" name="tab" value="gerenciamento"> <div class="relative w-full">
                                     <input type="text" name="busca" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600" placeholder="Pesquisar por nome do curso..." value="{{ request('busca') }}">
                                 </div>
                                 <button type="submit" class="cursor-pointer bg-[#272727] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-600 transition-colors"><i class="bi bi-search"></i></button>
                                 @if(request('busca'))
-                                    <a href="{{ route('instituicao.cursos.create', ['tab' => 'gerenciamento']) }}" class="cursor-pointer bg-gray-300 hover:bg-red-200 text-[#272727] py-2 px-4 rounded-lg"><i class="bi bi-eraser-fill"></i></a>
+                                    <a href="{{ route('instituicao.cursos.create', ['tab' => 'gerenciamento']) }}#tabela-cursos" class="cursor-pointer bg-gray-300 hover:bg-red-200 text-[#272727] py-2 px-4 rounded-lg"><i class="bi bi-eraser-fill"></i></a>
                                 @endif
                             </form>
                         </div><br>

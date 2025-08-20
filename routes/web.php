@@ -8,6 +8,8 @@ use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\AuthInstituicao;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\DepartamentoController;
+use App\Http\Controllers\ConfiguracoesController;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -85,15 +87,30 @@ Route::get('/instituicao/turmas', function () {
     return view('instituicao.turmas');
 })->name('instituicao.turmas')->middleware(AuthInstituicao::class);
 
-// Rota para a Dashboard de Configurações - Instituição
-Route::get('/instituicao/configuracoes', [InstituicaoController::class, 'configuracoes'])
-    ->name('instituicao.configuracoes')
+Route::get('/instituicao/configuracoes', [ConfiguracoesController::class, 'index'])
+    ->name('instituicao.configuracoes.index') // Nome da rota padronizado para 'index'
     ->middleware(AuthInstituicao::class);
 
-// Esta rota vai receber os dados do formulário de edição e atualizar no banco
-Route::put('/instituicao/configuracoes', [InstituicaoController::class, 'updateConfiguracoes'])
+// Rota para atualizar os dados da instituição (CORRIGIDA)
+Route::put('/instituicao/configuracoes', [ConfiguracoesController::class, 'update'])
     ->name('instituicao.configuracoes.update')
     ->middleware(AuthInstituicao::class);
+
+Route::prefix('/instituicao/configuracoes')->name('configuracoes.')->group(function () {
+
+    // Rota para salvar um novo departamento (você já tem esta)
+    Route::post('/departamentos', [DepartamentoController::class, 'store'])->name('departamentos.store');
+
+    // Rota para mostrar o formulário de edição de um departamento
+    Route::get('/departamentos/{departamento}/edit', [DepartamentoController::class, 'edit'])->name('departamentos.edit');
+
+    // Rota para salvar as alterações de um departamento
+    Route::put('/departamentos/{departamento}', [DepartamentoController::class, 'update'])->name('departamentos.update');
+
+    // Rota para apagar um departamento
+    Route::delete('/departamentos/{departamento}', [DepartamentoController::class, 'destroy'])->name('departamentos.destroy');
+
+});
 
 // ROTAS - CURSOS DENTRO DA INSTITUIÇÃO
 // ----------------------------------------
@@ -152,6 +169,11 @@ Route::put('/instituicao/disciplinas/{disciplina}', [DisciplinaController::class
 Route::get('/api/disciplinas/{disciplina}', [DisciplinaController::class, 'getDisciplinaData'])
     ->name('disciplinas.data')
     ->middleware(AuthInstituicao::class);
+
+// Rotas - SERVIDORES (DENTRO DE INSTITUIÇÃO)
+Route::get('/instituicao/servidores', function(){
+    return view('instituicao.servidores');
+})->name('instituicao.servidores')->middleware(AuthInstituicao::class);
 
 // ROTAS - PROFESSOR
 // -----------------

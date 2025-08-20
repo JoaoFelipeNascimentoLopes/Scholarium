@@ -11,6 +11,9 @@
         <a href="{{ route('instituicao.professores') }}" class="text-lg block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
             <i class="bi bi-briefcase"></i> Professores
         </a>
+        <a href="{{ route('instituicao.servidores') }}" class="text-lg block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+            <i class="bi bi-person-badge"></i> Servidores
+        </a>
         <a href="{{ route('instituicao.turmas') }}" class="text-lg block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
             <i class="bi bi-mortarboard"></i> Turmas
         </a>
@@ -20,7 +23,7 @@
         <a href="{{ route('instituicao.cursos.create') }}" class="text-lg block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
             <i class="bi bi-award"></i> Cursos
         </a>
-        <a href="{{ route('instituicao.configuracoes') }}" class="text-lg block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+        <a href="{{ route('instituicao.configuracoes.index') }}" class="text-lg block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
             <i class="bi bi-gear"></i> Configurações
         </a>
         <a href="{{ route('logout') }}" class="text-lg block py-2.5 px-4 rounded transition duration-200 hover:bg-red-500 hover:text-black">
