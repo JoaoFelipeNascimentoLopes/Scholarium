@@ -15,6 +15,8 @@ Aqui estão listadas as principais features do Scholarium **(em desenvolvimento)
 * 📚 **Gerenciamento de Cursos** - Permite que a Instituição, quando devidamente logada, cadastre e gerencie os Cursos a serem ofertados aos estudantes.
 ####
 * 📑 **Gerenciamento de Disciplinas** - Permite que a Instituição, quando devidamente logada e com Cursos registrados, cadastre e gerencie as Disciplinas de cada Curso.
+####
+* 🏬 **Gerenciamento de Departamentos** - Permite que a Instituição, quando devidamente logada, cadastre e gerencie os Departamentos onde os Servidores da Instituição serão lotados.
 
 ## </> Tecnologias Utilizadas
 
